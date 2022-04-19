@@ -44,7 +44,7 @@ jobs:
           DATABASE_USER: root
           DATABASE_PASS: test
           DATABASE_HOST: 127.0.0.1
-          DBPORT: $
+          DATABASE_PORT: 3306
       - name: Run Tests
         run: |
           coverage run manage.py test && coverage report --fail-under=75 && coverage xml
@@ -58,7 +58,7 @@ jobs:
           DATABASE_USER: root
           DATABASE_PASS: test
           DATABASE_HOST: 127.0.0.1
-          DBPORT: $
+          DATABASE_PORT: 3306
       - name: Report Coverage
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -70,7 +70,7 @@ jobs:
           DATABASE_USER: root
           DATABASE_PASS: test
           DATABASE_HOST: 127.0.0.1
-          DBPORT: $
+          DATABASE_PORT: 3306
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
