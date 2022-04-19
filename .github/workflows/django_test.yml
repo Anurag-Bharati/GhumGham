@@ -45,7 +45,7 @@ jobs:
           DATABASE_PASS: test
           DATABASE_HOST: 127.0.0.1
           DATABASE_PORT: 3306
-      - name: Run Tests
+      - name: Run Tests And Coverage
         run: |
           coverage run manage.py test && coverage report --fail-under=75 && coverage xml
         env:
