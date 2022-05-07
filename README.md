@@ -6,7 +6,6 @@
 
 <!-- PROJECT SHIELDS -->
 <div align="start">
-  
 
   
 [![GhumGham TDD:CI @Main][gh-build-shield]][gh-build-link]
