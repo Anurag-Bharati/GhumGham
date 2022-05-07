@@ -6,12 +6,13 @@
 
 <!-- PROJECT SHIELDS -->
 <div align="start">
-
-[![Build][build-shield]][build-url]
+  
+[![GhumGham TDD:CI @Main][gh-build-shield]][gh-build-link]
+<!-- [![Build][build-shield]][build-url] -->
 [![Coverage][covergae-shield]][coverage-url]
 [![License][license-shield]][license-url]
 [![Forks][forks-shield]][forks-url]
-[![LastCommit][lastCommit-shield]][size-url]
+<!-- [![LastCommit][lastCommit-shield]][size-url] -->
 </div>
 
 # GhumGham
@@ -19,7 +20,8 @@ Year 2 Sem 2 Group Project Work
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-  
+[gh-build-shield]:https://github.com/Anurag-Bharati/GhumGham/actions/workflows/django_test.yml/badge.svg
+[gh-build-link]:https://github.com/Anurag-Bharati/GhumGham/actions/workflows/django_test.yml
 [build-shield]:https://img.shields.io/github/workflow/status/anurag-bharati/GhumGham/GhumGham%20TDD:CI%20@Main/main?style=for-the-badge
 [build-url]:https://github.com/Anurag-Bharati/GhumGham/actions/workflows/django_test.yml
 [covergae-shield]:https://img.shields.io/codecov/c/github/anurag-bharati/GhumGham?style=for-the-badge
