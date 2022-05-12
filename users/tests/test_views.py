@@ -47,6 +47,36 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertRedirects(response, '/')
 
+        # Invalid - User not found
+        response = self.client.post(self.auth_page_url, {
+            'username': self.user.username+"11111",
+            'password': '123455'
+        })
+        self.assertEquals(response.status_code, 400)
+
+        # Invalid - Password not match
+        response = self.client.post(self.auth_page_url, {
+            'username': self.user.username,
+            'password': '123455'
+        })
+        self.assertEquals(response.status_code, 400)
+
+        # Invalid - User Inactive
+        inactiveUser = create_user("test_user", "test_user", False, False)
+
+        response = self.client.post(self.auth_page_url, {
+            'username': inactiveUser.username,
+            'password': '123456'
+        })
+        self.assertEquals(response.status_code, 400)
+
+        # Invalid - Form
+
+        response = self.client.post(self.auth_page_url, {
+            'password': '123456'
+        })
+        self.assertEquals(response.status_code, 400)
+
     def test_user_reg(self):
         # Valid Case
         response = self.client.post(self.auth_page_url, {
@@ -57,6 +87,50 @@ class TestViews(TestCase):
         })
 
         self.assertEquals(response.status_code, 200)
+
+        # Invalid - Username taken
+        response = self.client.post(self.auth_page_url, {
+            'username': self.user.username + "1",
+            'password': '123456Aa',
+            'email': 'thisisfroaproject@gmail.com',
+            'address': 'Lol'
+        })
+        self.assertEquals(response.status_code, 400)
+
+        # Invalid - Email already Exist
+        response = self.client.post(self.auth_page_url, {
+            'username': self.user.username + "12",
+            'password': '123456Aa',
+            'email': 'thisisfroaproject@gmail.com',
+            'address': 'Lol'
+        })
+        self.assertEquals(response.status_code, 400)
+
+        # Invalid - Invalid Email
+        response = self.client.post(self.auth_page_url, {
+            'username': self.user.username + "123",
+            'password': '123456Aa',
+            'email': 'lol',
+            'address': 'Lol'
+        })
+        self.assertEquals(response.status_code, 400)
+
+        # Invalid - Password Weak
+        response = self.client.post(self.auth_page_url, {
+            'username': self.user.username + "123",
+            'password': '123456',
+            'email': 'anuragbharati@gmail.com',
+            'address': 'Lol'
+        })
+        self.assertEquals(response.status_code, 400)
+
+        # Invalid - Invalid Form
+        response = self.client.post(self.auth_page_url, {
+            'email': 'thisisfroaproject@gmail.com',
+            'address': 'Lol'
+        })
+
+        self.assertEquals(response.status_code, 400)
 
     def test_check_pass(self):
         self.assertEquals(checkPass(password="123", request=None), True)
