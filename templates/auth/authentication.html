@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+	<link href="{% static 'images/ghumgham-ico.png' %}" rel="icon">
+	<link href="{% static 'images/ghumgham-ico.png' %}" rel="apple-touch-icon">
+	<link rel="stylesheet" href="{% static 'css/auth/auth.css' %}"/>
+	<title>GhumGham Authentication</title>
+</head>
+
+<body>
+
+<div class="{% include 'util/_class.html' %}">
+	<div class="forms-container">
+		<div class="login-reg">
+			<form action="{% url 'auth' %}" class="reg-form" method="post">
+				{% csrf_token %}
+
+				<h2 class="title">Sign up</h2>
+				<div class="input-field">
+					<i></i>
+					<input type="text" name="username" placeholder="Username" value="{{ fieldValues.username }}"/>
+				</div>
+				<div class="input-field">
+					<i></i>
+					<input type="email" name="email" placeholder="Email" value="{{ fieldValues.email }}"/>
+				</div>
+				<div class="input-field">
+					<i></i>
+					<input type="text" name="address" placeholder="Address" value="{{ fieldValues.address }}"/>
+				</div>
+				<div class="input-field">
+					<i></i>
+					<input type="password" name="password" placeholder="Password"/>
+				</div>
+				{% include 'util/_signup_messages.html' %}
+				<p class="body-text-dark-grey">On clicking signup, You will agree to our T&C's</p>
+				<input type="submit" class="btn" value="Sign up"/>
+				<br>
+				<p>Already have an Account? <a id="sign-up-btn" class="link"><u>Sign in</u></a></p>
+				<div class="social-media">
+
+				</div>
+			</form>
+			<form action="{% url 'auth' %}" class="log-form" method="post">
+				{% csrf_token %}
+				<h2 class="title">Sign in</h2>
+				<div class="input-field"><i></i>
+					<input type="text" name="username" placeholder="Username" value="{{ fieldValues.username }}"/>
+				</div>
+				<div class="input-field"><i></i>
+					<input type="password" name="password" placeholder="Password"/>
+				</div>
+				{% include 'util/_signup_messages.html' %}
+				<input type="submit" value="Login" class="btn solid"/>
+				<p class="body-text">Forget Password?</p>
+				<p>Dont have an account? <a id="sign-in-btn" class="link"><u>Sign up</u></a></p>
+				<div class="social-media"></div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panels-container">
+		<div class="panel left-panel">
+			<img src="{% static 'images/earth.png' %}" class="image left-panel-earth" alt="GhumGhamEarth"/>
+		</div>
+		<div class="panel right-panel">
+			<img src="{% static 'images/earth.png' %}" class="image right-panel-earth float" alt="GhumGhamEarth"/>
+		</div>
+	</div>
+</div>
+<script src="{% static 'js/auth/authentication.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/auth/success.css' %}" />
+{% endblock head %}
+{% block content %}
+<section>
+    <div class="content">
+        <div id='card' class="animated fadeIn">
+            <div class={% include "util/_verified.html" %}>
+                {% if messages %}
+                <h3 id='status'>Success</h3>
+            </div>
+            <div id='lower-side'>
+                {% for message in messages %}
+                <p id='message'>{{ message }}</p>
+                {% endfor %}
+                <a href={% url 'auth' %} id="contBtn">Continue</a>
+            </div>
+            {% else %}
+            <h3 id='status' style="color:#ffffff">Invalid</h3>
+        </div>
+        <div id='lower-side'>
+            <p id='message'>Nothing Changed</p>
+            <a href={% url 'auth' %} id="contBtn">Continue</a>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+{% endblock content %}
