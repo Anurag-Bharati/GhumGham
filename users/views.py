@@ -1,12 +1,23 @@
-import validate_email as EmailValidator
 import re
+import threading
+import validate_email as EmailValidator
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.contrib import auth
+from django.urls import reverse
+from django.contrib import messages
+from django.utils.html import strip_tags
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
+from GhumGham import settings
 from users.models import Customer
 from users.forms import LoginForm, RegistrationForm
 from users.models import User
+from users.utils import activation_token
 
 
 # handles login and register
@@ -123,9 +134,37 @@ def signup(request):
         user.is_customer = True
         user.save()
         Customer.objects.create(user=user, name=username, address=address)
-        # TODO Email Verification
+        current_site = get_current_site(request).domain
+
+        magic_link = reverse('activate', kwargs={
+            'identity': urlsafe_base64_encode(force_bytes(user.pk)), 'token': activation_token.make_token(user)})
+        activate_url = 'http://' + current_site + magic_link
+
+        email_context = render_to_string('email/verification.html',
+                                         {'user': user.username, "activator": activate_url})
+        text_content = strip_tags(email_context)
+
+        mail = EmailMultiAlternatives(
+            "Activate your account",
+            text_content,
+            settings.EMAIL_HOST_USER,
+            [email]
+        )
+        mail.attach_alternative(email_context, "text/html")
+
+        Thread(mail).start()
         messages.success(request, 'A verification mail is sent to your email')
         return render(request, 'auth/authentication.html', context)
+
+
+class Thread(threading.Thread):
+
+    def __init__(self, task):
+        self.task = task
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.task.send(fail_silently=False)
 
 # TODO ForgetPassword
 # TODO Activation_Success
