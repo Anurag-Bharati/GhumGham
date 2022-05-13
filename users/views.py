@@ -40,13 +40,16 @@ def verification(request, identity, token):
         try:
             user = User.objects.get(pk=force_str(urlsafe_base64_decode(identity)))
 
-            if not activation_token.check_token(user, token) or user.is_active:
-                return redirect('activated' + '?message=' + user.username + ' already activated')
+            if user.is_active:
+                messages.error(request, "Account has already been activated")
+                return redirect("auth")
 
-            user.is_active = True
-            user.save()
+            elif activation_token.check_token(user, token):
+                user.is_active = True
+                user.save()
+                messages.success(request, 'Your account has been successfully activated')
+                return redirect('activated')
 
-            messages.success(request, 'Your account has been successfully activated')
             return redirect('activated')
 
         except Exception as ex:
