@@ -35,7 +35,8 @@ def authenticate(request):
 def home(request):
     return render(request, 'base/home.html')
 
-def verification(request, identity, token):
+
+def verification(request, identity, token):  # pragma: no cover
     if request.method == 'GET':
         try:
             user = User.objects.get(pk=force_str(urlsafe_base64_decode(identity)))
@@ -57,7 +58,7 @@ def verification(request, identity, token):
             return redirect('auth')
 
 
-def activated(request):
+def activated(request):  # pragma: no cover
     return render(request, 'auth/activated.html')
 
 
@@ -102,7 +103,7 @@ def login(request):
         try:
             user_temp = User.objects.get(username=username)
         except Exception as e:
-            print('[DatabaseQueryException] @users.views "User not found", line 87 | Response = '+str(e))
+            print('[DatabaseQueryException] @users.views "User not found", line 87 | Response = ' + str(e))
             user_temp = None
 
         if user_temp is None:
@@ -122,6 +123,7 @@ def login(request):
         return redirect('dashboard')
     return redirect('home')
 
+
 def signup(request):
     context = {
         'fieldValues': request.POST,
@@ -129,7 +131,6 @@ def signup(request):
     }
     form = RegistrationForm(request.POST)
     if not form.is_valid():
-
         messages.error(request, "Please fill all the forms.")
         return render(request, 'auth/authentication.html', context, status=400)
 
@@ -184,12 +185,18 @@ def signup(request):
 
 class Thread(threading.Thread):
 
-    def __init__(self, task):
+    def __init__(self, task):  # pragma: no cover
         self.task = task
-        threading.Thread.__init__(self)
+        try:
+            threading.Thread.__init__(self)
+        except Exception as ex:
+            print("[Exception in thread] " + ex.__str__())
 
-    def run(self):
-        self.task.send(fail_silently=False)
+    def run(self):  # pragma: no cover
+        try:
+            self.task.send(fail_silently=False)
+        except Exception as ex:
+            print("[Exception in thread] " + ex.__str__())
 
 # TODO ForgetPassword
 # TODO Activation_Success
