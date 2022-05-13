@@ -35,6 +35,28 @@ def authenticate(request):
 def home(request):
     return render(request, 'base/home.html')
 
+def verification(request, identity, token):
+    if request.method == 'GET':
+        try:
+            user = User.objects.get(pk=force_str(urlsafe_base64_decode(identity)))
+
+            if not activation_token.check_token(user, token) or user.is_active:
+                return redirect('activated' + '?message=' + user.username + ' already activated')
+
+            user.is_active = True
+            user.save()
+
+            messages.success(request, 'Your account has been successfully activated')
+            return redirect('activated')
+
+        except Exception as ex:
+            print(ex)
+            return redirect('auth')
+
+
+def activated(request):
+    return render(request, 'auth/activated.html')
+
 
 # basic password check using regex
 def checkPass(request, password):
