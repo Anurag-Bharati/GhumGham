@@ -12,6 +12,9 @@
 </head>
 
 <body>
+
+<div class="{% include 'util/_class.html' %}">
+	<div class="forms-container">
 		<div class="login-reg">
 			<form action="{% url 'auth' %}" class="reg-form" method="post">
 				{% csrf_token %}
@@ -58,6 +61,18 @@
 				<div class="social-media"></div>
 			</form>
 		</div>
+	</div>
+
+	<div class="panels-container">
+		<div class="panel left-panel">
+			<img src="{% static 'images/earth.png' %}" class="image left-panel-earth" alt="GhumGhamEarth"/>
+		</div>
+		<div class="panel right-panel">
+			<img src="{% static 'images/earth.png' %}" class="image right-panel-earth float" alt="GhumGhamEarth"/>
+		</div>
+	</div>
+</div>
+<script src="{% static 'js/auth/authentication.js' %}"></script>
 </body>
 
 </html>
