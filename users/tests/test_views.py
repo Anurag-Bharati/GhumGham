@@ -143,5 +143,29 @@ class TestViews(TestCase):
         self.assertEquals(checkPass(password="abcdef", request=None), True)
         self.assertEquals(checkPass(password="Aabcdef", request=None), True)
 
+    # Template test case
+
+    def test_homepage(self):    
+        response=self.client.get(reverse('home'))
+        self.assertTemplateUsed(response,'base/home.html')
+    
+    def test_verified(self):
+        response=self.client.get(reverse('activated'))
+        self.assertTemplateUsed(response,'./activated.html')
+
+    def test_verification(self):
+        response=self.client.get(reverse('activated'))
+        self.assertTemplateUsed(response,'./activated.html')
+
+    def test_login(self):
+        response=self.client.get(reverse('auth'))
+        self.assertTemplateUsed(response,'./authentication.html')
+
+    def test_signup(self):
+        response=self.client.get(reverse('auth'))
+        self.assertTemplateUsed(response,'./authentication.html')
+    
+    
+
     def tearDown(self) -> None:
         pass
