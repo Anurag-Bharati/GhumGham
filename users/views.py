@@ -29,7 +29,7 @@ def authenticate(request):
         if 'email' not in request.POST:
             return login(request)
         return signup(request)
-    return render(request, 'auth/authentication.html')
+    return render(request, './authentication.html')
 
 
 def home(request):
@@ -59,7 +59,7 @@ def verification(request, identity, token):  # pragma: no cover
 
 
 def activated(request):  # pragma: no cover
-    return render(request, 'auth/activated.html')
+    return render(request, './activated.html')
 
 
 # basic password check using regex
@@ -87,7 +87,7 @@ def login(request):
     form = LoginForm(request.POST)
     if not form.is_valid():
         messages.error(request, "Please fill all the forms.")
-        return render(request, 'auth/authentication.html', status=400)
+        return render(request, './authentication.html', status=400)
 
     username = form.cleaned_data['username']
     password = form.cleaned_data['password']
@@ -108,13 +108,13 @@ def login(request):
 
         if user_temp is None:
             messages.error(request, "Invalid credentials")
-            return render(request, 'auth/authentication.html', status=400)
+            return render(request, './authentication.html', status=400)
         elif not user_temp.check_password(password):
             messages.error(request, "Password doesn't match")
-            return render(request, 'auth/authentication.html', context, status=400)
+            return render(request, './authentication.html', context, status=400)
         else:
             messages.error(request, "Account not activated, Please check your email.")
-            return render(request, 'auth/authentication.html', context, status=400)
+            return render(request, './authentication.html', context, status=400)
 
     auth.login(request, user)
 
@@ -132,7 +132,7 @@ def signup(request):
     form = RegistrationForm(request.POST)
     if not form.is_valid():
         messages.error(request, "Please fill all the forms.")
-        return render(request, 'auth/authentication.html', context, status=400)
+        return render(request, './authentication.html', context, status=400)
 
     username = request.POST['username']
     email = request.POST['email']
@@ -142,15 +142,15 @@ def signup(request):
     # Guard Clauses
     if User.objects.filter(username=username).exists():
         messages.error(request, 'Username already taken!')
-        return render(request, 'auth/authentication.html', context, status=400)
+        return render(request, './authentication.html', context, status=400)
     elif User.objects.filter(email=email).exists():
         messages.error(request, 'Email already exists')
-        return render(request, 'auth/authentication.html', context, status=400)
+        return render(request, './authentication.html', context, status=400)
     elif not EmailValidator.validate_email(email):
         messages.error(request, 'Invalid Email')
-        return render(request, 'auth/authentication.html', context, status=400)
+        return render(request, './authentication.html', context, status=400)
     elif checkPass(request, password):
-        return render(request, 'auth/authentication.html', context, status=400)
+        return render(request, './authentication.html', context, status=400)
     else:
 
         # once the data is valid create user
@@ -166,7 +166,7 @@ def signup(request):
             'identity': urlsafe_base64_encode(force_bytes(user.pk)), 'token': activation_token.make_token(user)})
         activate_url = 'http://' + current_site + magic_link
 
-        email_context = render_to_string('email/verification.html',
+        email_context = render_to_string('./email/verification.html',
                                          {'user': user.username, "activator": activate_url})
         text_content = strip_tags(email_context)
 
@@ -180,7 +180,7 @@ def signup(request):
 
         Thread(mail).start()
         messages.success(request, 'A verification mail is sent to your email')
-        return render(request, 'auth/authentication.html', context)
+        return render(request, './authentication.html', context)
 
 
 class Thread(threading.Thread):

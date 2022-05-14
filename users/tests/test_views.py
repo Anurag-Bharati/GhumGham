@@ -23,6 +23,7 @@ class TestViews(TestCase):
         cls.client = Client()
         cls.user = create_user()
         cls.auth_page_url = reverse('auth')
+        cls.activate_page_url = reverse('activated')
 
     def setUp(self):
         pass
@@ -32,7 +33,8 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
 
     def test_activated_page(self):
-        pass
+        response = self.client.get(self.activate_page_url)
+        self.assertEquals(response.status_code, 200)
 
     def test_logout(self):
         pass
