@@ -1,5 +1,7 @@
 import re
 import threading
+from random import randrange
+
 import validate_email as EmailValidator
 
 from django.contrib import auth
@@ -35,6 +37,10 @@ def authenticate(request):
 def home(request):
     return render(request, 'base/home.html')
 
+
+def otp_login(request):
+    otp = randrange(10000, 100000)
+    return render(request, './otp-login.html')
 
 def verification(request, identity, token):  # pragma: no cover
     if request.method == 'GET':
