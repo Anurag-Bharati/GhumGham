@@ -2,9 +2,9 @@ name: GhumGham TDD:CI @Main
 
 on:
   push:
-    branches: [ main ]
+    branches: [ test/main ]
   pull_request:
-    branches: [ main ]
+    branches: [ test/main ]
 
 jobs:
   test:
