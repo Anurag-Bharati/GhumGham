@@ -5,7 +5,9 @@ import validate_email as EmailValidator
 
 from django.contrib import auth
 from django.urls import reverse
+from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import login as django_login
 from django.utils.html import strip_tags
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -22,6 +24,7 @@ from users.utils import activation_token
 from modules.ghumgham_krypto import Krypto
 
 otp = None
+otp_user = None
 
 
 # handles login and register
@@ -37,35 +40,72 @@ def authenticate(request):
 
 
 def home(request):
+    print(request.user)
     return render(request, 'base/home.html')
+
+
+def checkPin(request, pin):
+    pin1 = request.POST.get('digit-1', 0)
+    pin2 = request.POST.get('digit-2', 0)
+    pin3 = request.POST.get('digit-3', 0)
+    pin4 = request.POST.get('digit-4', 0)
+    pin5 = request.POST.get('digit-5', 0)
+    pin6 = request.POST.get('digit-6', 0)
+    user_pin: int = pin1 + pin2 + pin3 + pin4 + pin5 + pin6
+    return pin == user_pin
 
 
 def otp_login(request):
     global otp
     if request.method == "GET":
-        if not otp:
-            otp = Krypto.generate(6)
-            print(otp)
         return render(request, './otp-login.html')
 
     elif request.method == "POST":
-        request
-        pin1 = request.POST.get('digit-1', 0)
-        pin2 = request.POST.get('digit-2', 0)
-        pin3 = request.POST.get('digit-3', 0)
-        pin4 = request.POST.get('digit-4', 0)
-        pin5 = request.POST.get('digit-5', 0)
-        pin6 = request.POST.get('digit-6', 0)
-        user_pin: int = pin1+pin2+pin3+pin4+pin5+pin6
-        if otp == user_pin:
-            return redirect('homepage')
-        return render(request,'./otp-login.html')
+        global otp_user
+        email = request.POST.get('email', "")
+        if not otp:
+            otp = Krypto.generate(6)
+            print(otp)
+
+        if email:
+            try:
+                otp_user = User.objects.get(email__exact=email)
+                print('nice')
+            except Exception as e:
+                print('[DatabaseQueryException] @users.views "User not found by email", line 87 | Response = ' +
+                      str(e))
+                return render(request, 'otp-login.html')
+            if otp_user:
+                context = {'email': email}
+                email_context = render_to_string('./email/login-otp.html',
+                                                 {'user': otp_user.username, "code": otp})
+                text_content = strip_tags(email_context)
+
+                mail = EmailMultiAlternatives(
+                    "Your Login OTP",
+                    text_content,
+                    settings.EMAIL_HOST_USER,
+                    [email]
+                )
+                mail.attach_alternative(email_context, "text/html")
+
+                Thread(mail).start()
+                return render(request, 'otp-login.html', context)
+
+        else:
+            if checkPin(request, otp):
+                otp = None
+                django_login(request, otp_user, backend=settings.AUTHENTICATION_BACKENDS[0])
+                return redirect('homepage')
+            else:
+                messages.error(request, "Invalid OTP Code. Please Retry")
+                return render(request, './otp-login.html', {'email': " "})
+
 
 def verification(request, identity, token):  # pragma: no cover
     if request.method == 'GET':
         try:
             user = User.objects.get(pk=force_str(urlsafe_base64_decode(identity)))
-
             if user.is_active:
                 messages.error(request, "Account has already been activated")
                 return redirect("auth")
@@ -222,6 +262,13 @@ class Thread(threading.Thread):
             self.task.send(fail_silently=False)
         except Exception as ex:
             print("[Exception in thread] " + ex.__str__())
+
+
+def logout(request):
+    global otp_user, otp
+    otp_user = None
+    otp = None
+    request.logout()
 
 # TODO ForgetPassword
 # TODO Activation_Success
