@@ -25,9 +25,10 @@ import users
 import home
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('adminnn/', admin.site.urls),
     path('homepage', include('home.urls')),
     path('', include('users.urls')),
+    path('admin/', include('admin.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
