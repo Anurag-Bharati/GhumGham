@@ -45,17 +45,20 @@ def otp_login(request):
     if request.method == "GET":
         if not otp:
             otp = Krypto.generate(6)
+            print(otp)
         return render(request, './otp-login.html')
 
     elif request.method == "POST":
-        pin1 = request.GET.get('digit-1', 0)
-        pin2 = request.GET.get('digit-2', 0)
-        pin3 = request.GET.get('digit-3', 0)
-        pin4 = request.GET.get('digit-4', 0)
-        pin5 = request.GET.get('digit-5', 0)
-        pin6 = request.GET.get('digit-6', 0)
+        request
+        pin1 = request.POST.get('digit-1', 0)
+        pin2 = request.POST.get('digit-2', 0)
+        pin3 = request.POST.get('digit-3', 0)
+        pin4 = request.POST.get('digit-4', 0)
+        pin5 = request.POST.get('digit-5', 0)
+        pin6 = request.POST.get('digit-6', 0)
         user_pin: int = pin1+pin2+pin3+pin4+pin5+pin6
-        print(user_pin)
+        if otp == user_pin:
+            return redirect('homepage')
         return render(request,'./otp-login.html')
 
 def verification(request, identity, token):  # pragma: no cover
