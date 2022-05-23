@@ -190,10 +190,10 @@ form.reg-form {
     width: 2000px;
     right: 30%;
     background: transparent;
-    /*background-image: linear-gradient(-45deg, #F3C969 0%, #F09D51 100%);*/
     transition: .5s ease-in-out;
 
 }
+
 
 /*For later :)*/
 @keyframes animate {
@@ -311,7 +311,7 @@ form.reg-form {
     transition-delay: 0.6s;
 }
 
-a:hover{
+a:hover {
     cursor: pointer;
 }
 

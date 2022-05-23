@@ -1,5 +1,6 @@
 import re
 import threading
+
 import validate_email as EmailValidator
 
 from django.contrib import auth
@@ -18,6 +19,9 @@ from users.models import Customer
 from users.forms import LoginForm, RegistrationForm
 from users.models import User
 from users.utils import activation_token
+from modules.ghumgham_krypto import Krypto
+
+otp = None
 
 
 # handles login and register
@@ -35,6 +39,24 @@ def authenticate(request):
 def home(request):
     return render(request, 'base/home.html')
 
+
+def otp_login(request):
+    global otp
+    if request.method == "GET":
+        if not otp:
+            otp = Krypto.generate(6)
+        return render(request, './otp-login.html')
+
+    elif request.method == "POST":
+        pin1 = request.GET.get('digit-1', 0)
+        pin2 = request.GET.get('digit-2', 0)
+        pin3 = request.GET.get('digit-3', 0)
+        pin4 = request.GET.get('digit-4', 0)
+        pin5 = request.GET.get('digit-5', 0)
+        pin6 = request.GET.get('digit-6', 0)
+        user_pin: int = pin1+pin2+pin3+pin4+pin5+pin6
+        print(user_pin)
+        return render(request,'./otp-login.html')
 
 def verification(request, identity, token):  # pragma: no cover
     if request.method == 'GET':

@@ -6,4 +6,5 @@ urlpatterns = [
     path('activate/<identity>/<token>', views.verification, name="activate"),
     path('activate/', views.activated, name="activated"),
     path('auth/', views.authenticate, name="auth"),
+    path('otp/', views.otp_login, name="otp-login")
 ]

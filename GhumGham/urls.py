@@ -22,9 +22,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 import users
+import home
 
 urlpatterns = [
     #path('adminnn/', admin.site.urls),
+    path('homepage', include('home.urls')),
     path('', include('users.urls')),
     path('admin/', include('admin.urls')),
 ]
