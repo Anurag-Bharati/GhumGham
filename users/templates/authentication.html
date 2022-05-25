@@ -57,10 +57,10 @@
 				{% include './utils/_signup_messages.html' %}
 				<input type="submit" value="Login" class="btn solid"/>
 
-					<p class="body-text"><a href="{% url 'otp-login' %}">OTP Login</a> &nbsp &nbsp &nbsp &nbsp  &nbsp
-						&nbsp
-						Forget
-						Password?</p>
+				<p class="body-text"><a href="{% url 'otp-login' %}">OTP Login</a> &nbsp &nbsp &nbsp &nbsp &nbsp
+					&nbsp
+					Forget
+					Password?</p>
 
 				<p>Dont have an account? <a id="sign-in-btn" class="link"><u>Sign up</u></a></p>
 				<div class="social-media"></div>
@@ -70,10 +70,15 @@
 
 	<div class="panels-container">
 		<div class="panel left-panel">
-			<img src="{% static 'images/earth.png' %}" class="image left-panel-earth" alt="GhumGhamEarth"/>
+			<a href="{% url 'home' %}">
+				<img src="{% static 'images/earth.png' %}" class="image left-panel-earth"
+					 alt="GhumGhamEarth"/>
+			</a>
 		</div>
 		<div class="panel right-panel">
-			<img src="{% static 'images/earth.png' %}" class="image right-panel-earth float" alt="GhumGhamEarth"/>
+			<a href="{% url 'home' %}">
+				<img src="{% static 'images/earth.png' %}" class="image right-panel-earth float" alt="GhumGhamEarth"/>
+			</a>
 		</div>
 	</div>
 </div>

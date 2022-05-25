@@ -7,7 +7,7 @@ from django.contrib import auth
 from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login as django_login
+from django.contrib.auth import login as django_login, user_logged_out
 from django.utils.html import strip_tags
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -37,11 +37,6 @@ def authenticate(request):
             return login(request)
         return signup(request)
     return render(request, './authentication.html')
-
-
-def home(request):
-    print(request.user)
-    return render(request, 'base/home.html')
 
 
 def checkPin(request, pin):
@@ -268,7 +263,18 @@ def logout(request):
     global otp_user, otp
     otp_user = None
     otp = None
-    request.logout()
+    user = getattr(request, 'user', None)
+    if hasattr(user, 'is_authenticated') and not user.is_authenticated:
+        user = None
+    user_logged_out.send(sender=user.__class__, request=request, user=user)
+
+    request.session.flush()
+    if hasattr(request, 'user'):
+        from django.contrib.auth.models import AnonymousUser
+        request.user = AnonymousUser()
+
+    messages.success(request, "Logged out successfully")
+    return redirect('auth')
 
 # TODO ForgetPassword
 # TODO Activation_Success

@@ -79,10 +79,19 @@
 			</ul>
 
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+				{% if user.is_anonymous %}
+
 				<a class="nav-btn p-2" style="text-decoration: none; color: white"
 				   type="button" href="{% url 'auth' %}">Login<i
 						class="fas
                     fa-sign-in-alt"></i></a>
+				{% else %}
+				<a class="nav-btn p-2" style="text-decoration: none; color: white"
+				   type="button" href="{% url 'logout' %}">Logout<i
+						class="fas
+                    fa-sign-out-alt"></i></a>
+				{% endif %}
 				<a class="toggle-theme btn nav-btn" style="box-shadow: none;width: auto; height: auto;">
 					<i class="fas"></i>
 				</a>
