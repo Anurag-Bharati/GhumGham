@@ -10,7 +10,7 @@
     --color-2: #F3C969;
     --color-3: #09d69c;
     --color-4: #1b9cfc;
-    --bg-dark: #362C28;
+    --bg-dark: #383841;
     --main-to-dark-color: var(--secondary-color);
     --dark-to-main-color: var(--bg-dark);
     --shadow-black-100: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -69,17 +69,38 @@ ul {
 }
 
 body::-webkit-scrollbar {
-    width: 0.25rem;
+    width: 0.25rem !important;
 }
 
 body::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(220, 220, 220, 0.9) !important;
 }
 
 body::-webkit-scrollbar-thumb {
-    background: rgba(239, 71, 111, 0.9);
-    border-radius: 10px;
+    background: rgba(239, 71, 111, 0.9) !important;
+    border-radius: 10px !important;
 }
+
+.btn-primary {
+    border-radius: 10px 10px 20px 20px !important;
+    width: 100%;
+    border: none !important;
+    background-color: #F3C969 !important;
+    color: #111 !important;
+    font-weight: bold !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+
+    background-color: var(--secondary-color) !important;
+    color: #fff !important;
+    font-weight: bold !important;
+
+}
+
 
 .btn-1 {
     background: var(--main-color);
@@ -331,6 +352,54 @@ Preloader
     animation: zoomInOut 1s ease infinite;
 }
 
+.animated-btn {
+    border-radius: 50px !important;
+    line-height:5px !important;
+    animation: pulse2 2s ease infinite;
+}
+
+.animated-btn-2 {
+    background-color: transparent;
+}
+
+.animated-btn-2 i {
+    color: var(--main-color) !important;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+    }
+    70% {
+        transform: scale(0.96);
+        box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+@keyframes pulse2 {
+    0% {
+        transform: scale(0.90);
+        box-shadow: 0 0 0 0 rgba(243, 201, 105, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 5px 10px rgba(243, 201, 105, 0.0);
+    }
+    100% {
+        transform: scale(0.90);
+        box-shadow: 0 0 0 0 rgba(243, 201, 105, 0.0);
+    }
+}
+
 /*--------------------
 Navbar
 --------------------*/
@@ -415,7 +484,7 @@ Side Image Section
     transform: translateX(50%);
 }
 
-.aim-img{
+.aim-img {
     margin: 0;
     padding: 0;
 }
