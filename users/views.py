@@ -113,7 +113,8 @@ def otp_login(request):
             if checkPin(request, otp):
                 otp = None
                 django_login(request, otp_user, backend=settings.AUTHENTICATION_BACKENDS[0])
-                return redirect('homepage')
+                messages.success(request,  "Successfully signed in as " + request.user.username)
+                return redirect('home')
             else:
                 messages.error(request, "Invalid OTP Code. Please Retry")
                 return render(request, './otp-login.html', {'email': " "})
