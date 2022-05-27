@@ -1,0 +1,97 @@
+{% extends 'admin_layout.html' %}
+{% load static %}
+
+
+{% block title %}Add Place{% endblock title %}
+
+{% block main %}
+
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5" xmlns="http://www.w3.org/1999/html">
+        <div class="row align-items-center g-lg-5 py-5">
+
+        <h3 class="text-dark mb-4 display-6 mt-lg-2 ">Update Packages</h3>
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between" style="padding-top: 20px">
+                <p class="text-dark fs-4">Enter details about package</p>
+                <p><button class="btn btn-primary"><a href="/admin/packages">Show all Packages</a></button></p>
+            </div>
+            <div class="card-body">
+                <form class="form" action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="mb-3"><label class="form-label" for="username"><strong>Package Name</strong></label>
+                                <input class="form-control" type="text" placeholder="package name" name="package_name" value="{{ packages.packagess_name }}">
+                                    {% for i in countries %}
+                                        <option value="{{ i.id }}">{{ i.Name }}</option>
+                                    {% endfor %}
+                            </div>
+                        </div>
+
+
+                        <div class="col">
+                            <div class="">
+                                <label class="form-label w-100" for="country"><strong>Price</strong></label>
+                                <input class="form-control" type="number" placeholder="$1000" name="price" value="{{ packages.price }}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="">
+                                <label class="form-label w-100" for="country"><strong>Cover pick</strong></label>
+                                <input class="form-control" value="{{ packages.cover_pick }}" type="number" placeholder="" name="coverpick" >
+                            </div>
+                        </div>
+
+                    <div class="row">
+                        <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label mt-3" for="first_name"><strong> Rating </strong></label>
+                                <input class="form-control" value="{{ packages.rating }}" type="text" placeholder="" name="rating"></div>
+                        </div>
+
+                        <div class="row">
+
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label mt-3" for="first_name"><strong> Event </strong></label>
+                                <input class="form-control" type="text" placeholder="Jorpati" value="{{ packages.event }}" name="event"></div>
+                        </div>
+
+                        <div class="col">
+                            <div class="mb-3"><label class="form-label w-100"></label> <strong>Destination List</strong>
+                              <input class="form-control" type="text" placeholder="" value="{{ packages.destination_List }}" name="destination_list"></div>
+                            </div>
+
+
+                    </div>
+                            <div class="row">
+
+                        <div class="col">
+                    <label class="form-label w-100 mt-1" for="floatingTextarea"><strong>Description</strong></label>
+                            <textarea name="description" class="form-control"
+                              placeholder=description
+                                             id="floatingTextarea" ></textarea>   </input>
+                        </div>
+                            </div>
+
+
+
+
+                        <div class="row">
+                        <div class="col">
+                            <label class="form-label w-100 mt-1" for="floatingTextarea"><strong>Image</strong></label>
+                             <input class="form-control" type="file" placeholder="image" value="{{ packages.image }}" name="image"></div>
+                        </div></div>
+
+                    <div class="mt-2">
+                        <button class="btn btn-primary" type="submit" ">Update packages</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+        </div>
+{% endblock main %}
