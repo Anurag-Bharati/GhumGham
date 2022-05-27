@@ -50,6 +50,28 @@ def checkPin(request, pin):
     return pin == user_pin
 
 
+verf = None
+forget_email = None
+def forget_pass(request): # Dummy Logic TODO Actual
+    global verf, forget_email
+    if request.method == "GET":
+        return render(request, './forget-password.html')
+    elif request.method == "POST":
+        if not forget_email:
+            forget_email = request.POST.get('email', "")
+        if not verf:
+            verf = request.POST.get('digit-1', 0)
+        if verf:
+            context = {'email': forget_email, 'enable': True}
+            return render(request, './forget-password.html', context)
+        if forget_email:
+            context = {'email': forget_email}
+            return render(request, './forget-password.html', context)
+
+        messages.error(request, "Please provide a valid email")
+        return render(request, './forget-password.html')
+
+
 def otp_login(request):
     global otp
     if request.method == "GET":
@@ -177,7 +199,7 @@ def login(request):
             return render(request, './authentication.html', context, status=400)
 
     auth.login(request, user)
-    messages.success(request, "Successfully signed in as "+request.user.username)
+    messages.success(request, "Successfully signed in as " + request.user.username)
 
     # authorization
     if request.user.is_staff:
