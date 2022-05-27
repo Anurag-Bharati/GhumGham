@@ -31,12 +31,26 @@
 
 </head>
 <body>
+
+
 <!-- Preloader Start -->
 <div class="preloader">
 	<span></span>
 </div>
 <!-- Preloader End -->
 
+{% if messages %}
+	<div class="collection-list  row gx-3 gy-3 justify-content-center">
+	{% for message in messages %}
+		<div class="col-md-6 col-lg-4 col-xl-3">
+			<div class="notification">
+				{{ message }}
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+
+{% endif %}
 <!-- Side Image Start -->
 <div class="side-image">
 	<img src="{% static 'images/earth.png' %}" alt=""/>
@@ -82,7 +96,6 @@
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
 				{% if user.is_anonymous %}
-
 					<a class="nav-btn p-2" style="text-decoration: none; color: white"
 					   type="button" href="{% url 'auth' %}">Login<i
 							class="fas
@@ -105,6 +118,7 @@
 <!-- Hero Section Start -->
 <section class="hero d-flex align-items-center" id="hero" data-scroll-index="0">
 	<div class="container">
+
 		<div class="row align-items-center">
 			<div class="col-md-12" align="center">
 				<div class="hero-text">
@@ -136,7 +150,8 @@
 </section>
 
 <section class="statistics" id="stats" data-scroll-index="1">
-	<br><div class="bg-white"><br></div>
+	<br>
+	<div class="bg-white"><br></div>
 	<br>
 	<div class="section-title d-flex justify-content-center bg-white p-5">
 		<h2>Our<span> Featured</span> Packages</h2>
@@ -200,7 +215,7 @@
 </section>
 
 <!-- Stats -->
-{% include 'statistics.html'%}
+{% include 'statistics.html' %}
 <!-- Stats -->
 
 <!-- How It Works Section Start -->
@@ -223,7 +238,6 @@
 	  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!-- ScrollIt js -->
 <script src="https://cdn.jsdelivr.net/npm/scrollit@1.0.5/scrollIt.min.js"></script>
-
 <!-- main js -->
 <script src="{% static 'js/home.js' %}"></script>
 <script src="{% static 'js/dark_mode.js' %}"></script>

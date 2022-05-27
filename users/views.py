@@ -177,6 +177,7 @@ def login(request):
             return render(request, './authentication.html', context, status=400)
 
     auth.login(request, user)
+    messages.success(request, "Successfully signed in as "+request.user.username)
 
     # authorization
     if request.user.is_staff:
@@ -263,6 +264,8 @@ def logout(request):
     global otp_user, otp
     otp_user = None
     otp = None
+    messages.success(request, f"{request.user.username} Logged out successfully")
+
     user = getattr(request, 'user', None)
     if hasattr(user, 'is_authenticated') and not user.is_authenticated:
         user = None
@@ -273,7 +276,9 @@ def logout(request):
         from django.contrib.auth.models import AnonymousUser
         request.user = AnonymousUser()
 
-    messages.success(request, "Logged out successfully")
+    # clear msg
+    storage = messages.get_messages(request)
+    storage.used = True
     return redirect('auth')
 
 # TODO ForgetPassword

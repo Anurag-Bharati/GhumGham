@@ -1,3 +1,5 @@
+{% load i18n %}
+{% load socialaccount %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +10,8 @@
 	<link href="{% static 'images/ghumgham-ico.png' %}" rel="icon">
 	<link href="{% static 'images/ghumgham-ico.png' %}" rel="apple-touch-icon">
 	<link rel="stylesheet" href="{% static 'css/auth/auth.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/tooltips.css' %}"/>
+	<script src="https://kit.fontawesome.com/15b46f2d59.js" crossorigin="anonymous"></script>
 	<title>GhumGham Authentication</title>
 </head>
 
@@ -15,7 +19,7 @@
 
 <div class="{% include './utils/_class.html' %}">
 	<div class="forms-container">
-		<div class="login-reg">
+		<div class="login-reg min-log-reg-height">
 			<form action="{% url 'auth' %}" class="reg-form" method="post">
 				{% csrf_token %}
 
@@ -42,7 +46,6 @@
 				<br>
 				<p>Already have an Account? <a id="sign-up-btn" class="link"><u>Sign in</u></a></p>
 				<div class="social-media">
-
 				</div>
 			</form>
 			<form action="{% url 'auth' %}" class="log-form" method="post">
@@ -57,14 +60,42 @@
 				{% include './utils/_signup_messages.html' %}
 				<input type="submit" value="Login" class="btn solid"/>
 
-				<p class="body-text"><a href="{% url 'otp-login' %}">OTP Login</a> &nbsp &nbsp &nbsp &nbsp &nbsp
+				<p class="body-text"><a flow="left" href="{% url 'otp-login' %}">OTP
+					Login</a>
+					&nbsp &nbsp &nbsp &nbsp &nbsp
 					&nbsp
 					Forget
 					Password?</p>
+				<p> Dont have an account? <a id="sign-in-btn" class="link"><u>Sign
+					up</u></a></p>
 
-				<p>Dont have an account? <a id="sign-in-btn" class="link"><u>Sign up</u></a></p>
-				<div class="social-media"></div>
 			</form>
+			<div class="social-media">
+				<div tooltip="Sign in with Google" flow="down" style="transform: translateY(-60px); z-index: 100">
+					<form action="{% provider_login_url 'google' %}" method="post" class="log-form">
+						{% csrf_token %}
+						<button class="social-icon google" type="submit">
+							<i class="fa fa-google"></i>
+						</button>
+					</form>
+				</div>
+				<div tooltip="Sign in with Facebook" flow="down" style="transform: translateY(-60px); z-index: 100">
+					<form action="#" method="post" class="log-form">
+						{% csrf_token %}
+						<a class="social-icon facebook" type="submit">
+							<i class="fa fa-facebook"></i>
+						</a>
+					</form>
+				</div>
+				<div tooltip="Sign in with Twitter" flow="down" style="transform: translateY(-60px); z-index: 100">
+					<form action="" method="post" class="log-form">
+						{% csrf_token %}
+						<a class="social-icon twitter" type="submit">
+							<i class="fa fa-twitter "></i>
+						</a>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 

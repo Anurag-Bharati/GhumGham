@@ -25,10 +25,11 @@ import users
 import home
 
 urlpatterns = [
-    #path('adminnn/', admin.site.urls),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('', include('home.urls')),
     path('auth/', include('users.urls')),
-    path('admin/', include('admin.urls')),
+    path('administrator/', include('administrator.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

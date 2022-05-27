@@ -35,6 +35,7 @@
     top: 50%;
     left: 70%;
     width: 50%;
+    height: auto;
     transform: translate(-50%, -50%);
     transition: .8s 0.2s ease-in-out;
     display: grid;
@@ -132,25 +133,52 @@ form.reg-form {
     display: flex;
     justify-content: center;
 }
+.social-media form{
+    padding: 0;
+}
 
 .social-icon {
     height: 46px;
     width: 46px;
     display: flex;
+    border-radius: 10px;
     justify-content: center;
     align-items: center;
     margin: 0 0.45rem;
-    color: #333;
-    border-radius: 20%;
-    border: 1px solid #333;
+    border: none;
     text-decoration: none;
     font-size: 1.1rem;
     transition: 0.3s;
+    background-color: #ffffff ;
+    color: white !important;
 }
 
 .social-icon:hover {
-    color: #4481eb;
-    border-color: #4481eb;
+    background-color: #d5d5d5 ;
+    cursor: pointer;
+}
+
+.google{
+    background-color: #ee5d5d !important;
+}
+.google:hover{
+    background-color: #e77777 !important;
+}
+.facebook{
+    background-color: #3b5998 !important;
+}
+.facebook:hover{
+    background-color: #5b77b2 !important;
+}
+.twitter{
+    background-color: #1DA1F2 !important;
+}
+.twitter:hover{
+    background-color: #61b2e3 !important;
+}
+
+.social-icon a i {
+    color: white !important;
 }
 
 .btn {
