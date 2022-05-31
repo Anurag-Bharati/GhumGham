@@ -29,7 +29,6 @@ otp_user = None
 
 # handles login and register
 def authenticate(request):
-    print(request)
     # clear notice
     messages.error(request, "")
     if request.method == 'POST':

@@ -1,0 +1,116 @@
+{% extends './base/base.html' %}
+{% load static %}
+{% block title %}
+	<title>GhumGham - Home</title>
+{% endblock title %}
+{% block content %}
+	<!-- Side Image Start -->
+	<div class="side-image">
+		<img src="{% static 'images/earth.png' %}" alt=""/>
+	</div>
+	<!-- Side Image End -->
+	<!-- Hero Section Start -->
+	<section class="hero d-flex align-items-center" id="hero" data-scroll-index="0">
+		<div class="container">
+
+			<div class="row align-items-center">
+				<div class="col-md-12" align="center">
+					<div class="hero-text">
+						<img class="d-none d-lg-block" src="#" height="120" alt="">
+						<h1>Join and create</h1>
+						<h1>moments you love</h1>
+						<div class="hero-btn">
+							<a type="button" href="" class="btn-lg btn-hero start-btn" style="text-decoration: none">Get
+								Started</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Hero Section End -->
+
+	<section class="p-4 bg-white" id="aim">
+		<div class="container ">
+			<div class="row justify-content-center">
+				<div class="col-lg-4 d-flex flex-column"><img src="{% static 'images/img.png' %}" width="269"
+															  height="246"
+															  alt=""/></div>
+				<div class="col-lg-8 d-flex flex-column align-items-start justify-content-center">
+					<h3 style="transform: translateX(20px)">Focus on your</h3>
+					<h2 style="transform: translateX(120px)"><strong>Adventure</strong></h2>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="statistics" id="stats" data-scroll-index="1">
+		<br>
+		<div class="bg-white"><br></div>
+		<br>
+		<div class="section-title d-flex justify-content-center bg-white p-5">
+			<h2>Our<span> Featured</span> Packages</h2>
+		</div>
+		<div class="container">
+
+			<div class="collection-list p-5 row gx-3 gy-3 justify-content-center">
+				<div class="col-md-6 col-lg-4 col-xl-3 card">
+					<div class="collection-img position-relative ">
+						<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
+						<span class="position-absolute  text-white d-flex align-items-center
+                            justify-content-center animated-btn ">sale</span>
+					</div>
+					<div class="text-center">
+						<p class="text-capitalize mt-3 mb-1">Name</p>
+						<span class="fw-bold d-block">$ 0.00</span>
+						<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 col-xl-3 card">
+					<div class="collection-img position-relative product-img-holder">
+						<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
+						<span
+								class="position-absolute  text-white d-flex align-items-center
+                            justify-content-center animated-btn ">sale</span>
+					</div>
+					<div class="text-center">
+						<p class="text-capitalize mt-3 mb-1">Name</p>
+						<span class="fw-bold d-block">$ 0.00</span>
+						<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-4 col-xl-3 card">
+					<div class="collection-img position-relative product-img-holder">
+						<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
+						<span class="position-absolute  text-white d-flex align-items-center
+                            justify-content-center animated-btn ">sale</span>
+					</div>
+					<div class="text-center">
+						<p class="text-capitalize mt-3 mb-1">Name</p>
+						<span class="fw-bold d-block">$ 0.00</span>
+						<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<section class="p-4" id="aim">
+		<div class="container">
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+		</div>
+	</section>
+
+	<!-- Stats -->
+	{% include 'base/statistics.html' %}
+	<!-- Stats -->
+
+{% endblock content %}

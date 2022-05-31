@@ -1,0 +1,56 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+	<div class="container">
+		<div class="nav-item">
+			<a href="#" class="logo d-flex align-items-center " style="text-decoration: none; font-weight: bold;
+			font-size: 1.2rem;
+			color: white">
+				<img src="{% static 'images/ghumgham-ico.png' %}" height="32" width="32" alt="">
+				&nbsp Ghum<span style="color:#565656">Gham</span>
+			</a>
+		</div>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon navbar-light"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+				<li class="nav-item">
+					<a class="nav-link " aria-current="page" href="#"><i
+							class="fas fa-home me-2 "></i>Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#stats"><i class="fas fa-th-large me-2"></i>Packages</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#stats"><i class="fas fa-th-large me-2"></i>Stats</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#how"><i class="fas fa-th-large me-2"></i>How it
+						works?</a>
+				</li>
+
+			</ul>
+
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+				{% if user.is_anonymous %}
+					<a class="nav-btn p-2" style="text-decoration: none; color: white"
+					   type="button" href="{% url 'auth' %}">Login<i
+							class="fas
+                    fa-sign-in-alt"></i></a>
+				{% else %}
+					<a class="nav-btn p-2" style="text-decoration: none; color: white"
+					   type="button" href="{% url 'logout' %}">Logout<i
+							class="fas
+                    fa-sign-out-alt"></i></a>
+				{% endif %}
+				<a class="toggle-theme btn nav-btn" style="box-shadow: none;width: auto; height: auto;">
+					<i class="fas"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+</nav>
