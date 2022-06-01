@@ -92,7 +92,7 @@ body::-webkit-scrollbar-thumb {
     background: var(--main-color);
     border-radius: 10px;
     height: auto;
-    animation: fromRight 1s ease-in, pulse 1s ease-in-out 3 1s, fadeOut 6s ease-out;
+    animation: fromRight 1s ease-in 0.5s, pulse 1s ease-in-out 3 1.5s, fadeOut 6.5s ease-out;
     color: white;
 }
 
@@ -396,11 +396,11 @@ Preloader
 }
 
 .preloader div img:nth-child(2) {
-    animation: rotate 2s linear infinite;
+    animation:  rotate 1s linear infinite;
 }
 
 .preloader div img:nth-child(3) {
-    animation: rotate 2s linear infinite;
+    animation:  rotate 1s linear infinite;
 }
 
 .preloader div img:nth-child(1) {
@@ -410,7 +410,7 @@ Preloader
 .preloader div {
     height: 200px;
     width: 200px;
-    animation: bounce 1s ease-in-out infinite;
+    animation: bounce .8s ease-in-out infinite;
 }
 
 
