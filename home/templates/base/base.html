@@ -29,12 +29,21 @@
 	<link rel="stylesheet" href="{% static 'css/main.css' %}">
 	<link rel="stylesheet" href="{% static 'css/card.css' %}">
 	<link rel="stylesheet" href="{% static 'css/footer1.css' %}">
+	{% block head %}
+	{% endblock head %}
 </head>
 <body>
 
 <!-- Preloader Start -->
+
 <div class="preloader">
-	<span></span>
+	<h5 class="text-white" style="bottom: 20px; right:20px">loading...</h5>
+	<div>
+		<img src="{% static 'images/earth_only.png' %}" height="175" width="204px">
+		<img src="{% static 'images/moon_only.png' %}" height="175" width="204px">
+		<img src="{% static 'images/sun_only.png' %}" height="175" width="204px">
+	</div>
+	{#	<span></span>#}
 </div>
 <!-- Preloader End -->
 {% include 'base/message.html' %}
