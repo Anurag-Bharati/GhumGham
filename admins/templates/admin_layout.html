@@ -1,0 +1,125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+<!-- CSS only -->
+
+    <link rel="stylesheet" href="{% static 'css/admins.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>{% block title %} {% endblock title %}</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand shadow sticky-top bg-light" id="navbar-admin">
+    <div class="container-fluid">
+
+        <form class="d-none d-sm-inline-block me-auto ms-md-4 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for">
+                <button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <a href="/admins"><h4 class="h1text text-center">Ghum Gham </h4></a>
+        <ul class="navbar-nav flex-nowrap ms-auto">
+            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link"
+                                                                aria-expanded="false" data-bs-toggle="dropdown"
+                                                                href="#"><i class="fas fa-search"></i></a>
+                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
+                    <form class="me-auto navbar-search w-100">
+                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text"
+                                                        placeholder="Search for ...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+
+            <div class="d-none d-sm-block topbar-divider"></div>
+            <button class="btn btn-sm hover text-danger"><a href="/">Welcome, Admin @{{ request.user.username }}</a></button>
+
+        </ul>
+    </div>
+</nav>
+
+<div class="wrapper">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Admin Panel</h3>
+            <strong>AP</strong>
+            </button>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/admins" class="" aria-expanded="false"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+            </li>
+
+            <li>
+                <a href="/admins" class="" aria-expanded="false"><i
+                        class="fa fa-ticket-alt" aria-hidden="true"></i>Booked
+                    Ticket</a>
+            </li>
+
+
+
+            <li>
+                <a href="/admin/packages" class="" aria-expanded="false"><i
+                        class="fa fa-location-arrow" aria-hidden="true"></i>Packages</a>
+            </li>
+
+
+
+            <li>
+                <a href="/admins" class="" aria-expanded="false"><i class="fa fa-bell"
+                                                                                                  aria-hidden="true"></i>
+                    Requests</a>
+            </li>
+            <li>
+                <a href="/admins" class="" aria-expanded="false"><i class="fa fa-users"
+                                                                                                 aria-hidden="true"></i>Travellers</a>
+            </li>
+            <li>
+                <a href="/admins" class="" aria-expanded="false"><i class="fa fa-users"
+                                                                                                    aria-hidden="true"></i>All
+                    Admins</a>
+            </li>
+            <li>
+                <a href="/admins/logout" onclick="return confirm('Are you sure want to logout?')" aria-expanded="false"><i
+                        class="fa fa-sign-out-alt" aria-hidden="true"></i> Sign
+                    Out</a>
+            </li>
+
+        </ul>
+
+
+    </nav>
+    <div class="content">
+        <button type="button" id="sidebarCollapse" class="btn btn-white"><i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+    </div>
+
+
+    <div class="container-fluid">
+        {% block main %}{% endblock main %}
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% block js_file %}{% endblock js_file %}
+</body>
+
+</html>

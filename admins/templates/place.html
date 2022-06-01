@@ -1,0 +1,107 @@
+{% extends 'admin_layout.html' %}
+{% load static %}
+
+
+{% block title %}Add Place{% endblock title %}
+
+{% block main %}
+    <div class="container-fluid w-100 mb-5" id="add-place">
+        <h3 class="text-dark mb-4 display-6 mt-lg-2 ">Add New Destination</h3>
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between" style="padding-top: 20px">
+                <p class="text-primary fs-4">Enter details about destination </p>
+                <p><button class="btn btn-primary"><a href="/admins/showplace">Show all destinations</a></button></p>
+            </div>
+            <div class="card-body">
+                <form class="form" action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <h4 class="text-primary"><u>Enter country details</u></h4>
+                        <div class="col">
+                            <div class="mb-3"><label class="form-label" for="username"><strong>Select Country (Compulsory)</strong></label>
+                                <select class="form-control w-100" id="inputGroupSelect03" name="country_asp">
+                                    <option selected>Choose the country from the list below
+                                    </option>
+                                    {% for i in countries %}
+                                        <option value="{{ i.id }}">{{ i.Name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="">
+                                <label class="form-label w-100" for="country"><strong>Set price</strong></label>
+                                <input class="form-control" type="number" placeholder="$1000" name="asp_price">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="">
+                                <label class="form-label w-100" for="country"><strong>Can't find
+                                    country?</strong></label>
+                                <a href="/admins/addcountry" class="btn btn-primary ms-auto w-100">Add new country</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h4 class="text-danger"><u>Enter destination details</u></h4>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label mt-3" for="first_name"><strong>Destination
+                                    Name</strong></label>
+                                <input class="form-control" type="text" placeholder="Jorpati" name="asp_name"></div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3"><label class="form-label w-100"></label> <strong>Select Type</strong>
+                                <select name="asp_type" class="form-control w-100">
+                                    <option selected>Choose the region</option>
+                                    <option value="Hilly">Hilly</option>
+                                    <option value="Mountain">Mountain</option>
+                                    <option value="Greenary">Greenary</option>
+                                    <option value="Ice Covered">Ice Covered</option>
+                                </select>
+                                {#                                <input type="text" name="asp_type">#}
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="form-label w-100" for="floatingTextarea"><strong>Enter the description of the
+                        destination</strong></label>
+                    <textarea class="form-control" placeholder="Leave a description here" id="floatingTextarea"
+                              name="asp_desc"></textarea>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mt-3">
+                                <label class="form-label" for="first_name"><strong>Location Details</strong></label>
+                                <input class="form-control" type="text" id="first_name"
+                                       placeholder="Narayantar, 123 street, Nepal" name="asp_location">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mt-3">
+                                <label class="form-label w-100" for="country"><strong>Upload an HD
+                                    image</strong></label>
+                                <input type="file" class="form-control" id="customFile" name="asp_image"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h4 class="text-success mt-3"><u>Enter days plans planning</u></h4>
+                    </div>
+                    <label class="form-label w-100 mt-1" for="floatingTextarea"><strong>Day 1 Plan</strong></label>
+                    <textarea name="day_one" class="form-control"
+                              placeholder="Example: Pickup to the airport, moving towards holiday"
+                              id="floatingTextarea"></textarea>
+
+                    <div class="mt-2">
+                        <button class="btn btn-primary" type="submit">Add destination</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

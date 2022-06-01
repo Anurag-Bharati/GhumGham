@@ -4,4 +4,4 @@ from django import forms
 class PackagesForm(forms.ModelForm):
     class Meta:
         model= Packages
-        fields="__all__"
+        fields=['packagess_name','destination_List','description','price','rating','image','cover_pick','event']
