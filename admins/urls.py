@@ -18,18 +18,15 @@ Including another URLconf
 # from django.conf import settings
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path, include
 from admins.views import *
-import users
-import home
+
 
 urlpatterns = [
 
-    path('',admin),
-    path('add_packages',addpackages),
-    path('packages',showpackages),
-    path('delete_packages/<int:p_id>', packages_delete),
-    path('update_packages/<int:update_id>', update_packages),
+    path('',admin,name='admin'),
+    path('add_packages',addpackages,name='addpackages'),
+    path('packages',showpackages,name='show_packages'),
+    path('delete_packages/<int:p_id>', packages_delete,name='packages_delete'),
+    path('update_packages/<int:update_id>', update_packages,name='update_packages'),
 ]
-

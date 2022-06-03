@@ -46,6 +46,8 @@ INSTALLED_APPS = [
 
     'users.apps.AuthConfig',
     'home.apps.HomeConfig',
+    'admins.apps.AdminsConfig',
+    'packages'
 ]
 
 MIDDLEWARE = [
@@ -117,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 
