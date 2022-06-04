@@ -29,7 +29,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', include('home.urls')),
     path('auth/', include('users.urls')),
-    path('administrator/', include('administrator.urls')),
+    path('admins/', include('admins.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

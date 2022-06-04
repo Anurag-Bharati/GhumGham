@@ -26,10 +26,9 @@ import home
 
 urlpatterns = [
 
-    path('',admin),
-    path('add_packages',addpackages),
-    path('packages',showpackages),
+    path('', admin, name='admins'),
+    path('add_packages', addpackages, name='add-package'),
+    path('packages', showpackages),
     path('delete_packages/<int:p_id>', packages_delete),
     path('update_packages/<int:update_id>', update_packages),
 ]
-
