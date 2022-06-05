@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     'users.apps.AuthConfig',
-    'administrator.apps.AdminConfig',
     'home.apps.HomeConfig',
 ]
 
@@ -147,7 +146,6 @@ SOCIALACCOUNT_PROVIDERS = {
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'auth/'
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
