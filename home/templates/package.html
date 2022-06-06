@@ -38,16 +38,7 @@
 			<h2>Tour<span> Route</span> Details</h2>
 		</div>
 		<div class="container p-2 pb-3">
-			<div>
-				{% if m %}
-					{{ m | safe }}
-				{% else %}
-					<div class="col-12 d-flex flex-column align-items-center">
-						<br><br>
-						<h4>NO MAP DATA</h4>
-					</div>
-				{% endif %}
-			</div>
+			{% include 'base/map.html' %}
 		</div>
 		</div>
 	</section>
