@@ -43,3 +43,7 @@ def packages(request):
     global m
     if request.method == 'GET':
         return render(request, 'package.html', {'user': request.user, 'm': m._repr_html_()})
+
+def profile(request):
+    if request.method == 'GET':
+        return render(request, 'profile.html', {'user': request.user})
