@@ -21,9 +21,6 @@ from django.conf.urls.static import static
 from django.contrib import admin as a
 from django.urls import path, include
 
-import users
-import home
-
 urlpatterns = [
     path('admin/', a.site.urls),
     path('accounts/', include('allauth.urls')),
