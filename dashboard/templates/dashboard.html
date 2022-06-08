@@ -91,54 +91,7 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="card dashboard-card">
-						<div class="card-header">
-							<div class="card-head-row">
-								<div class="card-title">Activity Status</div>
-								<div class="card-tools">
-									<button class="btn btn-icon btn-link btn-primary btn-xs btn-refresh-card p-0
-									my-2">
-										<span class="fa fa-sync-alt"></span></button>
-								</div>
-
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="card-list">
-								{% for log in logs %}
-									<div class="item-list">
-										<div class="avatar">
-											<img src="{% if log.user.customer.image.url %}
-														{{ log.user.customer.image.url }}
-														{% else %} {% static 'images/user.png' %} {% endif %}"
-												 style="height: 40px; width: 40px; object-fit: cover"
-												 alt="..."
-												 class="avatar-img rounded-circle">
-										</div>
-										<div class="info-user ml-3">
-											<div class="username">{{ log.user.username.capitalize }}
-												<span style="color: #555">{{ log }}.</span>
-											</div>
-											<div class="status">{{ log.getTime }}</div>
-										</div>
-										<form action="{% url 'delete-log' log.id %}" method="POST" class="delete-log">
-											{% csrf_token %}
-											<button class="btn btn-icon btn-danger btn-round btn-xs p-0">
-												<i class="fa fa-remove"></i>
-											</button>
-										</form>
-
-									</div>
-								{% empty %}
-									<div style="text-align: center">NO DATA</div>
-								{% endfor %}
-
-							</div>
-						</div>
-						<div class="card-footer">
-							{% include 'includes/paginator/log_paginator.html' %}
-						</div>
-					</div>
+					{% include 'includes/activity_log.html' %}
 				</div>
 			</div>
 		</section>
