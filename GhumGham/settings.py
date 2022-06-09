@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'admins',
     'packages',
+    'dashboard'
 ]
 
 MIDDLEWARE = [
