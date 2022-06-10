@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
 
@@ -94,3 +94,19 @@ class Dashboard(ListView):
         context['p_packages'] = self.p_package.page(p_page)
 
         return context
+
+def change_pass(request):
+    context = {}
+    if request.method == 'GET':
+        return render(request, 'change-password.html', context)
+    if request.method == 'POST':
+        u = User.objects.get(id=request.user.id)
+        if not u.check_password(request.POST.get('o_pass', None)):
+            return redirect('change-pass')
+        new_pass = request.POST.get('n_pass', None)
+        if new_pass:
+            u.set_password(new_pass)
+            u.save()
+        else:
+            messages.error(request, 'Invalid password')
+        return redirect('change-pass')
