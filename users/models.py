@@ -8,9 +8,10 @@ class User(AbstractUser):
     address = models.CharField(max_length=255, unique=False, null=True)
     created_date = models.DateField(auto_now_add=True)
 
-    is_customer = models.BooleanField(default=True)
+    is_customer = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_ban = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username.capitalize()

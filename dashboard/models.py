@@ -96,7 +96,9 @@ class ActivityLog(models.Model):
         ("updated", "Updated"),
         ("deleted", "Deleted"),
         ("logged-in", "Logged In"),
-        ("logged-out", "Logged Out")
+        ("logged-out", "Logged Out"),
+        ("banned", "Banned"),
+        ("unbanned", "Unbanned"),
     )
     THING = (
         ("food", "Food"),
@@ -106,6 +108,7 @@ class ActivityLog(models.Model):
         ("itinerary", "Itinerary")
     )
     user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=AnonymousUser)
+    target = models.CharField(max_length=120, null=True, blank=True)
     action = models.CharField(max_length=120, choices=ACTION)
     thing = models.CharField(max_length=120, choices=THING, null=True, blank=True)
     more = models.CharField(max_length=120, null=True, blank=True)
@@ -114,16 +117,19 @@ class ActivityLog(models.Model):
     def __str__(self):
         vowel = ['a', 'e', 'i', 'o', 'u']
         article_thing = " a "
-        if not self.thing:
+        if self.target:
+            return self.action + ' ' + self.target.capitalize()
+        if not self.thing and not self.target:
             return self.action + " to the system"
         if self.thing[0].lower() in vowel:
             article_thing = " an "
         if self.more:
             return self.action.capitalize() + article_thing + self.thing.lower() + self.more
+
         return self.action.capitalize() + article_thing + self.thing.lower()
 
     def getTime(self):
-        return self.timestamp.date().__str__() + " at "+\
-                   self.timestamp.time().hour.__str__() + ":" + \
-                   self.timestamp.time().minute.__str__() + ":" + \
-                   self.timestamp.time().second.__str__()
+        return self.timestamp.date().__str__() + " at " + \
+               self.timestamp.time().hour.__str__() + ":" + \
+               self.timestamp.time().minute.__str__() + ":" + \
+               self.timestamp.time().second.__str__()
