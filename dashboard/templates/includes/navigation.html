@@ -1,0 +1,106 @@
+<div class="main-header" >
+	<!-- Logo Header -->
+	<div class="logo-header" data-background-color="dark2">
+
+		<a href="/" class="logo">
+			<img src="/static/images/GHUMGHAM.png"
+				 alt="navbarbrand"
+				 style="object-fit: cover; padding: 5px; height: 50px; width: 150px"
+				 class="navbar-brand">
+		</a>
+		<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
+				data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon" style="min-height: 30px; min-width: 30px">
+						<i class="fas fa-bars"></i>
+					</span>
+		</button>
+		<button class="topbar-toggler more" style="min-height: 30px; min-width: 30px"><i class="fas fa-angle-down"
+		></i></button>
+		<div class="nav-toggle">
+			<i class="fas fa-bars text-white position-absolute" style="transform: translate(50%,125%)"></i>
+			<button class="btn btn-toggle toggle-sidebar" style="min-height: 30px; min-width: 30px">
+			</button>
+		</div>
+	</div>
+	<!-- End Logo Header -->
+
+
+	<!-- Navbar Header -->
+	<nav class="navbar navbar-header navbar-expand-lg"
+		 data-background-color="dark">
+
+		<div class="container-fluid">
+{#			{% include 'includes/searchbar.html' %}#}
+			<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+				<li class="nav-item dropdown hidden-caret">
+					<a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
+					   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-bell"></i>
+						<span class="notification">0</span>
+					</a>
+					<ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+						<li>
+							<div class="dropdown-title">You have 0 new notification</div>
+						</li>
+						<li>
+							<div class="notif-scroll scrollbar-outer">
+								<div class="notif-center">
+									<a href="#">
+										<div class="notif-icon notif-primary"><i class="fa fa-user-plus"></i></div>
+										<div class="notif-content">
+													<span class="block">
+														Dummy Notification
+													</span>
+											<span class="time">0 minutes ago</span>
+										</div>
+									</a>
+								</div>
+							</div>
+						</li>
+						<li>
+							<a class="see-all" href="javascript:void(0);">See all notifications<i
+									class="fa fa-angle-right"></i> </a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown hidden-caret">
+					<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+						<div class="avatar-sm">
+							<img src="/static/images/user.png" alt="..." class="avatar-img rounded-circle">
+						</div>
+					</a>
+					<ul class="dropdown-menu dropdown-user animated fadeIn">
+						<div class="dropdown-user-scroll scrollbar-outer">
+							<li>
+								<div class="user-box">
+									<div class="avatar-lg"><img src="/static/images/user.png"
+																alt="image profile" class="avatar-img rounded">
+									</div>
+									<div class="u-text">
+										<h4>
+											{{ request.user.username }}
+										</h4>
+										<p class="text-muted">
+											@{{ request.user.email | cut:"@gmail.com"}}
+										</p>
+										<a href="#" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">My Profile</a>
+								<a class="dropdown-item" href="#">Account Setting</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+							</li>
+						</div>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+	</nav>
+</div>
+        

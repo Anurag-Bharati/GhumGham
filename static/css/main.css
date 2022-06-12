@@ -418,7 +418,7 @@ Preloader
     display: block;
     height: 60px;
     width: 60px;
-    background-color: var(--white);
+    background-color: white;
     border-radius: 50%;
     animation: zoomInOut 1s ease infinite;
 }

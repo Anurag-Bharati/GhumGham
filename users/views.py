@@ -51,7 +51,9 @@ def checkPin(request, pin):
 
 verf = None
 forget_email = None
-def forget_pass(request): # Dummy Logic TODO Actual
+
+
+def forget_pass(request):  # Dummy Logic TODO Actual
     global verf, forget_email
     if request.method == "GET":
         return render(request, './forget-password.html')
@@ -112,7 +114,7 @@ def otp_login(request):
             if checkPin(request, otp):
                 otp = None
                 django_login(request, otp_user, backend=settings.AUTHENTICATION_BACKENDS[0])
-                messages.success(request,  "Successfully signed in as " + request.user.username)
+                messages.success(request, "Successfully signed in as " + request.user.username)
                 return redirect('home')
             else:
                 messages.error(request, "Invalid OTP Code. Please Retry")
@@ -167,6 +169,7 @@ def checkPass(request, password):
 
 def login(request):
     form = LoginForm(request.POST)
+
     if not form.is_valid():
         messages.error(request, "Please fill all the forms.")
         return render(request, './authentication.html', status=400)
@@ -189,7 +192,7 @@ def login(request):
             user_temp = None
 
         if user_temp is None:
-            messages.error(request, "Invalid credentials")
+            messages.error(request, "Account does not exists, Please create one.")
             return render(request, './authentication.html', status=400)
         elif not user_temp.check_password(password):
             messages.error(request, "Password doesn't match")
@@ -198,6 +201,10 @@ def login(request):
             messages.error(request, "Account not activated, Please check your email.")
             return render(request, './authentication.html', context, status=400)
 
+    # ban check
+    if user.is_ban:
+        messages.error(request, "Account is banned, Please contact an Admin.")
+        return render(request, './authentication.html', context, status=400)
     auth.login(request, user)
     messages.success(request, "Successfully signed in as " + request.user.username)
 

@@ -21,15 +21,13 @@ from django.conf.urls.static import static
 from django.contrib import admin as a
 from django.urls import path, include
 
-import users
-import home
-
 urlpatterns = [
     path('admin/', a.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', include('home.urls')),
     path('auth/', include('users.urls')),
     path('administrator/', include('admins.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
