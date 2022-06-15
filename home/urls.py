@@ -6,4 +6,5 @@ urlpatterns = [
     path('explore/', views.explore, name="explore"),
     path('packages/', views.packages, name="packages"),
     path('profile/', views.profile, name="profile"),
+    path('statement/', views.statement, name="statement"),
 ]
