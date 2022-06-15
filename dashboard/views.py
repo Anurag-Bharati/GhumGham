@@ -1,10 +1,14 @@
+import threading
+
 from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
 
+from GhumGham import settings
 from dashboard.config import At as At
 from dashboard.models import ActivityLog
 from django.views.generic import ListView
@@ -110,3 +114,29 @@ def change_pass(request):
         else:
             messages.error(request, 'Invalid password')
         return redirect('change-pass')
+
+
+def notify_via_email(msg, user):
+    mail = EmailMultiAlternatives(
+        f"Hey {user.username}",
+        msg,
+        settings.EMAIL_HOST_USER,
+        [user.email]
+    )
+    Thread(mail).start()
+
+
+class Thread(threading.Thread):
+
+    def __init__(self, task):  # pragma: no cover
+        self.task = task
+        try:
+            threading.Thread.__init__(self)
+        except Exception as ex:
+            print("[Exception in thread] " + ex.__str__())
+
+    def run(self):  # pragma: no cover
+        try:
+            self.task.send(fail_silently=False)
+        except Exception as ex:
+            print("[Exception in thread] " + ex.__str__())
