@@ -1,6 +1,7 @@
-from django.http import HttpResponse
 import folium as f
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from users.models import User
 
 m = f.Map(location=[27.70630934201652, 85.33001138998168], zoom_start=18, no_touch=True,
                disable_3d=True, zoom_control=False,
@@ -52,3 +53,18 @@ def profile(request):
 def statement(request):
     if request.method == 'GET':
         return HttpResponse("STATEMENT PAGE")
+
+def update_profile(request):
+    if request.method == 'GET':
+        return redirect('profile')
+    if request.method == 'POST':
+        user = User.objects.get(id=request.user.id)
+        if user:
+            email = request.POST.get('email', None)
+            address = request.POST.get('address', None)
+            if not user.email == email:
+                user.email = email
+            if not user.address == address:
+                user.address = address
+            user.save()
+        return redirect('profile')
