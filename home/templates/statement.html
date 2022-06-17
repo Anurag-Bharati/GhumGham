@@ -196,5 +196,55 @@ ul {
   border-radius: 10px;
 }
 
+@media (min-width: 992px) {
+  .statement-overview {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 70px;
+  }
+}
 
+.statement-overview .statement-detail ul {
+  margin-bottom: 28px;
+}
+
+.statement-overview .statement-detail ul li {
+  opacity: 0.75;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.statement-overview .statement-detail ul li i {
+  font-size: 20px;
+  position: relative;
+  top: 1px;
+}
+
+.statement-overview .overview-bottom,
+.statement-overview .overview-top {
+  padding: 35px;
+}
+
+.statement-content ul li {
+  font-weight: 600;
+  opacity: 0.75;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 5px;
+}
+
+@media (min-width: 768px) {
+  .statement-content ul li {
+    border-bottom: 0;
+    padding: 0;
+  }
+}
+
+.statement-content ul li i {
+  font-size: 20px;
+  position: relative;
+  top: 1px;
+}
+.mb-30 {
+    margin-bottom: 30px;
+}
     </style>
