@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 import folium as f
 from django.shortcuts import render
 
@@ -43,3 +44,11 @@ def packages(request):
     global m
     if request.method == 'GET':
         return render(request, 'package.html', {'user': request.user, 'm': m._repr_html_()})
+
+def profile(request):
+    if request.method == 'GET':
+        return render(request, 'profile.html', {'user': request.user})
+
+def statement(request):
+    if request.method == 'GET':
+        return HttpResponse("STATEMENT PAGE")
