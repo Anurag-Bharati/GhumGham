@@ -141,48 +141,7 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="card dashboard-card-sm">
-						<div class="card-body">
-							<div class="card-title fw-mediumbold">Customers</div>
-							<div class="card-list">
-								{% for customer in p_customers.object_list %}
-									<div class="item-list">
-										<div class="avatar">
-											<img src="/static/images/user.png" style="height: 40px; width: 40px;
-										object-fit: cover" alt="..." class="avatar-img rounded-circle">
-										</div>
-										<div class="info-user ml-3">
-											<div class="username">{{ customer.username.capitalize }}</div>
-											<div class="status">{{ customer.created_date }}</div>
-										</div>
-										{% if not customer.is_ban %}
-											<form method="POST" action="{% url 'ban-unban-user' customer.id %}"
-												  class="ban-user">
-												{% csrf_token %}
-												<button class="btn btn-icon btn-warning btn-round btn-xs p-0 text-white">
-													<i class="fa fa-gavel"></i>
-												</button>
-											</form>
-										{% elif customer.is_ban %}
-											<form method="POST" action="{% url 'ban-unban-user' customer.id %}"
-												  class="unban-user">
-												{% csrf_token %}
-												<button class="btn btn-icon btn-success btn-round btn-xs p-0 text-white">
-													<i class="fa fa-key"></i>
-												</button>
-											</form>
-										{% endif %}
-
-									</div>
-								{% empty %}
-									<div style="text-align: center">NO DATA</div>
-								{% endfor %}
-							</div>
-						</div>
-						<div class="card-footer">
-							{% include 'includes/paginator/customer_paginator.html' %}
-						</div>
-					</div>
+				{% include 'includes/ban_unban_user.html' %}
 				</div>
 				<div class="col-md-4">
 					<div class="card dashboard-card-sm">
