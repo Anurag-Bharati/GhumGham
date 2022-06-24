@@ -1,6 +1,8 @@
 import folium as f
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
+from dashboard.models import Order
 from users.models import User
 
 m = f.Map(location=[27.70630934201652, 85.33001138998168], zoom_start=18, no_touch=True,
@@ -68,3 +70,8 @@ def update_profile(request):
                 user.address = address
             user.save()
         return redirect('profile')
+
+def myBookings(request):
+    order = Order.objects.filter(customer_id=request.user.id)
+    count = order.count()
+    return HttpResponse(f'{order}')
