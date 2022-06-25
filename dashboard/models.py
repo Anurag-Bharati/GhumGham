@@ -133,3 +133,20 @@ class ActivityLog(models.Model):
                self.timestamp.time().hour.__str__() + ":" + \
                self.timestamp.time().minute.__str__() + ":" + \
                self.timestamp.time().second.__str__()
+
+class Order(models.Model):
+    STATUS = (
+        ("pending", "Pending"),
+        ("approved", "Approved"),
+        ("declined", "Declined"),
+    )
+    customer = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, null=True, on_delete=models.CASCADE)
+    staff = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='assignee')
+    customer_phone = models.CharField(max_length=120)
+    status = models.CharField(max_length=120, choices=STATUS, default=STATUS[0][0])
+    created_date = models.DateField(auto_now_add=True)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.customer.username + f"({self.created_date})"

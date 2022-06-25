@@ -7,4 +7,6 @@ urlpatterns = [
     path('packages/', views.packages, name="packages"),
     path('profile/', views.profile, name="profile"),
     path('statement/', views.statement, name="statement"),
+    path('updatep', views.update_profile, name="update-p"),
+    path('myorders', views.myBookings, name="get-my-orders"),
 ]
