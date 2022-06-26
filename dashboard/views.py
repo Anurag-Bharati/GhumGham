@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
 
@@ -9,7 +9,8 @@ from dashboard.config import At as At
 from dashboard.models import ActivityLog
 from django.views.generic import ListView
 
-from users.models import User, Customer, Staff
+from users.models import User
+from .forms import CreatePackageForm, CreateStaffForm
 from .models import Package, Place
 
 
@@ -48,7 +49,10 @@ def ban_unban_user(request, identity):
 
     log = ActivityLog(user=logged_user)
     log.target = user.username
-    log.action = log.ACTION[5][1]
+    if not user.is_ban:
+        log.action = log.ACTION[5][1]
+    else:
+        log.action = log.ACTION[6][1]
     log.save()
     user.is_ban = not user.is_ban
     user.save()
@@ -78,12 +82,12 @@ class Dashboard(ListView):
         context['segment'] = 'index'
         context['ap'] = At.at()
         context['user_count'] = User.objects.count()
-        context['customer_count'] = Customer.objects.count()
-        context['admin_count'] = User.objects.count() - Customer.objects.count()
+        context['customer_count'] = User.objects.filter(is_customer__exact=True).count()
+        context['admin_count'] = User.objects.count() - context['customer_count']
         context['package_count'] = Package.objects.filter(status__exact="available").count()
         context['package_count_max'] = Package.objects.all().count()
         context['place_count'] = Place.objects.count()
-        context['staff_count'] = Staff.objects.count()
+        context['staff_count'] = User.objects.filter(is_staff__exact=True).count()
 
         a_page = self.request.GET.get('a_page', 1)
         c_page = self.request.GET.get('c_page', 1)
@@ -92,5 +96,111 @@ class Dashboard(ListView):
         context['p_admins'] = self.p_admin.page(a_page)
         context['p_customers'] = self.p_customer.page(c_page)
         context['p_packages'] = self.p_package.page(p_page)
-
+        context['packages'] = Package.objects.filter(status__exact="available")
         return context
+
+
+def delete_package(request, identity):
+    if request.method == "GET":
+        return redirect(request, 'package-table')
+
+    package = Package.objects.filter(id=identity)[0]
+    if package:
+        messages.success(request, f'Successfully deleted {package.name} package!')
+        print(f"Delete {package.name}")
+        package.delete()
+    else:
+        messages.error(request, 'Sorry! Something went wrong.')
+    return redirect('package-table')
+
+
+def featured_package(request, identity):
+    package = Package.objects.filter(id=identity)[0]
+    if package:
+        package.is_featured = not package.is_featured
+        package.save()
+    return redirect('package-table')
+
+
+def hide_unhide_package(request, identity):
+    package = Package.objects.filter(id=identity)[0]
+    if not package:
+        return redirect('package-table')
+    if package.status == Package.STATUS[0][0]:
+        package.status = Package.STATUS[1][0]
+    elif package.status == Package.STATUS[1][0]:
+        package.status = Package.STATUS[0][0]
+    print(package.status)
+
+    package.save()
+    return redirect('package-table')
+
+
+class GetPackage(ListView):
+    model = Package
+    template_name = 'tables/package_table.html'
+    context_object_name = 'packages'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetPackage, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        return context
+
+
+def addPackageForm(request):
+    context = {'ap': True}
+    form = CreatePackageForm(request.POST.copy(), request.FILES)
+    if request.method == 'POST':
+        form.data['status'] = Package.STATUS[int(request.POST.get('status', 0))][0]
+        form.data['is_featured'] = bool(request.POST.get('featured', False))
+        if form.is_valid():
+            form.save()
+            return redirect('package-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/package_form.html', context)
+
+
+def addStaffForm(request):
+    context = {'ap': True}
+    form = CreateStaffForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        if form.is_valid():
+            staff: User = form.save()
+            staff.is_staff = True
+            staff.set_password(staff.password)
+            staff.save()
+            return redirect('package-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/staff_form.html', context)
+
+
+def updatePackageForm(request, identity):
+    package = Package.objects.get(id=identity)
+    form = None
+    if not package:
+        redirect('package-table')
+
+    if request.method == 'GET':
+        form = CreatePackageForm(initial={
+            'name': package.name,
+            'type': package.type,
+            'itinerary': package.itinerary,
+            'price': package.price,
+            'desc': package.desc,
+            'duration': package.duration,
+        })
+        return render(request, 'forms/edit_package_form.html', {'ap': True, 'p': package, 'form': form})
+    elif request.method == 'POST':
+        form = CreatePackageForm(request.POST.copy(), request.FILES, instance=package)
+        form.data['status'] = Package.STATUS[int(request.POST.get('status', 0))][0]
+        form.data['is_featured'] = bool(request.POST.get('featured', False))
+        if form.is_valid():
+            form.save()
+            return redirect('package-table')
+
+    context = {'ap': True, 'segment': 'form', 'p': package, 'form': form}
+    return render(request, 'forms/package_form.html', context)

@@ -4,7 +4,7 @@
 	<title>GhumGham - Explore</title>
 {% endblock %}
 {% block head %}
-	<link rel="stylesheet" href="{% static 'css/searchbar.css' %}"/>
+	<link rel="stylesheet" href="{% static 'assets/css/searchbar.css' %}"/>
 {% endblock head %}
 {% block content %}
 	<section class="hero d-flex align-items-center" id="hero" data-scroll-index="0">
@@ -35,7 +35,7 @@
 							</div>
 							<div class="col-md-3">
 								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="{% static 'images/calendar.png' %}" width="50">
+										src="{% static 'assets/images/calendar.png' %}" width="50">
 									<div class="text-center mg-text"><span class="mg-text">Long</span></div>
 								</div>
 							</div>
@@ -65,60 +65,43 @@
 				<div class="d-flex flex-wrap justify-content-center mt-5 filter-button-group">
 					<form action="#stats" href="#" method="get" class="m-2">
 						<input class="hidden" hidden name="name_contains" value="all">
-						<button type="submit" class="btn-lg btn-hero start-btn m-2 " style="background: #86D458">All
+						<button type="submit" class="btn btn-hero start-btn m-2 " style="background: #86D458">All
 						</button>
 					</form>
 					<form action="#stats" href="#" method="get"  class="m-2">
 						<input class="hidden" hidden name="name_contains" value="featured">
-						<button type="submit" class="btn-lg btn-hero start-btn m-2 " style="background: #86D458">Featured
+						<button type="submit" class="btn btn-hero start-btn m-2 " style="background:
+						#86D458">Featured
 						</button>
 					</form>
 					<form action="#stats" href="#" method="get"  class="m-2">
 						<input class="hidden" hidden name="name_contains" value="new">
-						<button type="submit" class="btn-lg btn-hero start-btn m-2 " style="background: #86D458">New Arrivals
+						<button type="submit" class="btn btn-hero start-btn m-2 " style="background: #86D458">New
+							Arrivals
 						</button>
 					</form>
 				</div>
 
 				<div class="collection-list row gx-0 gy-3 justify-content-center">
 					<div class="collection-list p-5 row gx-3 gy-3 justify-content-center">
+						{% for package in packages %}
 						<div class="col-md-6 col-lg-4 col-xl-3 card">
 							<div class="collection-img position-relative ">
-								<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
+								<img src="{% if package.image %}{{ package.image.url }}{% endif %}" class="w-100
+								product-img"
+									 alt="product">
 								<span class="position-absolute  text-white d-flex align-items-center
                             justify-content-center animated-btn ">sale</span>
 							</div>
 							<div class="text-center">
-								<p class="text-capitalize mt-3 mb-1">Name</p>
-								<span class="fw-bold d-block">$ 0.00</span>
+								<p class="text-capitalize mt-3 mb-1">{{ package.name }}</p>
+								<span class="fw-bold d-block">$ {{ package.price }} .00</span>
 								<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
 							</div>
 						</div>
-						<div class="col-md-6 col-lg-4 col-xl-3 card">
-							<div class="collection-img position-relative product-img-holder">
-								<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
-								<span
-										class="position-absolute  text-white d-flex align-items-center
-                            justify-content-center animated-btn ">sale</span>
-							</div>
-							<div class="text-center">
-								<p class="text-capitalize mt-3 mb-1">Name</p>
-								<span class="fw-bold d-block">$ 0.00</span>
-								<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-4 col-xl-3 card">
-							<div class="collection-img position-relative product-img-holder">
-								<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
-								<span class="position-absolute  text-white d-flex align-items-center
-                            justify-content-center animated-btn ">sale</span>
-							</div>
-							<div class="text-center">
-								<p class="text-capitalize mt-3 mb-1">Name</p>
-								<span class="fw-bold d-block">$ 0.00</span>
-								<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
-							</div>
-						</div>
+						{% empty %}
+						{% endfor %}
+
 
 					</div>
 					{#                {% endfor %}#}

@@ -69,17 +69,17 @@ class Itinerary(models.Model):
 
 class Package(models.Model):
     STATUS = (
-        ("unavailable", "Unavailable"),
         ("available", "Available"),
-        ("ongoing", "Ongoing"),
+        ("unavailable", "Unavailable"),
         ("booked", "Booked"),
+        ("ongoing", "Ongoing"),
     )
-    name = models.CharField(max_length=120, unique=False)
+    name = models.CharField(max_length=120, unique=False, null=False, blank=False)
     type = models.CharField(max_length=120, unique=False, null=True)
-    itinerary = models.ManyToManyField(Itinerary)
+    itinerary = models.ForeignKey(Itinerary, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.PositiveSmallIntegerField(null=False)
-    image = models.ImageField(null=True, default="../../static/images/default_package.png")
-    cover_image = models.ImageField(null=True, default="../../static/images/default_package.png")
+    image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
+    cover_image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
     desc = models.CharField(max_length=200, unique=False, null=True, blank=True)
     duration = models.PositiveSmallIntegerField(null=True)
     is_featured = models.BooleanField(null=True, default=False)

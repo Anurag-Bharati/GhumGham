@@ -17,7 +17,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from GhumGham import settings
-from users.models import Customer
 from users.forms import LoginForm, RegistrationForm
 from users.models import User
 from users.utils import activation_token
@@ -244,12 +243,11 @@ def signup(request):
     else:
 
         # once the data is valid create user
-        user = User.objects.create_user(username=username, email=email)
+        user = User.objects.create_user(username=username, email=email, address=address)
         user.set_password(password)
         user.is_active = user.is_staff = user.is_admin = False
         user.is_customer = True
         user.save()
-        Customer.objects.create(user=user, name=username, address=address)
         current_site = get_current_site(request).domain
 
         magic_link = reverse('activate', kwargs={

@@ -21,7 +21,7 @@ class RegistrationForm(forms.Form):
         'class': 'form-control',
         'placeholder': 'Email',
     }))
-    password = forms.CharField(widget=forms.TextInput(attrs={
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'placeholder': 'Password',
         'type': 'password'

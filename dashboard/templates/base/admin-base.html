@@ -6,8 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
-	<link rel="stylesheet" href="/static/css/preloader.css">
-
+	<link rel="stylesheet preload" as="style" href="/static/assets/css/preloader.css">
 
 	<title>
 		GhumGham - Admin | {% block title %}{% endblock %}
@@ -17,11 +16,21 @@
 	<link href="{% static 'images/ghumgham-ico.png' %}" rel="icon">
 	<link href="{% static 'images/ghumgham-ico.png' %}" rel="apple-touch-icon">
 
-	<!-- font awesome -->
-	<script src="https://kit.fontawesome.com/15b46f2d59.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<script src="/static/assets/js/plugin/webfont/webfont.min.js"></script>
+	<script>
+		WebFont.load({
+			google: {"families":["Poppins:300,400,700,900"]},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+			urls: ['/static/assets/css/fonts.min.css']},
+			active: function() {
+				sessionStorage.fonts = true;
+			}
+		});
+	</script>
 
-	<link rel="stylesheet" href="/static/css/admin.css">
+	<link rel="stylesheet" href="/static/assets/css/bootstrap/bootstrap.min.css">
+
+	<link rel="stylesheet" href="/static/assets/css/admin.css">
 
 	<!-- Specific Page CSS goes HERE  -->
 	{% block stylesheets %}{% endblock stylesheets %}{% endif %}
@@ -30,7 +39,7 @@
 <body data-background-color="bg1">
 <div rel="prefetch" class="preloader">
 	<div align="center" style="transform: translate(24%,100%); opacity: 80%;">
-		<img src="/static/images/GHUMGHAM.png">
+		<img rel="preload" src="/static/assets/images/GHUMGHAM.png" alt="...">
 	</div>
 	<div style="height: 60px; width: 60px">
 		<div id="spinner1"></div>

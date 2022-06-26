@@ -1,10 +1,12 @@
 import folium as f
 from django.shortcuts import render
 
+from dashboard.models import Package
+
 m = f.Map(location=[27.70630934201652, 85.33001138998168], zoom_start=18, no_touch=True,
-               disable_3d=True, zoom_control=False,
-               scrollWheelZoom=False,
-               dragging=False)
+          disable_3d=True, zoom_control=False,
+          scrollWheelZoom=False,
+          dragging=False)
 f.Marker(
     location=[27.70630934201652, 85.33001138998168],
     popup="Softwarica College",
@@ -26,9 +28,11 @@ f.TileLayer('openstreetmap').add_to(m)
 
 
 def homepage(request):
+    p = Package.objects.filter(is_featured=True)
+
     if request.method == 'GET':
         print(request.user)
-        return render(request, 'home.html', {'user': request.user})
+        return render(request, 'home.html', {'user': request.user, 'packages': p})
 
     elif request.method == 'POST':
         return render(request, 'home.html')
@@ -36,7 +40,8 @@ def homepage(request):
 
 def explore(request):
     if request.method == 'GET':
-        return render(request, 'explore.html', {'user': request.user})
+        p = Package.objects.exclude(status__exact="unavailable")
+        return render(request, 'explore.html', {'user': request.user, 'packages': p})
 
 
 def packages(request):

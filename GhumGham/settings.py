@@ -46,7 +46,6 @@ INSTALLED_APPS = [
 
     'users.apps.AuthConfig',
     'home.apps.HomeConfig',
-    'admins',
     'packages',
     'dashboard'
 ]
@@ -156,8 +155,8 @@ LOGIN_URL = 'auth/'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 
-MEDIA_URL = 'images/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/uploads')
+MEDIA_URL = '/images/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/assets/images/uploads')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
