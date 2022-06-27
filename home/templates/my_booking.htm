@@ -1,0 +1,198 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row" style="margin: 20px 0 0 0 ">
+    <div class="col-xl-12" align="center">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Active Orders</h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h ">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="serial">#</th>
+                                    <th>Staff</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 {% if order %}{% comment %}
+                                {% for order in order %}
+                                <tr>
+                                    <td class="serial">{{ forloop.counter }}</td>
+                                    {% if order.staff %}
+                                    <td>{{ order.staff }}</td>
+                                    {% else %}
+                                    <td>Waiting</td>
+                                    {% endif %}
+                                    <td>{{ order.product }}</td>
+                                    <td>{{ order.date }}</td>
+                                    <td>{{ order.created_date }}</td>
+                                    <td>
+                                        {% if order.status == 'pending' %}
+                                        <a class="btn btn-warning btn-sm disabled" role="button" href="">{{ order.status}}</a>
+                                        {% elif order.status == 'decline' %}
+                                        <a class="btn btn-danger btn-sm disabled" role="button" href="">{{ order.status}}</a>
+                                        {% elif order.status == 'complete' %}
+                                        <a class="btn btn-success btn-sm disabled" role="button" href="">{{ order.status}}</a>
+                                        {% elif order.status == 'approved' %}
+                                        <a class="btn btn-primary btn-sm disabled" role="button" href="">{{ order.status}}</a>
+                                        {% elif order.status == 'bulk' %}
+                                        <a class="btn btn-secondary btn-sm disabled" role="button" href="">{{order.status}}</a>
+                                        {% else %}
+                                        <a class="btn btn-info btn-sm disabled" role="button" href="">{{ order.status}}</a>
+                                        {% endif %}
+                                    </td>
+
+                                </tr>
+                                {% endfor %}{% endcomment %}
+                                {% else %}
+                                <tr> 
+                                    <td>No Order Data</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    .order-table {
+        position: relative;
+    }
+    .order-table:after,
+    .order-table:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        height: 37px;
+        width: 10px;
+        background: #e8e9ef;
+    }
+    .order-table:after {
+        right: -1px;
+    }
+    .order-table:before {
+        left: -1px;
+    }
+    .order-table tr th {
+        background: #e8e9ef;
+    }
+    .order-table tr td:last-child,
+    .order-table tr th:last-child {
+        text-align: center;
+    }
+    .order-table tr:last-child td {
+        border: none;
+    }
+    
+    
+    .card {
+        margin-top: 1.875em;
+        border-radius: 5px;
+        padding: 0;
+        border: 2px solid white;
+        -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+        max-width: 1000px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    .card .box-title {
+        font-weight: 600;
+        font-size: 1em;
+        padding: 5px 0;
+    }
+    
+    
+    .card .card-top button,
+    .card .card-footer button {
+        background: none;
+        border: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        color: #ffffff;
+        font-size: 12px;
+        padding: 0 5px;
+    }
+    
+    .card .card-top[class*="bg"] button,
+    .card .card-footer[class*="bg"] button {
+        color: #fff;
+    }
+    
+    .card .card-body {
+        float: left;
+        padding: 1.25em;
+        position: relative;
+        max-width: 1000px;
+    
+        width: 100%;
+    }
+    .card h4 {
+        font-size: 1.1rem;
+    }
+    .card .user-header .media img {
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+    }
+    .card .card-header .card-actions button {
+        display: block;
+        float: left;
+        width: 50px;
+        padding: 0.75rem 0;
+        margin: 0 !important;
+        color: #fff;
+        outline: 0;
+        text-align: center;
+        background: transparent;
+        border: 0;
+        border-left: 1px solid rgba(120, 130, 140, 0.4);
+    }
+    .card .card-footer {
+        padding: 0.65rem 1.25rem;
+        background-color: #f0f3f5;
+        border-top: 1px solid #c2cfd6;
+    }
+    .card .card-footer ul li {
+        display: table-cell;
+        padding: 0 1rem;
+        text-align: center;
+    }
+    .card .nav-tabs {
+        margin-bottom: -1px;
+    }
+    .card .nav-tabs a {
+        border-radius: 0;
+        color: #b5bcc2;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 0.25em 0.5em;
+        text-transform: uppercase;
+    }
+    .card .nav-tabs a:hover {
+        border-color: transparent;
+    }
+    .card .nav-tabs .active a {
+        border-color: #e8e9ef;
+        color: #868e96 !important;
+    }
+    @media (max-width: 820px) {
+    .order-table .avatar,
+        .order-table .serial {
+            display: none;
+        }
+    }
+    
+    </style>
+    {% endblock content %}
