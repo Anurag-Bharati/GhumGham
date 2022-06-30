@@ -6,9 +6,9 @@ from dashboard.models import Order
 from users.models import User
 
 m = f.Map(location=[27.70630934201652, 85.33001138998168], zoom_start=18, no_touch=True,
-               disable_3d=True, zoom_control=False,
-               scrollWheelZoom=False,
-               dragging=False)
+          disable_3d=True, zoom_control=False,
+          scrollWheelZoom=False,
+          dragging=False)
 f.Marker(
     location=[27.70630934201652, 85.33001138998168],
     popup="Softwarica College",
@@ -48,13 +48,16 @@ def packages(request):
     if request.method == 'GET':
         return render(request, 'package.html', {'user': request.user, 'm': m._repr_html_()})
 
+
 def profile(request):
     if request.method == 'GET':
         return render(request, 'profile.html', {'user': request.user})
 
+
 def statement(request):
     if request.method == 'GET':
         return HttpResponse("STATEMENT PAGE")
+
 
 def update_profile(request):
     if request.method == 'GET':
@@ -71,7 +74,17 @@ def update_profile(request):
             user.save()
         return redirect('profile')
 
+
 def myBookings(request):
     order = Order.objects.filter(customer_id=request.user.id)
     count = order.count()
     return HttpResponse(f'{order}')
+
+
+def cancelBooking(request, oid):
+    order = Order.objects.get(id=oid)
+    if not order.status == 'pending':
+        return redirect('get-my-orders')
+    order.status = Order.STATUS[3][0]
+    order.save()
+    return redirect('get-my-orders')

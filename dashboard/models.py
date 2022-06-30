@@ -139,6 +139,7 @@ class Order(models.Model):
         ("pending", "Pending"),
         ("approved", "Approved"),
         ("declined", "Declined"),
+        ("canceled", "Canceled"),
     )
     customer = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, null=True, on_delete=models.CASCADE)

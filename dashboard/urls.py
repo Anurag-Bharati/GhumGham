@@ -6,4 +6,5 @@ urlpatterns = [
     path('delete-log/<int:identity>', views.delete_log, name="delete-log"),
     path('ban-user/<int:identity>', views.ban_unban_user, name="ban-unban-user"),
     path('change-pass/', views.change_pass, name="change-pass"),
+    path('profile/', views.adminProfile, name="admin-profile"),
 ]

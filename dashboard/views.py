@@ -99,6 +99,7 @@ class Dashboard(ListView):
 
         return context
 
+
 def change_pass(request):
     context = {}
     if request.method == 'GET':
@@ -140,3 +141,11 @@ class Thread(threading.Thread):
             self.task.send(fail_silently=False)
         except Exception as ex:
             print("[Exception in thread] " + ex.__str__())
+
+
+def adminProfile(request):
+    context = {}
+    if request.method == 'GET':
+        return render(request, 'profile.html', context)
+    if request.method == 'POST':
+        redirect('admin-profile')
