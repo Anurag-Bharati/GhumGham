@@ -5,13 +5,16 @@ from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
 
+from GhumGham.settings import GENERATE_DUMMY_DATA
 from dashboard.config import At as At
-from dashboard.models import ActivityLog
+from dashboard.models import ActivityLog, Food, Adventure, Itinerary
 from django.views.generic import ListView
 
 from users.models import User
-from .forms import CreatePackageForm, CreateStaffForm
+from .forms import CreateUserForm, CreatePlaceForm, CreatePackageForm, CreateAdventureForm, CreateFoodForm, CreateItineraryForm
 from .models import Package, Place
+
+from django.utils import timezone
 
 
 def dashboard(request):
@@ -163,9 +166,47 @@ def addPackageForm(request):
     return render(request, 'forms/package_form.html', context)
 
 
+def addAdventureForm(request):
+    context = {'ap': True}
+    form = CreateAdventureForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            adventure: Adventure = form.save()
+            return redirect('package-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/adventure_form.html', context)
+
+
+def addFoodForm(request):
+    context = {'ap': True}
+    form = CreateFoodForm(request.POST.copy())
+    if request.method == 'POST':
+        form.data['breakfast'] = 'false' != request.POST.get('breakfast') != 'unknown'
+        form.data['lunch'] = 'false' != request.POST.get('lunch') != 'unknown'
+        form.data['snacks'] = 'false' != request.POST.get('snacks') != 'unknown'
+        form.data['dinner'] = 'false' != request.POST.get('dinner') != 'unknown'
+        if form.is_valid():
+            food: Food = form.save()
+            return redirect('package-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/food_form.html', context)
+
+def addItineraryForm(request):
+    context = {'ap': True}
+    form = CreateItineraryForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            itinerary: Itinerary = form.save()
+            return redirect('package-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/itinerary_form.html', context)
+
 def addStaffForm(request):
     context = {'ap': True}
-    form = CreateStaffForm(request.POST, request.FILES)
+    form = CreateUserForm(request.POST, request.FILES)
     if request.method == 'POST':
         if form.is_valid():
             staff: User = form.save()
@@ -176,6 +217,34 @@ def addStaffForm(request):
     context['form'] = form
     context['segment'] = 'form'
     return render(request, 'forms/staff_form.html', context)
+
+
+def addCustomerForm(request):
+    context = {'ap': True}
+    form = CreateUserForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        if form.is_valid():
+            customer: User = form.save()
+            customer.is_customer = True
+            customer.set_password(customer.password)
+            customer.save()
+            return redirect('package-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/customer_form.html', context)
+
+
+def addPlaceForm(request):
+    context = {'ap': True}
+    form = CreatePlaceForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        if form.is_valid():
+            place: Place = form.save()
+            print(place)
+            return redirect('package-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/place_form.html', context)
 
 
 def updatePackageForm(request, identity):
@@ -204,3 +273,110 @@ def updatePackageForm(request, identity):
 
     context = {'ap': True, 'segment': 'form', 'p': package, 'form': form}
     return render(request, 'forms/package_form.html', context)
+
+
+def generate(request):
+    user = User.objects.filter(username__exact='Rochak')
+
+    if user:
+        print("[WARNING]: DATA HAS ALREADY BEEN GENERATED!")
+        return redirect('dashboard')
+
+    if not request.method == "GET" or not GENERATE_DUMMY_DATA:
+        return redirect('dashboard')
+
+    staffs = ['Jerry', 'James', 'Json', 'Kate', 'Harry']
+    customers = ['Rochak', 'Mahesh', 'Prasesh', 'Nilesh', 'Aayush']
+    adventures = [['ABC Trekking', 3], ['EBC Trekking', 3], ['Karnali Rafting', 1]]
+    foods = [['Lama Foods', [True, True, False, False]],
+             ['Everest FF', [False, True, False, False]],
+             ['West Dining', [False, True, False, True]]
+             ]
+    places = [["Annapurna", 5, "100,100"], ["Namche", 6, "101,101"], ["Jumla", 4, "60,60"]]
+    packages = [["Adventurous Annapurna", "Best Value", 120, "Join the Hype", 5, True],
+                ["Namche Heights", "Class A", 200, "Join the Hype", 6, True],
+                ["West Water", "Economy", 60, "Join the Hype", 4, True]]
+
+    itinerary = [["ABC 5 days", 6], ["EBC 6 days", 7], ["Raft at Karnali 4 days", 5]]
+
+    adventure_objs: [Adventure] = []
+    food_objs: [Food] = []
+    place_objs: [Place] = []
+    itinerary_objs: [Itinerary] = []
+
+    def main():
+        generate_customers()
+        generate_staff()
+        generate_adventure()
+        generate_food()
+        generate_place()
+        generate_itinerary()
+        generate_package()
+
+    def generate_customers():
+        for customer in customers:
+            user = User(username=customer, email=customer.lower() + '@' + customer.lower() + ".com", )
+            user.set_password(customer)
+            user.is_customer = user.is_active = True
+            user.is_staff = user.is_admin = user.is_ban = False
+            user.save()
+
+    def generate_staff():
+        for staff in staffs:
+            user = User(username=staff, email=staff + '@' + staff + ".com", )
+            user.set_password(staff)
+            user.is_staff = user.is_active = user.is_admin = True
+            user.is_customer = user.is_ban = False
+            user.save()
+
+    def generate_adventure():
+        for a in adventures:
+            adv = Adventure(name=a[0], adventure=Adventure.ADVENTURE[a[1]][0])
+            adv.save()
+            adventure_objs.append(adv)
+
+    def generate_food():
+        for f in foods:
+            food = Food(name=f[0], breakfast=f[1][0], lunch=f[1][1], snacks=f[1][2], dinner=f[1][3])
+            food.save()
+            food_objs.append(food)
+
+    def generate_place():
+        tz = timezone.now()
+
+        for x in range(len(places)):
+            places[x].append(adventure_objs[x])
+        for x in range(len(places)):
+            places[x].append(food_objs[x])
+        for p in places:
+            place = Place(name=p[0], coordinate=p[1], date_time=tz)
+            place.food = p[4]
+            place.save()
+            place.adventures.add(p[3])
+            place_objs.append(place)
+
+    def generate_itinerary():
+        for x in range(3):
+            it = Itinerary(name=itinerary[x][0], duration=itinerary[x][1])
+            it.save()
+            it.places.add(place_objs[x])
+            itinerary_objs.append(it)
+
+    def generate_package():
+        for x in range(len(packages)):
+            packages[x].append(itinerary_objs[x])
+        for p in packages:
+            pkg = Package(
+                name=p[0],
+                type=p[1],
+                price=p[2],
+                desc=p[3],
+                duration=p[4],
+                is_featured=p[5],
+                itinerary=p[6],
+                status=Package.STATUS[0][0]
+            )
+            pkg.save()
+
+    main()
+    return redirect('home')
