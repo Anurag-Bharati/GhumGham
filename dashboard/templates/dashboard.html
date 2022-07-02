@@ -4,7 +4,9 @@
 {% block title %} Dashboard {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'assets/css/tooltips.css' %}"/>
+{% endblock stylesheets %}
 
 {% block content %} {% if ap %}
 	<div class="content">
@@ -67,7 +69,9 @@
 							<div class="card-head-row">
 								<div class="col-md-8 card-title">Available Packages</div>
 								<div class="col-md-4 input-group mb-1">
-									<input id="packageSearch" type="text" placeholder="Search ..." class="form-control">
+									<label for="packageSearch"></label><input id="packageSearch" type="text"
+																			  placeholder="Search ..."
+																			  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -133,7 +137,9 @@
 											</div>
 											<div class="status">{{ log.getTime }}</div>
 										</div>
-										<form action="{% url 'delete-log' log.id %}" method="POST" class="delete-log">
+										<form action="{% url 'delete-log' log.id %}" method="POST"
+											  {% if user.is_superuser %}class="delete-log" {% else %}class="no-del-log"
+												{% endif %}>
 											{% csrf_token %}
 											<button class="btn btn-icon btn-danger btn-round btn-xs p-0">
 												<i class="fa fa-trash"></i>
@@ -172,16 +178,18 @@
 											<div class="status">{{ admin.created_date }}</div>
 										</div>
 										{% if not admin.is_ban %}
-											<form method="POST" action="{% url 'ban-unban-user' admin.id %}"
-												  class="ban-user">
+											<form method="POST" action="{% url 'ban-unban-user' admin.id 0 %}"
+												  class="ban-user" tooltip="Ban {{ admin.username.capitalize }}?"
+												  flow="left">
 												{% csrf_token %}
 												<button class="btn btn-icon btn-warning btn-round btn-xs p-0 text-white">
 													<i class="fa fa-gavel"></i>
 												</button>
 											</form>
 										{% elif admin.is_ban %}
-											<form method="POST" action="{% url 'ban-unban-user' admin.id %}"
-												  class="unban-user">
+											<form method="POST" action="{% url 'ban-unban-user' admin.id 0 %}"
+												  class="unban-user" tooltip="Unban {{ admin.username.capitalize }}?"
+												  flow="left">
 												{% csrf_token %}
 												<button class="btn btn-icon btn-success btn-round btn-xs p-0 text-white">
 													<i class="fa fa-key"></i>
@@ -215,16 +223,18 @@
 											<div class="status">{{ customer.created_date }}</div>
 										</div>
 										{% if not customer.is_ban %}
-											<form method="POST" action="{% url 'ban-unban-user' customer.id %}"
-												  class="ban-user">
+											<form method="POST" action="{% url 'ban-unban-user' customer.id 0 %}"
+												  class="ban-user" tooltip="Ban {{ customer.username.capitalize }}?"
+												  flow="left">
 												{% csrf_token %}
 												<button class="btn btn-icon btn-warning btn-round btn-xs p-0 text-white">
 													<i class="fa fa-gavel"></i>
 												</button>
 											</form>
 										{% elif customer.is_ban %}
-											<form method="POST" action="{% url 'ban-unban-user' customer.id %}"
-												  class="unban-user">
+											<form method="POST" action="{% url 'ban-unban-user' customer.id 0 %}"
+												  class="unban-user" tooltip="Unban {{ customer.username.capitalize }}?"
+												  flow="left">
 												{% csrf_token %}
 												<button class="btn btn-icon btn-success btn-round btn-xs p-0 text-white">
 													<i class="fa fa-key"></i>
@@ -354,8 +364,8 @@
                 "bInfo": false,
                 "bAutoWidth": false,
                 "bSort": false,
-				"pagingType": "simple",
-				"pageLength": 4
+                "pagingType": "simple",
+                "pageLength": 4
             })
 
         });
@@ -397,6 +407,14 @@
                         });
                     }
                 });
+        });
+
+        $('.no-del-log > button').on('click', function (e) {
+            e.preventDefault();
+            swal("Unauthorized!", "Only Superuser can delete the log", {
+                icon: "warning",
+            });
+
         });
 
         $('.unban-user > button').on('click', function (e) {
@@ -442,6 +460,11 @@
         });
 
 	</script>
+	<style>
+        #basic-datatables_wrapper > div:first-child {
+            display: none;
+        }
+	</style>
 
 {% endblock javascripts %}
 

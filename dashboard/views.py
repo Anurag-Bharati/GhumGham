@@ -11,7 +11,8 @@ from dashboard.models import ActivityLog, Food, Adventure, Itinerary
 from django.views.generic import ListView
 
 from users.models import User
-from .forms import CreateUserForm, CreatePlaceForm, CreatePackageForm, CreateAdventureForm, CreateFoodForm, CreateItineraryForm
+from .forms import CreateUserForm, CreatePlaceForm, CreatePackageForm, CreateAdventureForm, CreateFoodForm, \
+    CreateItineraryForm
 from .models import Package, Place
 
 from django.utils import timezone
@@ -29,26 +30,41 @@ def delete_log(request, identity):
     if not log:
         messages.error(request, 'Sorry! Something went wrong')
         redirect(reverse('dashboard'), '#zero')
+    if not request.user.is_superuser:
+        messages.success(request, 'Only Superusers can delete log')
+        return redirect('dashboard')
     log.delete()
     messages.success(request, 'Log removed successfully')
     return redirect('dashboard')
 
 
-def ban_unban_user(request, identity):
+def ban_unban_user(request, identity, redirect_to):
     logged_user = request.user
 
     if logged_user.username == "AnonymousUser":
         messages.error(request, 'User Unauthorized')
-        return redirect('dashboard')
+        if redirect_to == 0:
+            return redirect('dashboard')
+        elif redirect_to == 1:
+            return redirect('customer-table')
+        return redirect('customer-table')
 
     user = User.objects.get(pk=identity)
 
     if not user:
         messages.error(request, 'Sorry! Something went wrong')
-        return redirect('dashboard')
+        if redirect_to == 0:
+            return redirect('dashboard')
+        elif redirect_to == 1:
+            return redirect('customer-table')
+        return redirect('customer-table')
     if user.is_superuser:
         messages.error(request, 'Sorry! You can\'t ban a superuser')
-        return redirect('dashboard')
+        if redirect_to == 0:
+            return redirect('dashboard')
+        elif redirect_to == 1:
+            return redirect('customer-table')
+        return redirect('customer-table')
 
     log = ActivityLog(user=logged_user)
     log.target = user.username
@@ -60,8 +76,43 @@ def ban_unban_user(request, identity):
     user.is_ban = not user.is_ban
     user.save()
     messages.success(request, 'User banned successfully')
-    return redirect('dashboard')
+    if redirect_to == 0:
+        return redirect('dashboard')
+    elif redirect_to == 1:
+        return redirect('customer-table')
+    return redirect('customer-table')
 
+
+def toggle_user_status(request, identity, redirect_to):
+    logged_user = request.user
+    if logged_user.username == "AnonymousUser":
+        messages.error(request, 'User Unauthorized')
+        if redirect_to == 0:
+            return redirect('dashboard')
+        return redirect('customer-table')
+    user = User.objects.get(pk=identity)
+    if not user:
+        messages.error(request, 'Sorry! Something went wrong')
+        if redirect_to == 0:
+            return redirect('dashboard')
+        return redirect('customer-table')
+    if user.is_superuser:
+        messages.error(request, 'Sorry! You can\'t change status of a superuser')
+        if redirect_to == 0:
+            return redirect('dashboard')
+        return redirect('customer-table')
+    log = ActivityLog(user=logged_user)
+    log.target = user.username
+    if user.is_active:
+        log.action = "Deactivated"
+    else:
+        log.action = "Activated"
+    user.is_active = not user.is_active
+    user.save()
+    log.save()
+    if redirect_to == 0:
+        return redirect('dashboard')
+    return redirect('customer-table')
 
 class Dashboard(ListView):
     model = ActivityLog
@@ -105,7 +156,7 @@ class Dashboard(ListView):
 
 def delete_package(request, identity):
     if request.method == "GET":
-        return redirect(request, 'package-table')
+        return redirect('package-table')
 
     package = Package.objects.filter(id=identity)[0]
     if package:
@@ -116,6 +167,75 @@ def delete_package(request, identity):
         messages.error(request, 'Sorry! Something went wrong.')
     return redirect('package-table')
 
+def delete_adventure(request, identity):
+    if request.method == "GET":
+        return redirect('adventure-table')
+
+    adventure = Adventure.objects.filter(id=identity)[0]
+    if adventure:
+        messages.success(request, f'Successfully deleted {adventure.name} package!')
+        print(f"Delete {adventure.name}")
+        adventure.delete()
+    else:
+        messages.error(request, 'Sorry! Something went wrong.')
+    return redirect('adventure-table')
+
+def delete_food(request, identity):
+    if request.method == "GET":
+        return redirect('food-table')
+
+    food = Food.objects.filter(id=identity)[0]
+    if food:
+        messages.success(request, f'Successfully deleted {food.name} food spot!')
+        print(f"Delete {food.name}")
+        food.delete()
+    else:
+        messages.error(request, 'Sorry! Something went wrong.')
+    return redirect('adventure-table')
+
+def delete_itinerary(request, identity):
+    if request.method == "GET":
+        return redirect('itinerary-table')
+
+    itinerary = Itinerary.objects.filter(id=identity)[0]
+    if itinerary:
+        messages.success(request, f'Successfully deleted {itinerary.name} itinerary!')
+        print(f"Delete {itinerary.name}")
+        itinerary.delete()
+    else:
+        messages.error(request, 'Sorry! Something went wrong.')
+    return redirect('itinerary-table')
+
+def delete_place(request, identity):
+    if request.method == "GET":
+        return redirect('place-table')
+
+    place = Place.objects.filter(id=identity)[0]
+    if place:
+        messages.success(request, f'Successfully deleted {place.name} place!')
+        print(f"Delete {place.name}")
+        place.delete()
+    else:
+        messages.error(request, 'Sorry! Something went wrong.')
+    return redirect('place-table')
+
+
+def delete_account(request, identity, redirect_to):
+    if request.method == "GET":
+        if redirect_to == 0:
+            return redirect('dashboard')
+        return redirect('customer-table')
+
+    user = User.objects.filter(id=identity)[0]
+    if user and not user.is_superuser:
+        messages.success(request, f'Successfully deleted account named {user.username}!')
+        print(f"Delete {user.username}")
+        user.delete()
+    else:
+        messages.error(request, 'Sorry! Something went wrong.')
+    if redirect_to == 0:
+        return redirect('dashboard')
+    return redirect('customer-table')
 
 def featured_package(request, identity):
     package = Package.objects.filter(id=identity)[0]
@@ -133,20 +253,93 @@ def hide_unhide_package(request, identity):
         package.status = Package.STATUS[1][0]
     elif package.status == Package.STATUS[1][0]:
         package.status = Package.STATUS[0][0]
-    print(package.status)
-
     package.save()
     return redirect('package-table')
 
 
-class GetPackage(ListView):
+class GetPackages(ListView):
     model = Package
     template_name = 'tables/package_table.html'
     context_object_name = 'packages'
     ordering = '-id'
 
     def get_context_data(self, **kwargs):
-        context = super(GetPackage, self).get_context_data(**kwargs)
+        context = super(GetPackages, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        return context
+
+
+class GetCustomers(ListView):
+    model = User
+    template_name = 'tables/customer_table.html'
+    context_object_name = 'customers'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetCustomers, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        context['customers'] = User.objects.filter(is_customer__exact=True)
+        return context
+
+class GetStaffs(ListView):
+    model = User
+    template_name = 'tables/staff_table.html'
+    context_object_name = 'staffs'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetStaffs, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        context['staffs'] = User.objects.exclude(is_customer__exact=True).exclude(is_superuser__exact=True)
+        return context
+
+class GetAdventures(ListView):
+    model = Adventure
+    template_name = 'tables/adventure_table.html'
+    context_object_name = 'adventures'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetAdventures, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        return context
+
+class GetFoods(ListView):
+    model = Food
+    template_name = 'tables/food_table.html'
+    context_object_name = 'foods'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetFoods, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        return context
+
+class GetItineraries(ListView):
+    model = Itinerary
+    template_name = 'tables/itinerary_table.html'
+    context_object_name = 'itineraries'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetItineraries, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        return context
+
+class GetPlaces(ListView):
+    model = Place
+    template_name = 'tables/place_table.html'
+    context_object_name = 'places'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetPlaces, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
         return context
@@ -193,6 +386,7 @@ def addFoodForm(request):
     context['segment'] = 'form'
     return render(request, 'forms/food_form.html', context)
 
+
 def addItineraryForm(request):
     context = {'ap': True}
     form = CreateItineraryForm(request.POST)
@@ -203,6 +397,7 @@ def addItineraryForm(request):
     context['form'] = form
     context['segment'] = 'form'
     return render(request, 'forms/itinerary_form.html', context)
+
 
 def addStaffForm(request):
     context = {'ap': True}
@@ -274,6 +469,8 @@ def updatePackageForm(request, identity):
     context = {'ap': True, 'segment': 'form', 'p': package, 'form': form}
     return render(request, 'forms/package_form.html', context)
 
+def updateAdventureForm(request):
+    pass
 
 def generate(request):
     user = User.objects.filter(username__exact='Rochak')

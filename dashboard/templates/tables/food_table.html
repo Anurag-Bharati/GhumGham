@@ -1,0 +1,116 @@
+{% extends 'base/admin-base.html' %}
+
+{% block content %}
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">GhumGham</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Tables</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Food</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row">
+							<h4 class="card-title col-md-10">Food Stops</h4>
+							<div class="col-md-2 d-flex justify-content-end">
+								<a href="{% url 'add-food' %}"
+								   class="btn btn-sm btn-outline-primary
+								    btn-round font-weight-bold">Add Food</a></div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="basic-datatables" class="table table-striped table-hover container-fluid
+							dt-bootstrap4">
+								<thead>
+								<tr>
+									<th>Id</th>
+									<th>Name</th>
+									<th>BreakFast</th>
+									<th>Lunch</th>
+									<th>Snacks</th>
+									<th>Dinner</th>
+									<th>Actions</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for f in foods %}
+									<tr>
+										<td>{{ f.id }}</td>
+										<td>{{ f.name }}</td>
+										<td>{{ f.breakfast }}</td>
+										<td>{{ f.lunch }}</td>
+										<td>{{ f.snacks }}</td>
+										<td>{{ f.dinner }}</td>
+										<td>
+											<div class="row align-items-center">
+												<a href="#"
+												   class="btn btn-sm btn-warning m-1">
+													<i class="fa fa-pen"></i>
+												</a>
+												<form method="POST" action="{% url 'del-food' f.id  %}"
+													  class="del-food">
+													{% csrf_token %}
+													<button class="btn btn-sm btn-danger m-1">
+														<i class="fa fa-trash"></i>
+													</button>
+												</form>
+											</div>
+										</td>
+									</tr>
+								{% empty %}
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+{% block javascripts %}
+	<script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({});
+        });
+
+        $('.del-food > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this food spot!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+	</script>
+
+{% endblock javascripts %}

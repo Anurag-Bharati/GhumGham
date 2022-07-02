@@ -21,7 +21,7 @@
 						<i class="flaticon-right-arrow"></i>
 					</li>
 					<li class="nav-item">
-						<a href="#">Package</a>
+						<a href="#">Client</a>
 					</li>
 				</ul>
 			</div>
@@ -29,11 +29,11 @@
 				<div class="card">
 					<div class="card-header">
 						<div class="row">
-							<h4 class="card-title col-md-10">Packages</h4>
+							<h4 class="card-title col-md-10">Customer</h4>
 							<div class="col-md-2 d-flex justify-content-end">
-								<a href="{% url 'add-package' %}"
+								<a href="{% url 'add-customer' %}"
 								   class="btn btn-sm btn-outline-primary
-								    btn-round font-weight-bold">Add Package</a></div>
+								    btn-round font-weight-bold">Add Customer</a></div>
 						</div>
 					</div>
 					<div class="card-body">
@@ -44,89 +44,87 @@
 								<tr>
 									<th>Id</th>
 									<th>Name</th>
-									<th>Type</th>
-									<th>Featured</th>
-									<th>Price</th>
-									<th>Created</th>
+									<th>Email</th>
+									<th>Banned</th>
 									<th>Status</th>
-									<th>Action</th>
+									<th>Created</th>
+									<th>Actions</th>
 								</tr>
 								</thead>
 								<tbody>
-								{% for p in packages %}
-									<tr {% if p.is_featured %}class="bg-info-plain"
-										{% elif p.status == "unavailable" %}class="bg-disable-plain"{% endif %}>
-										<td>{{ p.id }}</td>
-										<td>{{ p.name.capitalize }}</td>
-										<td>{{ p.type.capitalize }}</td>
-										<td>{{ p.is_featured }}</td>
-										<td>&dollar;{{ p.price }}</td>
-										<td>{{ p.created_date }}</td>
+								{% for c in customers %}
+									<tr {% if c.is_ban or  not c.is_active %}class="bg-disable-plain"{% endif %}>
+										<td>{{ c.id }}</td>
+										<td>{{ c.username.capitalize }}</td>
+										<td>{{ c.email.lower }}</td>
 										<td>
-											{% if p.status in "available" %}
-												<span class="text-success font-weight-bold">{{ p.status.capitalize }}</span>
-											{% elif p.status in "booked" %}
-												<span class="text-warning font-weight-bold">{{ p.status.capitalize }}</span>
-											{% elif p.status in "ongoing" %}
-												<span class="text-danger font-weight-bold">{{ p.status.capitalize }}</span>
+											{% if c.is_ban %}
+												<span class="text-danger font-weight-bold">YES</span>
 											{% else %}
-												<span class="text-secondary font-weight-bold">{{ p.status.capitalize }}</span>
+												<span class="text-success font-weight-bold">NO</span>
 											{% endif %}
 										</td>
 										<td>
+											{% if not c.is_active %}
+												<span class="text-danger font-weight-bold">INACTIVE</span>
+											{% else %}
+												<span class="text-success font-weight-bold">ACTIVE</span>
+											{% endif %}
+										</td>
+
+										<td>{{ c.created_date }}</td>
+										<td>
 											<div class="row align-items-center">
-												{% if not p.is_featured %}
-													<form method="POST" action="{% url 'featured-package' p.id %}"
-														  class="feature-pkg">
+												{% if not c.is_ban %}
+													<form method="POST" action="{% url 'ban-unban-user' c.id 1 %}"
+														  class="ban-user">
 														{% csrf_token %}
-														<button class="btn  btn-sm btn-secondary text-white m-1">
-															<i class="fa fa-star"></i>
+														<button class="btn  btn-sm btn-warning text-white m-1">
+															<i class="fa fa-gavel"></i>
 														</button>
 													</form>
-												{% elif p.is_featured %}
-													<form method="POST" action="{% url 'featured-package' p.id %} "
-														  class="unfeature-pkg">
+												{% elif c.is_ban %}
+													<form method="POST" action="{% url 'ban-unban-user' c.id 1 %} "
+														  class="unban-user">
 														{% csrf_token %}
 														<button class="btn btn-sm btn-success text-white m-1">
-															<i class="fa fa-star"></i>
+															<i class="fa fa-key"></i>
 														</button>
 													</form>
 												{% endif %}
 
-												<a href="{% url 'update-package' p.id %}"
+												<a href="{% url 'update-package' c.id %}"
 												   class="btn btn-sm btn-warning m-1">
 													<i class="fa fa-pen"></i>
 												</a>
 
-												<form method="POST" action="{% url 'del-package' p.id %}"
-													  class="del-pkg">
-													{% csrf_token %}
-													<button
-															class="btn btn-sm btn-danger m-1">
-														<i class="fa fa-trash"></i>
-													</button>
-												</form>
-
-												{% if not p.status == 'unavailable' %}
+												{% if c.is_active %}
 													<form method="POST"
-														  action="{% url 'toggle-package-visibility' p.id %}"
-														  class="hide-pkg">
+														  action="{% url 'toggle-user-status' c.id 1 %}"
+														  class="inactive-user">
 														{% csrf_token %}
-														<button class="btn  btn-sm bg-info text-white m-1">
+														<button class="btn btn-sm bg-info text-white m-1">
 															<i class="fa fa-eye-slash"></i>
 														</button>
 													</form>
-												{% elif p.status == 'unavailable' %}
+												{% elif not c.is_active %}
 													<form method="POST"
-														  action="{% url 'toggle-package-visibility' p.id %} "
-														  class="show-pkg">
+														  action="{% url 'toggle-user-status' c.id 1 %} "
+														  class="active-user">
 														{% csrf_token %}
 														<button class="btn btn-sm btn-success text-white m-1">
 															<i class="fa fa-eye"></i>
 														</button>
 													</form>
 												{% endif %}
-
+												<form method="POST" action="{% url 'del-account' c.id 1 %}"
+													  class="del-user">
+													{% csrf_token %}
+													<button
+															class="btn btn-sm btn-danger m-1">
+														<i class="fa fa-trash"></i>
+													</button>
+												</form>
 											</div>
 										</td>
 									</tr>
@@ -148,12 +146,12 @@
             $('#basic-datatables').DataTable({});
         });
 
-        $('.del-pkg > button').on('click', function (e) {
+        $('.del-user > button').on('click', function (e) {
             e.preventDefault();
             let form = $(this).parents('form');
             swal({
                 title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this package!",
+                text: "Once deleted, you will not be able to recover this account!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -165,12 +163,12 @@
                 });
         });
 
-        $('.feature-pkg > button').on('click', function (e) {
+        $('.ban-user > button').on('click', function (e) {
             e.preventDefault();
             let form = $(this).parents('form');
             swal({
-                title: "Feature Package",
-                text: "Once featured, it will appear in home screen!",
+                title: "Ban this user?",
+                text: "Once banned, the user will no longer be able to log in!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -182,12 +180,12 @@
                 });
         });
 
-        $('.unfeature-pkg > button').on('click', function (e) {
+        $('.unban-user > button').on('click', function (e) {
             e.preventDefault();
             let form = $(this).parents('form');
             swal({
-                title: "Understate  Package?",
-                text: "Once unfeatured, it will not appear in home screen!",
+                title: "Unban this user?",
+                text: "Once unbanned, the user will be able to log in!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -199,12 +197,12 @@
                 });
         });
 
-        $('.hide-pkg > button').on('click', function (e) {
+        $('.inactive-user > button').on('click', function (e) {
             e.preventDefault();
             let form = $(this).parents('form');
             swal({
-                title: "Hide Package?",
-                text: "Once hidden, it will not visible to public!",
+                title: "Deactivate this Account?",
+                text: "Once deactivated, The account wont appear in the metric system!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -216,12 +214,12 @@
                 });
         });
 
-        $('.show-pkg > button').on('click', function (e) {
+        $('.active-user > button').on('click', function (e) {
             e.preventDefault();
             let form = $(this).parents('form');
             swal({
-                title: "Publish Package?",
-                text: "Once shown, it will be visible to public!",
+				title: "Activate this Account?",
+                text: "Once deactivated, The account will appear in the metric system!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,

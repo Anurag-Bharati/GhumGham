@@ -139,17 +139,32 @@
 					<div class="collapse" id="tables">
 						<ul class="nav nav-collapse">
 							<li>
-								<a href="#">
+								<a href="{% url 'staff-table' %}">
 									<i class="fa fa-user-tie"></i>Staff
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="{% url 'customer-table' %}">
 									<i class="fa fa-user"></i>Client
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="{% url 'adventure-table' %}">
+									<i class="fa fa-compass"></i>Adventure
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'food-table' %}">
+									<i class="fa fa-birthday-cake"></i>Food
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'itinerary-table' %}">
+									<i class="fa fa-map"></i>Itinerary
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'place-table' %}">
 									<i class="fa fa-map-marker-alt"></i>Place
 								</a>
 							</li>
