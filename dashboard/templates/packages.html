@@ -1,0 +1,72 @@
+{% extends "base/admin-base.html" %}
+{% load static %}
+
+{% block title %} Packages {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+	<link rel="stylesheet" href="{% static 'assets/css/tooltips.css' %}"/>
+	<link rel="stylesheet" href="{% static 'assets/css/card.css' %}"/>
+	<link rel="stylesheet" href="{% static 'assets/css/card-btn.css' %}"/>
+{% endblock stylesheets %}
+
+{% block content %}
+	<div class="content">
+		<div class="panel-header bg-success-gradient">
+			<div class="page-inner py-5">
+				<div class="d-flex align-items-center">
+					<div>
+						<h2 class="text-white pb-2 fw-bold">Packages</h2>
+						<h5 class="text-white op-7 mb-2">List of all package available</h5>
+					</div>
+					<div class="ml-md-auto py-2 py-md-0">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="page-inner mt--5">
+			<section id="zero">
+				<div class="col-md-12">
+
+				<div class="d-flex justify-content-center">
+				{% include 'includes/searchbar.html' %}
+				</div>
+
+					<div class="collection-list row gx-0 gy-3 justify-content-center">
+						<div class="collection-list p-5 row gx-3 gy-3 justify-content-center">
+							{% for package in packages %}
+								<div class="col-md-6 col-lg-4 col-xl-3 card">
+									<div class="collection-img position-relative ">
+										<img src="{% if package.image %}{{ package.image.url }}{% endif %}"
+											 class="w-100 product-img"
+											 alt="product">
+										<span class="position-absolute  text-white d-flex align-items-center
+                            							justify-content-center animated-btn ">sale</span>
+									</div>
+									<div class="text-center">
+										<p class="text-capitalize mt-3 mb-1">{{ package.name }}</p>
+										<span class="fw-bold d-block">$ {{ package.price }} .00</span>
+										{% if package.status in 'available' %}
+										<a href="#" class="btn mt-3 btn-primary primary-green">Book Now</a>
+										{% elif package.status in 'unavailable' %}
+										<a href="#" class="btn mt-3 btn-primary bg-secondary disabled">Unavailable</a>
+										{% elif package.status in 'available' %}
+										<a href="#" class="btn mt-3 btn-primary bg-warning2-plain disabled">Booked</a>
+										{% elif package.status in 'ongoing' %}
+										<a href="#" class="btn mt-3 btn-primary bg-danger-plain disabled">Ongoing</a>
+										{% endif %}
+									</div>
+								</div>
+							{% empty %}
+								<div class=" bg-white p-2 align-items-center justify-content-center">
+									<H3>No Packages Available</H3></div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+{% endblock %}

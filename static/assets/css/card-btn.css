@@ -1,0 +1,24 @@
+
+.btn-primary {
+    border-radius: 10px 10px 20px 20px !important;
+    width: 100%;
+    border: none !important;
+    color: #111 !important;
+    font-weight: bold !important;
+}
+
+.primary-green {
+    background-color: #86D458FF !important;
+
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+
+    background-color: #73c045 !important;
+    color: #fff !important;
+    font-weight: bold !important;
+
+}
