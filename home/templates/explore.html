@@ -52,13 +52,13 @@
 			</div>
 		</div>
 	</section>
-	<section class="statistics"  data-scroll-index="1">
+	<section class="statistics" data-scroll-index="1">
 		<br>
 		<div class="bg-white"><br></div>
 		<br>
 		<div class="section-title d-flex justify-content-center bg-white p-5">
-			<h2  id="stats">Explore<span> Packages</span></h2>
-		</div >
+			<h2 id="stats">Explore<span> Packages</span></h2>
+		</div>
 
 		<div class="container ">
 			<div class="justify-content-center">
@@ -68,13 +68,13 @@
 						<button type="submit" class="btn btn-hero start-btn m-2 " style="background: #86D458">All
 						</button>
 					</form>
-					<form action="#stats" href="#" method="get"  class="m-2">
+					<form action="#stats" href="#" method="get" class="m-2">
 						<input class="hidden" hidden name="name_contains" value="featured">
 						<button type="submit" class="btn btn-hero start-btn m-2 " style="background:
 						#86D458">Featured
 						</button>
 					</form>
-					<form action="#stats" href="#" method="get"  class="m-2">
+					<form action="#stats" href="#" method="get" class="m-2">
 						<input class="hidden" hidden name="name_contains" value="new">
 						<button type="submit" class="btn btn-hero start-btn m-2 " style="background: #86D458">New
 							Arrivals
@@ -85,35 +85,28 @@
 				<div class="collection-list row gx-0 gy-3 justify-content-center">
 					<div class="collection-list p-5 row gx-3 gy-3 justify-content-center">
 						{% for package in packages %}
-						<div class="col-md-6 col-lg-4 col-xl-3 card">
-							<div class="collection-img position-relative ">
-								<img src="{% if package.image %}{{ package.image.url }}{% endif %}" class="w-100
+							<div class="col-md-6 col-lg-4 col-xl-3 card">
+								<div class="collection-img position-relative ">
+									<img src="{% if package.image %}{{ package.image.url }}{% endif %}" class="w-100
 								product-img"
-									 alt="product">
-								<span class="position-absolute  text-white d-flex align-items-center
+										 alt="product">
+									<span class="position-absolute  text-white d-flex align-items-center
                             justify-content-center animated-btn ">sale</span>
+								</div>
+								<div class="text-center">
+									<p class="text-capitalize mt-3 mb-1">{{ package.name }}</p>
+									<span class="fw-bold d-block">$ {{ package.price }} .00</span>
+									<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+								</div>
 							</div>
-							<div class="text-center">
-								<p class="text-capitalize mt-3 mb-1">{{ package.name }}</p>
-								<span class="fw-bold d-block">$ {{ package.price }} .00</span>
-								<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
-							</div>
-						</div>
 						{% empty %}
+							<div class=" bg-white p-2 align-items-center justify-content-center">
+								<H3>No Packages Available</H3></div>
 						{% endfor %}
-
-
 					</div>
-					{#                {% endfor %}#}
-					{#                {% else %}#}
-					{#					<div class=" bg-white p-2 align-items-center justify-content-center"> <H3>No Products#}
-					{#					Available</H3></div>#}
-					{##}
-					{#                {% endif %}#}
 				</div>
 			</div>
 		</div>
-
 	</section>
 
 {% endblock content %}

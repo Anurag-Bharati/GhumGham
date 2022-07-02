@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     # Mains
     path('', views.Dashboard.as_view(), name="dashboard"),
+    path('packages/all/', views.GetAllPackages.as_view(), name="packages"),
 
     # Add
     path('staff/add/', views.addStaffForm, name="add-staff"),

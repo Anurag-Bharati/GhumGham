@@ -53,22 +53,22 @@
 							</span>
 					<h4 class="text-section">Main</h4>
 				</li>
-				<li class="nav-item {% if 'ui-' in segment %} active {% endif %}">
-					<a href="#">
+				<li class="nav-item {% if 'packages' in segment %} active {% endif %}">
+					<a href="{% url 'packages' %}">
 						<i class="fas fa-layer-group"></i>
 						<p>Packages</p>
 					</a>
 				</li>
-				<li class="nav-item {% if 'Places' in segment %} active {% endif %}">
+				<li class="nav-item {% if 'places' in segment %} active {% endif %}">
 					<a data-toggle="collapse" href="#">
 						<i class="fas fa-map-marker-alt"></i>
 						<p>Places</p>
 					</a>
 				</li>
-				<li class="nav-item {% if 'charts' in segment %} active {% endif %}">
+				<li class="nav-item {% if 'orders' in segment %} active {% endif %}">
 					<a href="#">
-						<i class="far fa-chart-bar"></i>
-						<p>Metrics</p>
+						<i class="fa fa-cube"></i>
+						<p>Orders</p>
 					</a>
 				</li>
 				<li class="nav-item {% if 'feedback' in segment %} active {% endif %}" style="margin-right: 8px">

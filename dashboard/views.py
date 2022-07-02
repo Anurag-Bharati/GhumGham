@@ -269,6 +269,19 @@ class GetPackages(ListView):
         context['ap'] = At.at()
         return context
 
+class GetAllPackages(ListView):
+    model = Package
+    template_name = 'packages.html'
+    context_object_name = 'packages'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetAllPackages, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+
+        return context
+
 
 class GetCustomers(ListView):
     model = User

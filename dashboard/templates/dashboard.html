@@ -139,7 +139,7 @@
 										</div>
 										<form action="{% url 'delete-log' log.id %}" method="POST"
 											  {% if user.is_superuser %}class="delete-log" {% else %}class="no-del-log"
-												{% endif %}>
+											  {% endif %}>
 											{% csrf_token %}
 											<button class="btn btn-icon btn-danger btn-round btn-xs p-0">
 												<i class="fa fa-trash"></i>

@@ -1256,13 +1256,18 @@ body {
 
 /*     Nav Search     */
 .nav-search .input-group {
-    border: 1px solid #eee;
+    border: none;
     background: #eee;
     border-radius: 5px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.15) !important;
+    transition: all 200ms ease;
+
 }
 
 .nav-search .input-group:hover, .nav-search .input-group:focus {
-    border: 1px solid #ddd;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15) !important;
+    transition: all 200ms ease;
 }
 
 .nav-search .form-control {
@@ -2685,6 +2690,12 @@ body[data-background-color="dark"] .card-category {
 
 .bg-warning-plain {
     background: #ffad46 !important;
+    color: white !important;
+
+}
+
+.bg-warning2-plain {
+    background: #F3C969 !important;
     color: white !important;
 
 }

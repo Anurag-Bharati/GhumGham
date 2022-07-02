@@ -3,12 +3,13 @@ const colors = [
     getComputedStyle(document.body).getPropertyValue("--c2")
 ];
 
-
 const ghumgham = document.getElementById('ghumgham-nav-ico');
-const rect = ghumgham.getBoundingClientRect();
+const audio = new Audio("../static/assets/party.mp3");
 ghumgham.addEventListener('animationstart', (ev) => {
-    celebrate()
+    celebrate();
+    audio.play().then(r => null)
 });
+
 
 function celebrate() {
     if ($(window).width() > 992) {
