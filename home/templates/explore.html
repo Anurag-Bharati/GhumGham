@@ -96,7 +96,8 @@
 								<div class="text-center">
 									<p class="text-capitalize mt-3 mb-1">{{ package.name }}</p>
 									<span class="fw-bold d-block">$ {{ package.price }} .00</span>
-									<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+									<a href="{% url 'view-package' package.id %}"
+									   class="btn mt-3 card-btn btn-primary">Book Now</a>
 								</div>
 							</div>
 						{% empty %}

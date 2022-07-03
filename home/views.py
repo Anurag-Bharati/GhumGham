@@ -1,12 +1,12 @@
 import folium as f
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from dashboard.models import Package
 
 m = f.Map(location=[27.70630934201652, 85.33001138998168], zoom_start=18, no_touch=True,
-          disable_3d=True, zoom_control=False,
+          disable_3d=True, zoom_control=True,
           scrollWheelZoom=False,
-          dragging=False)
+          dragging=True)
 f.Marker(
     location=[27.70630934201652, 85.33001138998168],
     popup="Softwarica College",
@@ -24,7 +24,7 @@ f.Marker(
     popup="Spot 1",
     icon=f.Icon(color="green", icon="info-sign"),
 ).add_to(m)
-f.TileLayer('openstreetmap').add_to(m)
+f.TileLayer('cartodbpositron').add_to(m)
 
 
 def homepage(request):
@@ -44,7 +44,13 @@ def explore(request):
         return render(request, 'explore.html', {'user': request.user, 'packages': p})
 
 
-def packages(request):
+def packages(request, identity):
     global m
+    context = {'user': request.user, 'm': m._repr_html_()}
+    package = Package.objects.get(id=identity)
+    if not package:
+        return redirect('explore')
     if request.method == 'GET':
-        return render(request, 'package.html', {'user': request.user, 'm': m._repr_html_()})
+        context['package'] = package
+        print(package.itinerary.places.all())
+        return render(request, 'package.html', context)

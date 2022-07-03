@@ -1,0 +1,72 @@
+#hero {
+    width: 100vw !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}
+
+#cover-img {
+    filter: brightness(0.8);
+    height: 100% !important;
+    width: 100% !important;
+    z-index: 0 !important;
+    position: absolute;
+    object-fit: cover !important;
+    animation: pan 50s ease-in-out infinite alternate;
+}
+
+.map-card {
+    height: 100%;
+    border: none !important;
+    border-radius: 40px !important;
+    min-width: 200px !important;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.10) 0 0 24px 0 !important;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.10) 0 0 24px 0 !important;
+    -moz-box-shadow: rgba(0, 0, 0, 0.10) 0 0 24px 0 !important;
+
+}
+
+.list-card {
+    height: 100%;
+    width:100%;
+    border: none !important;
+    border-radius: 40px !important;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.10) 0 0 24px 0 !important;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.10) 0 0 24px 0 !important;
+    -moz-box-shadow: rgba(0, 0, 0, 0.10) 0 0 24px 0 !important;
+}
+
+.list-card > img {
+    height: 200px;
+    object-fit: contain;
+}
+@keyframes pan {
+    0% {
+        transform: scale(1.1) translateX(0) skewX(0) rotate(0deg);
+    }
+    100% {
+        transform: scale(1.8) translateX(-200px) skewX(10deg) rotate(-5deg);
+    }
+}
+
+@keyframes pan-min {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.5);
+    }
+}
+
+@media screen and (max-width: 990px) {
+    #cover-img {
+        animation: pan-min 50s ease-in-out infinite alternate;
+    }
+
+}
+
+.bg-info-gradient {
+    background: #48ABF7 !important;
+    background: linear-gradient(-45deg, #0A5A97, #48ABF7) !important;
+}

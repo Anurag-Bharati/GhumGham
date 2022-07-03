@@ -50,8 +50,8 @@ class Food(models.Model):
 
 class Place(models.Model):
     name = models.CharField(max_length=120, unique=False)
-    image = models.ImageField(null=True, blank=True, default="../../static/images/default_package.png")
-    cover_image = models.ImageField(null=True, blank=True, default="../../static/images/default_package.png")
+    image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
+    cover_image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
     coordinate = models.CharField(max_length=300, null=True, blank=True)
     created_date = models.DateField(auto_now_add=True)
     adventures = models.ManyToManyField(Adventure, blank=True)

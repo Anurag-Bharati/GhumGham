@@ -3,30 +3,42 @@
 {% block title %}
 	<title>GhumGham - Packages</title>
 {% endblock title %}
-{% block content %}
 
+{% block head %}
+	<link href="{% static 'assets/css/view_package.css' %}" rel="stylesheet"/>
+{% endblock head %}
+
+{% block content %}
 	<section class="hero d-flex align-items-center" id="hero" data-scroll-index="0">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-md-4 " align="center">
-					<div class="card justify-content-center" style="height: 300px; background: rgba(255,255,255,
-					0.6)">Image here
+		<img id="cover-img" src="{{ package.cover_image.url }}" alt="...">
+		<div class="container" style="z-index: 1">
+			<div class="row align-items-center ">
+				<div class="col-lg-4 col-md-12" align="center">
+					<div class="card justify-content-center"
+						 style="height: 300px; min-width: 200px; background: rgba(255,255,255,0.1);">
+						{% if package %}
+							<img src="{{ package.image.url }}" alt="..."
+								 style="height: 100%; border-radius: 20px; object-fit: cover;"/>
+						{% endif %}
 					</div>
 				</div>
-				<div class="col-md-8">
-					<h2 class="h2 text-white">Package - Name</h2>
-					<p class="lead text-white">
+				<div class="col-lg-8 col-md-12 px-4 py-3"
+					 style="background: rgba(255,255,255,0.1); border-radius: 20px;">
+					<h2 class="h2 text-white">{% if package %}{{ package.name }}{% else %}Package - Name{% endif %}</h2>
+					<p class="lead text-white text-justify ">{% if package %}{{ package.desc }}<br>
 						Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
 						the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
 						of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-						but also the leap into electronic typesetting, remaining essentially unchanged.
+						but also the leap into electronic typesetting, remaining essentially unchanged.{% endif %}
 					</p>
 				</div>
 			</div>
-			<div align="right">
-				<button href="#" class="btn btn-warning text-white px-5 py-3 font-weight-bold">Book Now</button>
+			<div class="d-flex col-md-12 justify-content-between mt-3 ml-3 ">
+				<br>
+				<button href="#" class="btn btn-outline-warning text-white
+				 px-5 py-3 font-weight-bold ">Book Now
+				</button>
 			</div>
-
 		</div>
 	</section>
 
@@ -37,18 +49,75 @@
 		<div class="section-title d-flex justify-content-center bg-white p-5">
 			<h2>Tour<span> Route</span> Details</h2>
 		</div>
-		<div class="container p-2 pb-3">
-			<div>
-				{% if m %}
-					{{ m | safe }}
-				{% else %}
-					<div class="col-12 d-flex flex-column align-items-center">
-						<br><br>
-						<h4>NO MAP DATA</h4>
+		<div class="container">
+			{% for p in package.itinerary.places.all %}
+				<div class="row gx-2">
+					<div class="col-md-8 mb-4">
+						<div class="list-card">
+							<div class="card-body">
+								<div class="row px-3">
+									<img src="{{ p.image.url }}" alt="..."
+										 style="object-fit: cover;border-radius:20px; height: 200px"/>
+									<div class="mx-4">
+										<h4>{{ p.name }}</h4>
+										<div><i class="fa fa-calendar"><span class="h5 text-center">
+										{{ p.date_time }}</span></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-				{% endif %}
-			</div>
-		</div>
+					<div class="col-md-4 mb-4">
+						<div class="map-card">
+							<div class="card-body">
+								<div style="overflow: hidden; border-radius: 20px;">
+									{% if m %}
+										{{ m | safe }}
+									{% else %}
+										<div class="col-12 d-flex align-items-center justify-content-center p-3 m-0 ">
+											<strong>NO MAP DATA</strong>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{#			<div class="d-flex justify-content-center">#}
+				{#				<div class="col-md-2 ">#}
+				{#					<div class="card">#}
+				{#						<img src="{{ p.image.url }}" alt="..." style="object-fit: cover; border-radius: 20px"/>#}
+				{#					</div>#}
+				{#				</div>#}
+				{#				<div class="list-card col-md-6">#}
+				{#					<div class="px-3 py-2 bg-white">#}
+				{#						<h4>{{ p.name }}</h4>#}
+				{#						<div><i class="fa fa-calendar"><span class="h5 text-center">#}
+				{#							{{ p.date_time }}</span></i>#}
+				{#						</div>#}
+				{#					</div>#}
+				{#					<div class="card-body">#}
+				{#						<div class="row">#}
+				{#						</div>#}
+				{##}
+				{#					</div>#}
+				{#				</div>#}
+				{#				<div class="map-card col-md-2" style="border-radius: 20px">#}
+				{#					<div style="max-height: 500px; overflow: hidden; border-radius: 20px">#}
+				{#						{% if m %}#}
+				{#							{{ m | safe }}#}
+				{#						{% else %}#}
+				{#							<div class="col-12 d-flex align-items-center justify-content-center p-3 m-0 ">#}
+				{#								<strong>NO MAP DATA</strong>#}
+				{#							</div>#}
+				{#						{% endif %}#}
+				{#					</div>#}
+				{#				</div>#}
+				{#			</div>#}
+			{% endfor %}
+
 		</div>
 	</section>
 {% endblock content %}

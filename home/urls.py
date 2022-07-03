@@ -4,6 +4,6 @@ from . import views
 urlpatterns = [
     path('', views.homepage, name="home"),
     path('explore/', views.explore, name="explore"),
-    path('packages/', views.packages, name="packages"),
+    path('packages/<int:identity>', views.packages, name="view-package"),
 
 ]
