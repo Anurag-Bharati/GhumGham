@@ -1,0 +1,152 @@
+{% extends 'base/admin-base.html' %}
+
+{% block content %}
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">GhumGham</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Tables</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Order</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row">
+							<h4 class="card-title col-md-10">Order</h4>
+							<div class="col-md-2 d-flex justify-content-end">
+								<a href="{% url 'add-order' 0 %}"
+								   class="btn btn-sm btn-outline-primary
+								    btn-round font-weight-bold">Add Order</a></div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="basic-datatables" class="table table-striped table-hover container-fluid
+							dt-bootstrap4">
+								<thead>
+								<tr>
+									<th>Id</th>
+									<th>Customer</th>
+									<th>Phone</th>
+									<th>Package</th>
+									<th>Staff</th>
+									<th>Date</th>
+									<th>Status</th>
+									<th>Actions</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for o in orders %}
+									<tr>
+										<td>{{ o.id }}</td>
+										<td>{{ o.customer }}</td>
+										<td>{{ o.customer_phone }}</td>
+										<td>{{ o.package.name }}</td>
+										<td>{{ o.staff.username }}</td>
+										<td>{{ o.date }}</td>
+										<td>
+											{% if o.status in "approved" %}
+												<span class="text-success font-weight-bold">{{ o.status.capitalize }}</span>
+											{% elif o.status in "pending" %}
+												<span class="text-warning font-weight-bold">{{ o.status.capitalize }}</span>
+											{% elif o.status in "declined" %}
+												<span class="text-danger font-weight-bold">{{ o.status.capitalize }}</span>
+											{% endif %}
+										</td>
+
+										<td>
+											<div class="row align-items-center">
+												<form tooltip="Edit">
+													<a href="#"
+													   class="btn btn-sm btn-warning m-1">
+														<i class="fa fa-pen"></i>
+													</a>
+												</form>
+												<form method="POST" action="{% url 'approve-order' o.id %}"
+													  class="approve-order" tooltip="Approve">
+													{% csrf_token %}
+													<button class="btn btn-sm btn-success m-1">
+														<i class="fa fa-check"></i>
+													</button>
+												</form>
+												<form method="POST" action="{% url 'decline-order' o.id %}"
+													  class="purge-order" tooltip="Decline">
+													{% csrf_token %}
+													<button class="btn btn-sm btn-danger m-1">
+														<i class="fa fa-ban"></i>
+													</button>
+												</form>
+											</div>
+										</td>
+									</tr>
+								{% empty %}
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+{% block javascripts %}
+	<script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({});
+        });
+
+        $('.purge-order > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Are you sure?",
+                text: "Once Declined, you will not be able to recover this order!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+        $('.approve-order > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Are you sure?",
+                text: "Once Approved, you will not be able to change the state of this order!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+	</script>
+
+{% endblock javascripts %}

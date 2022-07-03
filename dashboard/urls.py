@@ -14,6 +14,7 @@ urlpatterns = [
     path('adventure/add/', views.addAdventureForm, name="add-adventure"),
     path('food/add/', views.addFoodForm, name="add-food"),
     path('itinerary/add/', views.addItineraryForm, name="add-itinerary"),
+    path('order/add/<int:identity>', views.addOrderForm, name="add-order"),
 
     # Update
     path('package/edit/<int:identity>', views.updatePackageForm, name="update-package"),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('foods/', views.GetFoods.as_view(), name="food-table"),
     path('itineraries/', views.GetItineraries.as_view(), name="itinerary-table"),
     path('places/', views.GetPlaces.as_view(), name="place-table"),
+    path('orders/', views.GetOrders.as_view(), name="order-table"),
 
     # Delete
     path('delete-log/<int:identity>', views.delete_log, name="delete-log"),
@@ -43,4 +45,6 @@ urlpatterns = [
     path('toggle-user-status/<int:identity>/<int:redirect_to>', views.toggle_user_status, name="toggle-user-status"),
     path('packages/feature/<int:identity>', views.featured_package, name="featured-package"),
     path('packages/visibility/<int:identity>', views.hide_unhide_package, name="toggle-package-visibility"),
+    path('order/approve/<int:identity>', views.approve_order, name="approve-order"),
+    path('order/decline/<int:identity>', views.decline_order, name="decline-order"),
 ]

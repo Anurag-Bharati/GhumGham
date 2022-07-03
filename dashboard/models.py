@@ -111,12 +111,12 @@ class ActivityLog(models.Model):
         ("package", "Package"),
         ("itinerary", "Itinerary")
     )
-    user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=AnonymousUser)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     target = models.CharField(max_length=120, null=True, blank=True)
     action = models.CharField(max_length=120, choices=ACTION)
     thing = models.CharField(max_length=120, choices=THING, null=True, blank=True)
     more = models.CharField(max_length=120, null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, )
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         vowel = ['a', 'e', 'i', 'o', 'u']
@@ -137,3 +137,20 @@ class ActivityLog(models.Model):
                self.timestamp.time().hour.__str__() + ":" + \
                self.timestamp.time().minute.__str__() + ":" + \
                self.timestamp.time().second.__str__()
+
+class Order(models.Model):
+    STATUS = (
+        ("pending", "Pending"),
+        ("approved", "Approved"),
+        ("declined", "Declined"),
+    )
+    customer = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, null=True, on_delete=models.CASCADE)
+    staff = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='assignee')
+    customer_phone = models.IntegerField()
+    status = models.CharField(max_length=120, choices=STATUS, default=STATUS[0][0])
+    created_date = models.DateField(auto_now_add=True)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.customer.username + f"({self.created_date})"

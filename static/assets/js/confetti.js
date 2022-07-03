@@ -1,10 +1,10 @@
+
 const colors = [
     getComputedStyle(document.body).getPropertyValue("--c1"),
     getComputedStyle(document.body).getPropertyValue("--c2")
 ];
 
 const ghumgham = document.getElementById('ghumgham-nav-ico');
-const audio = new Audio("../static/assets/party.mp3");
 ghumgham.addEventListener('animationstart', (ev) => {
     celebrate();
     audio.play().then(r => null)

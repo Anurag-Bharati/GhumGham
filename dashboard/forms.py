@@ -1,5 +1,5 @@
 from django import forms
-from dashboard.models import Package, Place, Adventure, Food, Itinerary
+from dashboard.models import Package, Place, Adventure, Food, Itinerary, Order
 from users.models import User
 
 
@@ -173,6 +173,7 @@ class CreateAdventureForm(forms.ModelForm):
             'class': 'form-control form-control-user',
         })
 
+
 class CreateItineraryForm(forms.ModelForm):
     class Meta:
         model = Itinerary
@@ -209,6 +210,7 @@ class CreateItineraryForm(forms.ModelForm):
             'max': '100',
             'min': '1',
         })
+
 
 class CreateFoodForm(forms.ModelForm):
     class Meta:
@@ -248,6 +250,49 @@ class CreateFoodForm(forms.ModelForm):
             'name': 'dinner',
             'id': 'dinner',
             'class': 'form-control form-control-user',
+        })
+
+
+class CreateOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer', 'customer_phone', 'staff', 'package', 'date', 'status']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['customer'].widget.attrs.update({
+            'required': '',
+            'class': 'form-control form-control-user',
+        })
+
+        self.fields['package'].widget.attrs.update({
+            'required': '',
+            'class': 'form-control form-control-user',
+        })
+
+        self.fields['staff'].widget.attrs.update({
+            'class': 'form-control form-control-user',
+        })
+
+        self.fields['status'].widget.attrs.update({
+            'required': '',
+            'class': 'form-control form-control-user',
+        })
+        self.fields['date'].widget = forms.DateTimeInput(attrs={
+            'name': 'date',
+            'id': 'date',
+            'type': 'date',
+            'class': 'form-control form-control-user',
+        })
+
+        self.fields['customer_phone'].widget.attrs.update({
+            'required': '',
+            'name': 'phone',
+            'id': 'phone',
+            'type': 'tel',
+            'class': 'form-control form-control-user',
+            'placeholder': 'Phone of the user',
         })
 
 

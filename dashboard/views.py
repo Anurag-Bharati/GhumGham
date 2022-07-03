@@ -7,22 +7,14 @@ from django.urls import reverse
 
 from GhumGham.settings import GENERATE_DUMMY_DATA
 from dashboard.config import At as At
-from dashboard.models import ActivityLog, Food, Adventure, Itinerary
+from dashboard.models import ActivityLog, Food, Adventure, Itinerary, Order
 from django.views.generic import ListView
 
 from users.models import User
 from .forms import CreateUserForm, CreatePlaceForm, CreatePackageForm, CreateAdventureForm, CreateFoodForm, \
-    CreateItineraryForm
+    CreateItineraryForm, CreateOrderForm
 from .models import Package, Place
-
 from django.utils import timezone
-
-
-def dashboard(request):
-    context = {'segment': 'index', 'ap': At.at()}
-    print(context['log'])
-    html_template = loader.get_template('dashboard.html')
-    return HttpResponse(html_template.render(context, request))
 
 
 def delete_log(request, identity):
@@ -114,6 +106,7 @@ def toggle_user_status(request, identity, redirect_to):
         return redirect('dashboard')
     return redirect('customer-table')
 
+
 class Dashboard(ListView):
     model = ActivityLog
     template_name = 'dashboard.html'
@@ -167,6 +160,7 @@ def delete_package(request, identity):
         messages.error(request, 'Sorry! Something went wrong.')
     return redirect('package-table')
 
+
 def delete_adventure(request, identity):
     if request.method == "GET":
         return redirect('adventure-table')
@@ -179,6 +173,7 @@ def delete_adventure(request, identity):
     else:
         messages.error(request, 'Sorry! Something went wrong.')
     return redirect('adventure-table')
+
 
 def delete_food(request, identity):
     if request.method == "GET":
@@ -193,6 +188,7 @@ def delete_food(request, identity):
         messages.error(request, 'Sorry! Something went wrong.')
     return redirect('adventure-table')
 
+
 def delete_itinerary(request, identity):
     if request.method == "GET":
         return redirect('itinerary-table')
@@ -205,6 +201,7 @@ def delete_itinerary(request, identity):
     else:
         messages.error(request, 'Sorry! Something went wrong.')
     return redirect('itinerary-table')
+
 
 def delete_place(request, identity):
     if request.method == "GET":
@@ -237,6 +234,7 @@ def delete_account(request, identity, redirect_to):
         return redirect('dashboard')
     return redirect('customer-table')
 
+
 def featured_package(request, identity):
     package = Package.objects.filter(id=identity)[0]
     if package:
@@ -257,6 +255,32 @@ def hide_unhide_package(request, identity):
     return redirect('package-table')
 
 
+def approve_order(request, identity):
+    order = Order.objects.filter(id=identity)[0]
+    if not order:
+        return redirect('order-table')
+    if order.status == Order.STATUS[0][0]:
+        if request.user and not order.staff:
+            order.staff = request.user
+        order.status = Order.STATUS[1][0]
+        order.package.status = Package.STATUS[2][0]
+        order.package.save()
+        order.save()
+    return redirect('order-table')
+
+
+def decline_order(request, identity):
+    order = Order.objects.filter(id=identity)[0]
+    if not order:
+        return redirect('order-table')
+    if order.status == Order.STATUS[0][0]:
+        if request.user and not order.staff:
+            order.staff = request.user
+        order.status = Order.STATUS[2][0]
+        order.save()
+    return redirect('order-table')
+
+
 class GetPackages(ListView):
     model = Package
     template_name = 'tables/package_table.html'
@@ -269,6 +293,7 @@ class GetPackages(ListView):
         context['ap'] = At.at()
         return context
 
+
 class GetAllPackages(ListView):
     model = Package
     template_name = 'packages.html'
@@ -279,7 +304,6 @@ class GetAllPackages(ListView):
         context = super(GetAllPackages, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
-
         return context
 
 
@@ -296,6 +320,7 @@ class GetCustomers(ListView):
         context['customers'] = User.objects.filter(is_customer__exact=True)
         return context
 
+
 class GetStaffs(ListView):
     model = User
     template_name = 'tables/staff_table.html'
@@ -309,6 +334,7 @@ class GetStaffs(ListView):
         context['staffs'] = User.objects.exclude(is_customer__exact=True).exclude(is_superuser__exact=True)
         return context
 
+
 class GetAdventures(ListView):
     model = Adventure
     template_name = 'tables/adventure_table.html'
@@ -320,6 +346,7 @@ class GetAdventures(ListView):
         context['segment'] = 'tables'
         context['ap'] = At.at()
         return context
+
 
 class GetFoods(ListView):
     model = Food
@@ -333,6 +360,7 @@ class GetFoods(ListView):
         context['ap'] = At.at()
         return context
 
+
 class GetItineraries(ListView):
     model = Itinerary
     template_name = 'tables/itinerary_table.html'
@@ -345,6 +373,7 @@ class GetItineraries(ListView):
         context['ap'] = At.at()
         return context
 
+
 class GetPlaces(ListView):
     model = Place
     template_name = 'tables/place_table.html'
@@ -353,6 +382,19 @@ class GetPlaces(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(GetPlaces, self).get_context_data(**kwargs)
+        context['segment'] = 'tables'
+        context['ap'] = At.at()
+        return context
+
+
+class GetOrders(ListView):
+    model = Order
+    template_name = 'tables/order_table.html'
+    context_object_name = 'orders'
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(GetOrders, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
         return context
@@ -482,8 +524,29 @@ def updatePackageForm(request, identity):
     context = {'ap': True, 'segment': 'form', 'p': package, 'form': form}
     return render(request, 'forms/package_form.html', context)
 
+
 def updateAdventureForm(request):
     pass
+
+
+def addOrderForm(request, identity):
+    context = {'ap': True}
+    form = None
+    if identity > 0:
+        package = Package.objects.filter(id=identity)[0]
+        if package:
+            form = CreateOrderForm(initial={'package': package})
+    else:
+        form = CreateOrderForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            order: Order = form.save()
+            return redirect('order-table')
+    context['form'] = form
+    context['segment'] = 'form'
+    return render(request, 'forms/order_form.html', context)
+
 
 def generate(request):
     user = User.objects.filter(username__exact='Rochak')
