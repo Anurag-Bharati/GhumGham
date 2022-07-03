@@ -260,7 +260,8 @@
 								{% for package in p_packages.object_list %}
 									<div class="item-list">
 										<div class="avatar">
-											<img src="/static/assets/images/user.png" style="height: 40px; width: 40px;
+											<img src="{% static 'assets/images/uploads' %}/{{ package.image }}"
+												 style="height:40px; width: 40px; image-rendering: optimizeSpeed;
 										object-fit: cover" alt="..." class="avatar-img rounded-circle">
 										</div>
 										<div class="info-user ml-3">

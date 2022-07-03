@@ -1,8 +1,6 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.template import loader
 from django.urls import reverse
 
 from GhumGham.settings import GENERATE_DUMMY_DATA
@@ -122,7 +120,7 @@ class Dashboard(ListView):
         User.objects.filter(is_customer__exact=True).values(
             'id', 'username', 'is_ban', 'created_date').order_by("-id"), 3)
     p_package = Paginator(Package.objects.values(
-        'id', 'name', 'is_featured', 'desc').order_by('-id'), 3)
+        'id', 'name', 'is_featured', 'image', 'desc').order_by('-id'), 3)
 
     def get_context_data(self, **kwargs):
         context = super(Dashboard, self).get_context_data(**kwargs)
@@ -144,6 +142,7 @@ class Dashboard(ListView):
         context['p_customers'] = self.p_customer.page(c_page)
         context['p_packages'] = self.p_package.page(p_page)
         context['packages'] = Package.objects.filter(status__exact="available")
+
         return context
 
 
