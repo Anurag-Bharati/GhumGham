@@ -15,7 +15,7 @@
 			<div class="row align-items-center ">
 				<div class="col-lg-4 col-md-12" align="center">
 					<div class="card justify-content-center"
-						 style="height: 300px; min-width: 200px; background: rgba(255,255,255,0.1);">
+						 style="height: 300px; min-width: 200px; background: rgba(255,255,255,0.2);">
 						{% if package %}
 							<img src="{{ package.image.url }}" alt="..."
 								 style="height: 100%; border-radius: 20px; object-fit: cover;"/>
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<div class="col-lg-8 col-md-12 px-4 py-3"
-					 style="background: rgba(255,255,255,0.1); border-radius: 20px;">
+					 style="background: rgba(255,255,255,0.2); border-radius: 20px;">
 					<h2 class="h2 text-white">{% if package %}{{ package.name }}{% else %}Package - Name{% endif %}</h2>
 					<p class="lead text-white text-justify ">{% if package %}{{ package.desc }}<br>
 						Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
@@ -35,8 +35,8 @@
 			</div>
 			<div class="d-flex col-md-12 justify-content-between mt-3 ml-3 ">
 				<br>
-				<button href="#" class="btn btn-outline-warning text-white
-				 px-5 py-3 font-weight-bold ">Book Now
+				<button href="#" class="btn btn-outline-light
+				 px-5 py-3 font-weight-bold">Book Now
 				</button>
 			</div>
 		</div>
@@ -58,10 +58,27 @@
 								<div class="row px-3">
 									<img src="{{ p.image.url }}" alt="..."
 										 style="object-fit: cover;border-radius:20px; height: 200px"/>
-									<div class="mx-4">
+									<div class="ml-4">
 										<h4>{{ p.name }}</h4>
-										<div><i class="fa fa-calendar"><span class="h5 text-center">
+										<h6> &nbsp; {{ package.itinerary.duration }} day tour to {{ p.name }}</h6>
+
+										<div class="my-3"><i class="fa fa-calendar"><span class="h5 text-center">
 										{{ p.date_time }}</span></i>
+
+											<div class="row my-2" style="margin-left: 1px">
+												{% for a in p.adventures.all %}
+													<span class="bg-info-gradient
+													 font-weight-bold text-white px-2 pt-3
+													 my-2" style="border-radius: 10px">
+														<p>{{ a.adventure.upper }} @
+															{{ a.name }}</p></span>
+												{% endfor %}
+												<span class="bg-info-gradient
+													 font-weight-bold text-white px-2 pt-3
+													 my-2 ml-3" style="border-radius: 10px">
+														<p>{{ p.food }}</p></span>
+											</div>
+
 										</div>
 									</div>
 								</div>
