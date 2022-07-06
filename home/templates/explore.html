@@ -96,8 +96,15 @@
 								<div class="text-center">
 									<p class="text-capitalize mt-3 mb-1">{{ package.name }}</p>
 									<span class="fw-bold d-block">$ {{ package.price }} .00</span>
-									<a href="{% url 'view-package' package.id %}"
-									   class="btn mt-3 card-btn btn-primary">Book Now</a>
+									{% if package.status in 'available' %}
+										<a href="{% url 'view-package' package.id %}" class="btn mt-3 btn-primary
+										primary-green">
+											Book Now</a>
+									{% elif package.status in 'booked' %}
+										<a href="#" class="btn mt-3 btn-primary bg-warning2-plain disabled">Booked</a>
+									{% elif package.status in 'ongoing' %}
+										<a href="#" class="btn mt-3 btn-primary bg-danger-plain disabled">Ongoing</a>
+									{% endif %}
 								</div>
 							</div>
 						{% empty %}

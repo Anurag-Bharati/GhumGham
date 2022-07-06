@@ -133,7 +133,7 @@ class Dashboard(ListView):
         context['package_count_max'] = Package.objects.all().count()
         context['place_count'] = Place.objects.count()
         context['staff_count'] = User.objects.filter(is_staff__exact=True).count()
-
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         a_page = self.request.GET.get('a_page', 1)
         c_page = self.request.GET.get('c_page', 1)
         p_page = self.request.GET.get('p_page', 1)
@@ -290,6 +290,7 @@ class GetPackages(ListView):
         context = super(GetPackages, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -303,6 +304,7 @@ class GetAllPackages(ListView):
         context = super(GetAllPackages, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -317,6 +319,7 @@ class GetCustomers(ListView):
         context['segment'] = 'tables'
         context['ap'] = At.at()
         context['customers'] = User.objects.filter(is_customer__exact=True)
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -331,6 +334,7 @@ class GetStaffs(ListView):
         context['segment'] = 'tables'
         context['ap'] = At.at()
         context['staffs'] = User.objects.exclude(is_customer__exact=True).exclude(is_superuser__exact=True)
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -344,6 +348,7 @@ class GetAdventures(ListView):
         context = super(GetAdventures, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -357,6 +362,7 @@ class GetFoods(ListView):
         context = super(GetFoods, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -370,6 +376,7 @@ class GetItineraries(ListView):
         context = super(GetItineraries, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -383,6 +390,7 @@ class GetPlaces(ListView):
         context = super(GetPlaces, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -396,6 +404,7 @@ class GetOrders(ListView):
         context = super(GetOrders, self).get_context_data(**kwargs)
         context['segment'] = 'tables'
         context['ap'] = At.at()
+        context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
 
@@ -410,6 +419,7 @@ def addPackageForm(request):
             return redirect('package-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/package_form.html', context)
 
 
@@ -422,6 +432,7 @@ def addAdventureForm(request):
             return redirect('package-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/adventure_form.html', context)
 
 
@@ -438,6 +449,7 @@ def addFoodForm(request):
             return redirect('package-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/food_form.html', context)
 
 
@@ -450,6 +462,7 @@ def addItineraryForm(request):
             return redirect('package-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/itinerary_form.html', context)
 
 
@@ -465,6 +478,7 @@ def addStaffForm(request):
             return redirect('package-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/staff_form.html', context)
 
 
@@ -480,6 +494,7 @@ def addCustomerForm(request):
             return redirect('package-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/customer_form.html', context)
 
 
@@ -493,6 +508,7 @@ def addPlaceForm(request):
             return redirect('package-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/place_form.html', context)
 
 
@@ -520,7 +536,8 @@ def updatePackageForm(request, identity):
             form.save()
             return redirect('package-table')
 
-    context = {'ap': True, 'segment': 'form', 'p': package, 'form': form}
+    context = {'ap': True, 'segment': 'form', 'p': package, 'form': form,
+               'active_order': Order.objects.filter(status__exact='pending').count()}
     return render(request, 'forms/package_form.html', context)
 
 
@@ -544,6 +561,7 @@ def addOrderForm(request, identity):
             return redirect('order-table')
     context['form'] = form
     context['segment'] = 'form'
+    context['active_order'] = Order.objects.filter(status__exact='pending').count()
     return render(request, 'forms/order_form.html', context)
 
 

@@ -65,10 +65,13 @@
 						<p>Places</p>
 					</a>
 				</li>
-				<li class="nav-item {% if 'orders' in segment %} active {% endif %}">
+				<li class="nav-item {% if 'orders' in segment %} active {% endif %}" style="margin-right: 8px">
 					<a href="{% url 'order-table' %}">
 						<i class="fa fa-cube"></i>
 						<p>Orders</p>
+						{% if active_order %}
+						<span class="badge badge-warning order-status text-white">{{ active_order }}</span>
+						{% endif %}
 					</a>
 				</li>
 				<li class="nav-item {% if 'feedback' in segment %} active {% endif %}" style="margin-right: 8px">

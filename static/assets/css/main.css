@@ -26,7 +26,7 @@ html {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-
+    scroll-behavior: smooth;
 }
 
 body {
@@ -272,6 +272,37 @@ body::-webkit-scrollbar-thumb {
     }
 }
 
+.booking-card {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease-in-out;
+}
+
+.booking-card > .card-lg {
+    opacity: 1;
+    transform: scaleY(100%);
+    transition: all 0.4s cubic-bezier(1, 0, 0, 1);
+}
+
+.hide-booking > .card-lg {
+    opacity: 0;
+    transform: scaleY(30%);
+    transition: all 0.2s ease-in-out;
+}
+
+.hide-booking {
+
+    backdrop-filter: blur(0px);
+    background: rgba(0, 0, 0, 0.0);
+    visibility: hidden;
+    transition: all 0.3s ease-in;
+}
+
 .effect-wrap .effect {
     position: absolute;
     z-index: -1;
@@ -396,11 +427,11 @@ Preloader
 }
 
 .preloader div img:nth-child(2) {
-    animation:  rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
 }
 
 .preloader div img:nth-child(3) {
-    animation:  rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
 }
 
 .preloader div img:nth-child(1) {
@@ -1069,7 +1100,33 @@ uploads
 }
 
 @media (min-width: 1200px) {
-    .container{
+    .container {
         max-width: 1280px !important;
     }
+}
+
+.bg-success-plain {
+    background: #31ce36 !important;
+    color: white !important;
+}
+
+.bg-warning-plain {
+    background: #ffad46 !important;
+    color: white !important;
+
+}
+
+.bg-warning2-plain {
+    background: #F3C969 !important;
+    color: white !important;
+
+}
+
+.bg-danger-plain {
+    background: #f25961 !important;
+    color: white !important;
+}
+
+.bg-disable-plain {
+    color: #bcbccb !important;
 }

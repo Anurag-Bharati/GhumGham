@@ -59,7 +59,13 @@
 										<td>{{ o.customer }}</td>
 										<td>{{ o.customer_phone }}</td>
 										<td>{{ o.package.name }}</td>
-										<td>{{ o.staff.username }}</td>
+										<td>
+											{% if o.staff %}
+											{{ o.staff}}
+											{% else %}
+											Not Assigned
+											{% endif %}
+										</td>
 										<td>{{ o.date }}</td>
 										<td>
 											{% if o.status in "approved" %}

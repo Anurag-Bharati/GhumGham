@@ -1,0 +1,54 @@
+<div class="row align-items-center">
+    {% if not p.is_featured %}
+        <form method="POST" action="{% url 'featured-package' p.id %}"
+              class="feature-pkg">
+            {% csrf_token %}
+            <button class="btn  btn-sm btn-secondary text-white m-1">
+                <i class="fa fa-star"></i>
+            </button>
+        </form>
+    {% elif p.is_featured %}
+        <form method="POST" action="{% url 'featured-package' p.id %} "
+              class="unfeature-pkg">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-success text-white m-1">
+                <i class="fa fa-star"></i>
+            </button>
+        </form>
+    {% endif %}
+
+    <a href="{% url 'update-package' p.id %}"
+       class="btn btn-sm btn-warning m-1">
+        <i class="fa fa-pen"></i>
+    </a>
+
+    <form method="POST" action="{% url 'del-package' p.id %}"
+          class="del-pkg">
+        {% csrf_token %}
+        <button
+                class="btn btn-sm btn-danger m-1">
+            <i class="fa fa-trash"></i>
+        </button>
+    </form>
+
+    {% if not p.status == 'unavailable' %}
+        <form method="POST"
+              action="{% url 'toggle-package-visibility' p.id %}"
+              class="hide-pkg">
+            {% csrf_token %}
+            <button class="btn  btn-sm bg-info text-white m-1">
+                <i class="fa fa-eye-slash"></i>
+            </button>
+        </form>
+    {% elif p.status == 'unavailable' %}
+        <form method="POST"
+              action="{% url 'toggle-package-visibility' p.id %} "
+              class="show-pkg">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-success text-white m-1">
+                <i class="fa fa-eye"></i>
+            </button>
+        </form>
+    {% endif %}
+
+</div>

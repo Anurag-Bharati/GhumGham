@@ -1,7 +1,8 @@
 import folium as f
 from django.shortcuts import render, redirect
 
-from dashboard.models import Package
+from dashboard.forms import CreateOrderForm
+from dashboard.models import Package, Order
 
 m = f.Map(location=[27.70630934201652, 85.33001138998168], zoom_start=18, no_touch=True,
           disable_3d=True, zoom_control=True,
@@ -46,11 +47,30 @@ def explore(request):
 
 def packages(request, identity):
     global m
+
     context = {'user': request.user, 'm': m._repr_html_()}
     package = Package.objects.get(id=identity)
+    order: CreateOrderForm
     if not package:
         return redirect('explore')
     if request.method == 'GET':
-        context['package'] = package
-        print(package.itinerary.places.all())
-        return render(request, 'package.html', context)
+        order = CreateOrderForm()
+        context['form'] = order
+    if request.method == 'POST':
+        order = CreateOrderForm(request.POST.copy())
+        order.data['customer'] = request.user
+        order.data['package'] = package
+        order.data['status'] = Order.STATUS[0][0]
+        hasOrdered = bool(Order.objects.filter(customer_id=request.user.id).filter(package_id=package.id).filter(
+            status__exact='pending'))
+        if order.is_valid() and not hasOrdered and package.status == 'available':
+            print("ORDER PLACED")
+            order.save()
+        else:
+            print("ORDER REJECT")
+            print(order.errors)
+        context['form'] = order
+    context['package'] = package
+
+
+    return render(request, 'package.html', context)

@@ -9,7 +9,11 @@
 {% endblock head %}
 
 {% block content %}
-	<section class="hero d-flex align-items-center" id="hero" data-scroll-index="0">
+	<div class="booking-card hide-booking" style="width: 100vw; height: 100vh; z-index: 999;">
+	{% include 'checkout.html' %}
+	</div>
+
+	<section class="hero d-flex align-items-center" id="hero" data-scroll-index="0" style="z-index: 1">
 		<img id="cover-img" src="{{ package.cover_image.url }}" alt="...">
 		<div class="container" style="z-index: 1">
 			<div class="row align-items-center ">
@@ -36,13 +40,14 @@
 			<div class="d-flex col-md-12 justify-content-between mt-3 ml-3 ">
 				<br>
 				<button href="#" class="btn btn-outline-light
-				 px-5 py-3 font-weight-bold">Book Now
+				 px-5 py-3 font-weight-bold" id="book-now" {% if not package.status == 'available' %}disabled{% endif %}>
+					{% if package.status == 'available' %}Book Now{% else %}{{ package.status.capitalize }}{% endif %}
 				</button>
 			</div>
 		</div>
 	</section>
 
-	<section class="statistics" id="stats" data-scroll-index="1">
+	<section class="statistics" id="stats" data-scroll-index="1" style="z-index: 1">
 		<br>
 		<div class="bg-white"><br></div>
 		<br>
@@ -101,38 +106,6 @@
 						</div>
 					</div>
 				</div>
-
-				{#			<div class="d-flex justify-content-center">#}
-				{#				<div class="col-md-2 ">#}
-				{#					<div class="card">#}
-				{#						<img src="{{ p.image.url }}" alt="..." style="object-fit: cover; border-radius: 20px"/>#}
-				{#					</div>#}
-				{#				</div>#}
-				{#				<div class="list-card col-md-6">#}
-				{#					<div class="px-3 py-2 bg-white">#}
-				{#						<h4>{{ p.name }}</h4>#}
-				{#						<div><i class="fa fa-calendar"><span class="h5 text-center">#}
-				{#							{{ p.date_time }}</span></i>#}
-				{#						</div>#}
-				{#					</div>#}
-				{#					<div class="card-body">#}
-				{#						<div class="row">#}
-				{#						</div>#}
-				{##}
-				{#					</div>#}
-				{#				</div>#}
-				{#				<div class="map-card col-md-2" style="border-radius: 20px">#}
-				{#					<div style="max-height: 500px; overflow: hidden; border-radius: 20px">#}
-				{#						{% if m %}#}
-				{#							{{ m | safe }}#}
-				{#						{% else %}#}
-				{#							<div class="col-12 d-flex align-items-center justify-content-center p-3 m-0 ">#}
-				{#								<strong>NO MAP DATA</strong>#}
-				{#							</div>#}
-				{#						{% endif %}#}
-				{#					</div>#}
-				{#				</div>#}
-				{#			</div>#}
 			{% endfor %}
 
 		</div>
