@@ -11,43 +11,7 @@
 		<div class="container">
 			<div class="row d-flex justify-content-center">
 				<div class="col-md-8">
-					<div class="card-search p-4 mt-3">
-						<h3 class=" mt-5 text-center text-white ">Search For Packages</h3>
-						<div class="d-flex justify-content-center">
-							<div class="search">
-								<input type="text" class="search-input" placeholder="Quick Search..."
-									   name="search">
-								<a href="#" class="search-icon"> <i
-										class="fa fa-search"></i> </a></div>
-						</div>
-						<div class="row mt-4 g-1 px-4 mb-5">
-							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="https://i.imgur.com/YLsQrn3.png" width="50">
-									<div class="text-center mg-text"><span class="mg-text">All</span></div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="https://i.imgur.com/Z7BJ8Po.png" width="50">
-									<div class="text-center mg-text"><span class="mg-text">Short</span></div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="{% static 'images/calendar.png' %}" width="50">
-									<div class="text-center mg-text"><span class="mg-text">Long</span></div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="https://i.imgur.com/ueLEPGq.png" width="50">
-									<div class="text-center mg-text"><span class="mg-text">Economy</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					{% include 'filter.html' %}
 				</div>
 			</div>
 		</div>

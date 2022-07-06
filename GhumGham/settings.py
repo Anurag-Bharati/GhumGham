@@ -46,9 +46,6 @@ INSTALLED_APPS = [
 
     'users.apps.AuthConfig',
     'home.apps.HomeConfig',
-    'admins',
-    'packages',
-    'dashboard'
 ]
 
 MIDDLEWARE = [
