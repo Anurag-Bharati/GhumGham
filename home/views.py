@@ -1,3 +1,6 @@
+import re
+
+from requests import request
 import folium as f
 from django.shortcuts import render
 
@@ -43,3 +46,13 @@ def packages(request):
     global m
     if request.method == 'GET':
         return render(request, 'package.html', {'user': request.user, 'm': m._repr_html_()})
+
+def userProfile(request):
+    context: dict = {}
+    if request.method == 'GET':
+        if request.user != 'AnonymousUser':
+            context['user'] = request.user
+        else:
+            context['user'] = None
+        return render(request, 'profile.html', context )
+
