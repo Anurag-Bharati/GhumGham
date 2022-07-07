@@ -303,6 +303,25 @@ body::-webkit-scrollbar-thumb {
     transition: all 0.3s ease-in;
 }
 
+.pro-img {
+    margin-top: -80px;
+    margin-bottom: 20px;
+}
+
+.little-profile .pro-img img {
+    width: 128px;
+    height: 128px;
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 100%;
+    object-fit: cover !important;
+
+}
+
+.card-img-top {
+    border-radius: 25px;
+}
+
 .effect-wrap .effect {
     position: absolute;
     z-index: -1;

@@ -1,0 +1,48 @@
+<div class="position-absolute w-100 h-100" id="hit-box"></div>
+<div class="card mb-0">
+	<div class="card-header bg-white">
+		<div class="card-title"><h4>Update Profile</h4></div>
+	</div>
+	<div class="card-body">
+		<form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="username">Name</label>
+					{{ form.username }}
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="Type">Address</label>
+					{{ form.address }}
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label" for="email">Email</label>
+					{{ form.email }}
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label" for="image">Image</label>
+					{{ form.image }}
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label" for="cover_image">Cover Image</label>
+					{{ form.cover_image }}
+				</div>
+			</div>
+			<div class="d-flex col-md-12 align-items-center justify-content-md-center pt-3">
+				<button class="btn btn-primary w-100" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+

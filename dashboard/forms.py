@@ -129,6 +129,7 @@ class CreatePlaceForm(forms.ModelForm):
             'id': 'date_time',
             'type': 'datetime-local',
             'class': 'form-control form-control-user',
+            'min': ''
         })
 
         self.fields['image'].widget.attrs.update({
@@ -286,11 +287,11 @@ class CreateOrderForm(forms.ModelForm):
             'class': 'form-control form-control-user',
         })
 
-        self.fields['customer_phone'].widget.attrs.update({
+        self.fields['customer_phone'].widget = forms.NumberInput(attrs={
             'required': '',
             'name': 'phone',
             'id': 'phone',
-            'type': 'tel',
+            'type': 'number',
             'class': 'form-control form-control-user',
             'placeholder': 'Phone of the user',
         })

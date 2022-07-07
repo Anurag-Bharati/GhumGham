@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
@@ -509,6 +511,7 @@ def addPlaceForm(request):
     context['form'] = form
     context['segment'] = 'form'
     context['active_order'] = Order.objects.filter(status__exact='pending').count()
+    form.fields['date_time'].widget.attrs['min'] = datetime.now().__str__().split('.')[0]
     return render(request, 'forms/place_form.html', context)
 
 
@@ -562,6 +565,7 @@ def addOrderForm(request, identity):
     context['form'] = form
     context['segment'] = 'form'
     context['active_order'] = Order.objects.filter(status__exact='pending').count()
+    form.fields['date'].widget.attrs['min'] = date.today()
     return render(request, 'forms/order_form.html', context)
 
 

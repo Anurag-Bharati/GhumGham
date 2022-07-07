@@ -6,8 +6,8 @@ class User(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=255, unique=False)
     address = models.CharField(max_length=255, unique=False, blank=True, null=True)
-    image = models.ImageField(null=True, blank=True, default="../../static/images/user.png")
-    cover_image = models.ImageField(null=True, blank=True, default="../../static/images/pattern.png")
+    image = models.ImageField(null=True, blank=True, default="../../static/assets/images/user.png")
+    cover_image = models.ImageField(null=True, blank=True, default=".../../static/assets/images/pattern.png")
     created_date = models.DateField(auto_now_add=True)
 
     is_customer = models.BooleanField(default=False)
