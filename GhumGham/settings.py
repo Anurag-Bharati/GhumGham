@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'GhumGham.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if not platform.system()=='Darwin':
+if not platform.system() == 'Darwin':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -95,15 +95,14 @@ if not platform.system()=='Darwin':
             'PORT': env('DATABASE_PORT')
         }
     }
-else: 
+else:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'ghumghamlite', # This is where you put the name of the db file. 
-                 # If one doesn't exist, it will be created at migration time.
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'ghumghamlite',  # This is where you put the name of the db file.
+            # If one doesn't exist, it will be created at migration time.
         }
     }
-
 
 AUTH_USER_MODEL = 'users.User'
 

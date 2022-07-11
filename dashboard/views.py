@@ -530,7 +530,8 @@ def updatePackageForm(request, identity):
             'desc': package.desc,
             'duration': package.duration,
         })
-        return render(request, 'forms/edit_package_form.html', {'ap': True, 'p': package, 'form': form})
+        return render(request, 'forms/edit_package_form.html',
+                      {'ap': True, 'p': package, 'form': form})
     elif request.method == 'POST':
         form = CreatePackageForm(request.POST.copy(), request.FILES, instance=package)
         form.data['status'] = Package.STATUS[int(request.POST.get('status', 0))][0]
