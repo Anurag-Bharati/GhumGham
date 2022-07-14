@@ -5,7 +5,8 @@
 			<a href="/" class="logo d-flex align-items-center " style="text-decoration: none; font-weight: bold;
 			font-size: 1.2rem;
 			color: white">
-				<img src="{% static 'images/ghumgham-ico.png' %}" height="32" width="32" alt="">
+				<img src="{% static '/assets/images/282106164_574463527339254_5132268817001296671_n.png' %}"
+					 height=64 width="64" alt="">
 				&nbsp Ghum<span style="color:#565656">Gham</span>
 			</a>
 		</div>
@@ -15,26 +16,26 @@
 			<span class="navbar-toggler-icon navbar-light"></span>
 		</button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-				<li class="nav-item">
-					<a class="nav-link " aria-current="page" href="#"><i
-							class="fas fa-home me-2 "></i>Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#stats"><i class="fas fa-th-large me-2"></i>Packages</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#stats"><i class="fas fa-th-large me-2"></i>Stats</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#how"><i class="fas fa-th-large me-2"></i>How it
-						works?</a>
-				</li>
+		<div class="collapse navbar-collapse align-items-center" id="navbarSupportedContent">
+				<ul class="navbar-nav mb-2 mb-lg-0 ">
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="#"><i
+								class="fas fa-home me-2 "></i> &nbsp; Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#stats"><i class="fas fa-th-large me-2"></i> &nbsp; Packages</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#stats"><i class="fas fa-th-large me-2"></i> &nbsp; Stats</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#how"><i class="fas fa-th-large me-2"></i> &nbsp; How it
+							works?</a>
+					</li>
 
-			</ul>
+				</ul>
 
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<div class="d-flex justify-content-end ml-5 pl-xl-5" align="right" >
 
 				{% if user.is_anonymous %}
 					<a class="nav-btn p-2" style="text-decoration: none; color: white"
@@ -44,13 +45,13 @@
 				{% else %}
 					<a class="nav-btn p-2" style="text-decoration: none; color: white"
 					   type="button" href="{% url 'logout' %}">Logout<i
-							class="fas
-                    fa-sign-out-alt"></i></a>
+							class="fas fa-sign-out-alt"></i></a>
 				{% endif %}
-				<a class="toggle-theme btn nav-btn" style="box-shadow: none;width: auto; height: auto;">
+				<a class="toggle-theme btn-lg nav-btn" style="box-shadow: none;width: auto; height: auto;
+				background:transparent; font-size: 1rem ">
 					<i class="fas"></i>
 				</a>
 			</div>
 		</div>
-	</div>
+		</div>
 </nav>

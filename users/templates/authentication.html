@@ -7,11 +7,24 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
-	<link href="{% static 'images/ghumgham-ico.png' %}" rel="icon">
-	<link href="{% static 'images/ghumgham-ico.png' %}" rel="apple-touch-icon">
-	<link rel="stylesheet" href="{% static 'css/auth/auth.css' %}"/>
-	<link rel="stylesheet" href="{% static 'css/tooltips.css' %}"/>
-	<script src="https://kit.fontawesome.com/15b46f2d59.js" crossorigin="anonymous"></script>
+	<link href="{% static '/assets/images/ghumgham-ico.png' %}" rel="icon">
+	<link href="{% static '/assets/images/ghumgham-ico.png' %}" rel="apple-touch-icon">
+	<link rel="stylesheet" href="{% static '/assets/css/auth/auth.css' %}"/>
+	<link rel="stylesheet" href="{% static '/assets/css/tooltips.css' %}"/>
+	<script src="/static/assets/js/plugin/webfont/webfont.min.js"></script>
+	<script>
+        WebFont.load({
+            google: {"families": ["Poppins:300,400,700,900"]},
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+                urls: ['/static/assets/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+	</script>
+	<script src="{% static '/assets/js/plugin/fontawesome/15b46f2d59.js' %}" crossorigin="anonymous"></script>
 	<title>GhumGham Authentication</title>
 </head>
 
@@ -65,8 +78,8 @@
 					&nbsp &nbsp &nbsp &nbsp &nbsp
 					&nbsp
 					<a href="{% url 'forget-pass' %}" style="text-decoration: none">
-					Forget
-					Password?</a></p>
+						Forget
+						Password?</a></p>
 				<p> Dont have an account? <a id="sign-in-btn" class="link" style="color:blue">Sign
 					up</a></p>
 
@@ -76,7 +89,7 @@
 					<form action="{% provider_login_url 'google' %}" method="post" class="log-form">
 						{% csrf_token %}
 						<button class="social-icon google" type="submit">
-							<i class="fa fa-google"></i>
+							<i class="fab fa-google"></i>
 						</button>
 					</form>
 				</div>
@@ -84,7 +97,7 @@
 					<form action="#" method="post" class="log-form">
 						{% csrf_token %}
 						<a class="social-icon facebook" type="submit">
-							<i class="fa fa-facebook"></i>
+							<i class="fab fa-facebook-f"></i>
 						</a>
 					</form>
 				</div>
@@ -92,7 +105,7 @@
 					<form action="" method="post" class="log-form">
 						{% csrf_token %}
 						<a class="social-icon twitter" type="submit">
-							<i class="fa fa-twitter "></i>
+							<i class="fab fa-twitter "></i>
 						</a>
 					</form>
 				</div>
@@ -103,18 +116,19 @@
 	<div class="panels-container">
 		<div class="panel left-panel">
 			<a href="{% url 'home' %}">
-				<img src="{% static 'images/earth.png' %}" class="image left-panel-earth"
+				<img src="{% static '/assets/images/earth.png' %}" class="image left-panel-earth"
 					 alt="GhumGhamEarth"/>
 			</a>
 		</div>
 		<div class="panel right-panel">
 			<a href="{% url 'home' %}">
-				<img src="{% static 'images/earth.png' %}" class="image right-panel-earth float" alt="GhumGhamEarth"/>
+				<img src="{% static '/assets/images/earth.png' %}" class="image right-panel-earth float"
+					 alt="GhumGhamEarth"/>
 			</a>
 		</div>
 	</div>
 </div>
-<script src="{% static 'js/auth/authentication.js' %}"></script>
+<script src="{% static '/assets/js/auth/authentication.js' %}"></script>
 </body>
 
 </html>

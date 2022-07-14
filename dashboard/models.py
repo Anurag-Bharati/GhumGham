@@ -1,10 +1,9 @@
-from django.contrib.auth.models import AnonymousUser
 from django.db import models
 from users.models import User
 
 
-class Event(models.Model):
-    EVENTS = (
+class Adventure(models.Model):
+    ADVENTURE = (
         ("other", "Other"),
         ("rafting", "Rafting"),
         ("camping", "Camping"),
@@ -19,7 +18,7 @@ class Event(models.Model):
         ("mountain biking", "Mountain Biking")
     )
     name = models.CharField(max_length=120, unique=False)
-    event = models.CharField(max_length=200, null=True, choices=EVENTS)
+    adventure = models.CharField(max_length=200, null=True, choices=ADVENTURE)
     created_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -28,10 +27,10 @@ class Event(models.Model):
 
 class Food(models.Model):
     name = models.CharField(max_length=120, unique=False)
-    breakfast = models.BooleanField(default=False)
-    lunch = models.BooleanField(default=False)
-    snacks = models.BooleanField(default=False)
-    dinner = models.BooleanField(default=False)
+    breakfast = models.BooleanField(null=True, default=False)
+    lunch = models.BooleanField(null=True, default=False)
+    snacks = models.BooleanField(null=True, default=False)
+    dinner = models.BooleanField(null=True, default=False)
 
     def __str__(self):
         result = ""
@@ -50,36 +49,40 @@ class Food(models.Model):
 
 class Place(models.Model):
     name = models.CharField(max_length=120, unique=False)
-    image = models.ImageField(null=True, default="../../static/images/default_package.png")
-    duration = models.PositiveSmallIntegerField(null=True)
+    image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
+    cover_image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
     coordinate = models.CharField(max_length=300, null=True, blank=True)
     created_date = models.DateField(auto_now_add=True)
-    events = models.ManyToManyField(Event, blank=True)
+    adventures = models.ManyToManyField(Adventure, blank=True)
     food = models.ForeignKey(Food, null=True, on_delete=models.SET_NULL, blank=True)
+    date_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.name
 
 
 class Itinerary(models.Model):
-    date = models.DateField(null=True)
-    time = models.TimeField(null=True)
-    place = models.ForeignKey(Place, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=120, unique=False)
+    duration = models.PositiveSmallIntegerField(null=True)
+    places = models.ManyToManyField(Place, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Package(models.Model):
     STATUS = (
-        ("unavailable", "Unavailable"),
         ("available", "Available"),
-        ("ongoing", "Ongoing"),
+        ("unavailable", "Unavailable"),
         ("booked", "Booked"),
+        ("ongoing", "Ongoing"),
     )
-    name = models.CharField(max_length=120, unique=False)
+    name = models.CharField(max_length=120, unique=False, null=False, blank=False)
     type = models.CharField(max_length=120, unique=False, null=True)
-    itinerary = models.ManyToManyField(Itinerary)
+    itinerary = models.ForeignKey(Itinerary, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.PositiveSmallIntegerField(null=False)
-    image = models.ImageField(null=True, default="../../static/images/default_package.png")
-    cover_image = models.ImageField(null=True, default="../../static/images/default_package.png")
+    image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
+    cover_image = models.ImageField(null=True, blank=True, default="../../static/assets/images/default_package.png")
     desc = models.CharField(max_length=200, unique=False, null=True, blank=True)
     duration = models.PositiveSmallIntegerField(null=True)
     is_featured = models.BooleanField(null=True, default=False)
@@ -107,12 +110,12 @@ class ActivityLog(models.Model):
         ("package", "Package"),
         ("itinerary", "Itinerary")
     )
-    user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=AnonymousUser)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     target = models.CharField(max_length=120, null=True, blank=True)
     action = models.CharField(max_length=120, choices=ACTION)
     thing = models.CharField(max_length=120, choices=THING, null=True, blank=True)
     more = models.CharField(max_length=120, null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, )
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         vowel = ['a', 'e', 'i', 'o', 'u']

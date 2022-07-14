@@ -26,6 +26,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+GENERATE_DUMMY_DATA = True
 
 ALLOWED_HOSTS = []
 
@@ -46,7 +47,6 @@ INSTALLED_APPS = [
 
     'users.apps.AuthConfig',
     'home.apps.HomeConfig',
-    'admins',
     'packages',
     'dashboard'
 ]
@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'GhumGham.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if not platform.system()=='Darwin':
+if not platform.system() == 'Darwin':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -95,12 +95,12 @@ if not platform.system()=='Darwin':
             'PORT': env('DATABASE_PORT')
         }
     }
-else: 
+else:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'ghumghamlite', # This is where you put the name of the db file. 
-                 # If one doesn't exist, it will be created at migration time.
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'ghumghamlite',  # This is where you put the name of the db file.
+            # If one doesn't exist, it will be created at migration time.
         }
     }
 
@@ -165,8 +165,8 @@ LOGIN_URL = 'auth/'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 
-MEDIA_URL = 'images/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/uploads')
+MEDIA_URL = '/images/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/assets/images/uploads')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -178,4 +178,4 @@ EMAIL_HOST_USER = env('EMAIL_HOST')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = env('DEFAULT_EMAIL_HOST')
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = env('EMAIL_PASS')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')

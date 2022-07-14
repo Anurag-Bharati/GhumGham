@@ -1,0 +1,235 @@
+{% extends 'base/admin-base.html' %}
+
+{% block content %}
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">GhumGham</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Tables</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Client</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row">
+							<h4 class="card-title col-md-10">Customer</h4>
+							<div class="col-md-2 d-flex justify-content-end">
+								<a href="{% url 'add-customer' %}"
+								   class="btn btn-sm btn-outline-primary
+								    btn-round font-weight-bold">Add Customer</a></div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="basic-datatables" class="table table-striped table-hover container-fluid
+							dt-bootstrap4">
+								<thead>
+								<tr>
+									<th>Id</th>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Banned</th>
+									<th>Status</th>
+									<th>Created</th>
+									<th>Actions</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for c in customers %}
+									<tr {% if c.is_ban or  not c.is_active %}class="bg-disable-plain"{% endif %}>
+										<td>{{ c.id }}</td>
+										<td>{{ c.username.capitalize }}</td>
+										<td>{{ c.email.lower }}</td>
+										<td>
+											{% if c.is_ban %}
+												<span class="text-danger font-weight-bold">YES</span>
+											{% else %}
+												<span class="text-success font-weight-bold">NO</span>
+											{% endif %}
+										</td>
+										<td>
+											{% if not c.is_active %}
+												<span class="text-danger font-weight-bold">INACTIVE</span>
+											{% else %}
+												<span class="text-success font-weight-bold">ACTIVE</span>
+											{% endif %}
+										</td>
+
+										<td>{{ c.created_date }}</td>
+										<td>
+											<div class="row align-items-center">
+												{% if not c.is_ban %}
+													<form method="POST" action="{% url 'ban-unban-user' c.id 1 %}"
+														  class="ban-user">
+														{% csrf_token %}
+														<button class="btn  btn-sm btn-warning text-white m-1">
+															<i class="fa fa-gavel"></i>
+														</button>
+													</form>
+												{% elif c.is_ban %}
+													<form method="POST" action="{% url 'ban-unban-user' c.id 1 %} "
+														  class="unban-user">
+														{% csrf_token %}
+														<button class="btn btn-sm btn-success text-white m-1">
+															<i class="fa fa-key"></i>
+														</button>
+													</form>
+												{% endif %}
+
+												<a href="#"
+												   class="btn btn-sm btn-warning m-1">
+													<i class="fa fa-pen"></i>
+												</a>
+
+												{% if c.is_active %}
+													<form method="POST"
+														  action="{% url 'toggle-user-status' c.id 1 %}"
+														  class="inactive-user">
+														{% csrf_token %}
+														<button class="btn btn-sm bg-info text-white m-1">
+															<i class="fa fa-eye-slash"></i>
+														</button>
+													</form>
+												{% elif not c.is_active %}
+													<form method="POST"
+														  action="{% url 'toggle-user-status' c.id 1 %} "
+														  class="active-user">
+														{% csrf_token %}
+														<button class="btn btn-sm btn-success text-white m-1">
+															<i class="fa fa-eye"></i>
+														</button>
+													</form>
+												{% endif %}
+												<form method="POST" action="{% url 'del-account' c.id 1 %}"
+													  class="del-user">
+													{% csrf_token %}
+													<button
+															class="btn btn-sm btn-danger m-1">
+														<i class="fa fa-trash"></i>
+													</button>
+												</form>
+											</div>
+										</td>
+									</tr>
+								{% empty %}
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+{% block javascripts %}
+	<script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({});
+        });
+
+        $('.del-user > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this account!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.ban-user > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Ban this user?",
+                text: "Once banned, the user will no longer be able to log in!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.unban-user > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Unban this user?",
+                text: "Once unbanned, the user will be able to log in!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.inactive-user > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Deactivate this Account?",
+                text: "Once deactivated, The account wont appear in the metric system!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.active-user > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+				title: "Activate this Account?",
+                text: "Once deactivated, The account will appear in the metric system!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+	</script>
+
+{% endblock javascripts %}

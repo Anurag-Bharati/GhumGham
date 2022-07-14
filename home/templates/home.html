@@ -6,7 +6,7 @@
 {% block content %}
 	<!-- Side Image Start -->
 	<div class="side-image">
-		<img src="{% static 'images/earth.png' %}" alt=""/>
+		<img src="{% static '/assets/images/earth.png' %}" alt=""/>
 	</div>
 	<!-- Side Image End -->
 	<!-- Hero Section Start -->
@@ -34,7 +34,7 @@
 	<section class="p-4 bg-white" id="aim">
 		<div class="container ">
 			<div class="row justify-content-center">
-				<div class="col-lg-4 d-flex flex-column"><img src="{% static 'images/img.png' %}" width="269"
+				<div class="col-lg-4 d-flex flex-column"><img src="{% static '/assets/images/img.png' %}" width="269"
 															  height="246"
 															  alt=""/></div>
 				<div class="col-lg-8 d-flex flex-column align-items-start justify-content-center">
@@ -54,44 +54,66 @@
 		</div>
 		<div class="container">
 
-			<div class="collection-list p-5 row gx-3 gy-3 justify-content-center">
-				<div class="col-md-6 col-lg-4 col-xl-3 card">
-					<div class="collection-img position-relative ">
-						<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
-						<span class="position-absolute  text-white d-flex align-items-center
+			<div class="collection-list p-0 row gx-3 gy-3 justify-content-center">
+				{% for package in packages %}
+					<div class="col-md-6 col-lg-4 col-xl-3 card">
+						<div class="collection-img position-relative ">
+							<img src="{{ package.image.url }}" class="w-100 product-img" alt="product">
+							<span class="position-absolute  text-white d-flex align-items-center
                             justify-content-center animated-btn ">sale</span>
+						</div>
+						<div class="text-center">
+							<p class="text-capitalize mt-3 mb-1">{{ package.name }}</p>
+							<span class="fw-bold d-block">$ {{ package.price }}</span>
+							{% if package.status in 'available' %}
+								<a href="{% url 'view-package' package.id %}"
+								   class="btn mt-3 btn-primary primary-green">Book Now</a>
+							{% elif package.status in 'booked' %}
+								<a href="#" class="btn mt-3 btn-primary bg-warning2-plain disabled">Booked</a>
+							{% elif package.status in 'ongoing' %}
+								<a href="#" class="btn mt-3 btn-primary bg-danger-plain disabled">Ongoing</a>
+							{% endif %}
+						</div>
 					</div>
-					<div class="text-center">
-						<p class="text-capitalize mt-3 mb-1">Name</p>
-						<span class="fw-bold d-block">$ 0.00</span>
-						<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3 card">
-					<div class="collection-img position-relative product-img-holder">
-						<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
-						<span
-								class="position-absolute  text-white d-flex align-items-center
+				{% empty %}
+					<div class="col-md-6 col-lg-4 col-xl-3 card">
+						<div class="collection-img position-relative ">
+							<img src="{% static '/assets/images/earth.png' %}" class="w-100 product-img" alt="product">
+							<span class="position-absolute  text-white d-flex align-items-center
                             justify-content-center animated-btn ">sale</span>
+						</div>
+						<div class="text-center">
+							<p class="text-capitalize mt-3 mb-1">Name</p>
+							<span class="fw-bold d-block">$ 0.00</span>
+							<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+						</div>
 					</div>
-					<div class="text-center">
-						<p class="text-capitalize mt-3 mb-1">Name</p>
-						<span class="fw-bold d-block">$ 0.00</span>
-						<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-4 col-xl-3 card">
-					<div class="collection-img position-relative product-img-holder">
-						<img src="{% static 'images/earth.png' %}" class="w-100 product-img" alt="product">
-						<span class="position-absolute  text-white d-flex align-items-center
+					<div class="col-md-6 col-lg-4 col-xl-3 card">
+						<div class="collection-img position-relative product-img-holder">
+							<img src="{% static '/assets/images/earth.png' %}" class="w-100 product-img" alt="product">
+							<span
+									class="position-absolute  text-white d-flex align-items-center
                             justify-content-center animated-btn ">sale</span>
+						</div>
+						<div class="text-center">
+							<p class="text-capitalize mt-3 mb-1">Name</p>
+							<span class="fw-bold d-block">$ 0.00</span>
+							<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+						</div>
 					</div>
-					<div class="text-center">
-						<p class="text-capitalize mt-3 mb-1">Name</p>
-						<span class="fw-bold d-block">$ 0.00</span>
-						<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+					<div class="col-md-6 col-lg-4 col-xl-3 card">
+						<div class="collection-img position-relative product-img-holder">
+							<img src="{% static '/assets/images/earth.png' %}" class="w-100 product-img" alt="product">
+							<span class="position-absolute  text-white d-flex align-items-center
+                            justify-content-center animated-btn ">sale</span>
+						</div>
+						<div class="text-center">
+							<p class="text-capitalize mt-3 mb-1">Name</p>
+							<span class="fw-bold d-block">$ 0.00</span>
+							<a href="#" class="btn mt-3 card-btn btn-primary">Book Now</a>
+						</div>
 					</div>
-				</div>
+				{% endfor %}
 
 			</div>
 		</div>

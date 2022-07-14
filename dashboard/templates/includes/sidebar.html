@@ -5,7 +5,7 @@
 
 			<div class="user">
 				<div class="avatar-sm float-left mr-2">
-					<img src="/static/images/user.png" alt="..." class="avatar-img rounded-circle">
+					<img src="/static/assets/images/user.png" alt="..." class="avatar-img rounded-circle">
 				</div>
 				<div class="info">
 					<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -41,7 +41,7 @@
 			</div>
 			<ul class="nav nav-primary">
 				<li class="nav-item {% if 'index' in segment %} active {% endif %}">
-					<a data-toggle="collapse" href="#" class="collapsed" aria-expanded="false">
+					<a href="{% url 'dashboard' %}" class="collapsed" aria-expanded="false">
 						<i class="fas fa-desktop"></i>
 						<p>Dashboard</p>
 					</a>
@@ -53,25 +53,28 @@
 							</span>
 					<h4 class="text-section">Main</h4>
 				</li>
-				<li class="nav-item {% if 'ui-' in segment %} active {% endif %}">
-					<a href="#">
+				<li class="nav-item {% if 'packages' in segment %} active {% endif %}">
+					<a href="{% url 'packages' %}">
 						<i class="fas fa-layer-group"></i>
 						<p>Packages</p>
 					</a>
 				</li>
-				<li class="nav-item {% if 'maps' in segment %} active {% endif %}">
+				<li class="nav-item {% if 'places' in segment %} active {% endif %}">
 					<a data-toggle="collapse" href="#">
 						<i class="fas fa-map-marker-alt"></i>
 						<p>Places</p>
 					</a>
 				</li>
-				<li class="nav-item {% if 'charts' in segment %} active {% endif %}">
-					<a href="#">
-						<i class="far fa-chart-bar"></i>
-						<p>Metrics</p>
+				<li class="nav-item {% if 'orders' in segment %} active {% endif %}" style="margin-right: 8px">
+					<a href="{% url 'order-table' %}">
+						<i class="fa fa-cube"></i>
+						<p>Orders</p>
+						{% if active_order %}
+						<span class="badge badge-warning order-status text-white">{{ active_order }}</span>
+						{% endif %}
 					</a>
 				</li>
-				<li class="nav-item {% if 'widgets' in segment %} active {% endif %}" style="margin-right: 8px">
+				<li class="nav-item {% if 'feedback' in segment %} active {% endif %}" style="margin-right: 8px">
 					<a href="#">
 						<i class="fa fa-comments"></i>
 						<p>Feedback</p>
@@ -93,22 +96,37 @@
 					<div class="collapse" id="forms">
 						<ul class="nav nav-collapse">
 							<li>
-								<a href="#">
-									<i class="fa fa-black-tie"></i>Staff
+								<a href="{% url 'add-staff' %}">
+									<i class="fa fa-user-tie"></i>Staff
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="{% url 'add-customer' %}">
 									<i class="fa fa-user"></i>Client
 								</a>
 							</li>
 							<li>
-								<a href="#">
-									<i class="fas fa-map-marker-alt"></i>Place
+								<a href="{% url 'add-adventure' %}">
+									<i class="fa fa-compass"></i>Adventure
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="{% url 'add-food' %}">
+									<i class="fa fa-birthday-cake"></i>Food
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'add-itinerary' %}">
+									<i class="fa fa-map"></i>Itinerary
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'add-place' %}">
+									<i class="fa fa-map-marker-alt"></i>Place
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'add-package' %}">
 									<i class="fa fa-th-large"></i>Package
 								</a>
 							</li>
@@ -124,22 +142,37 @@
 					<div class="collapse" id="tables">
 						<ul class="nav nav-collapse">
 							<li>
-								<a href="#">
-									<i class="fa fa-black-tie"></i>Staff
+								<a href="{% url 'staff-table' %}">
+									<i class="fa fa-user-tie"></i>Staff
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="{% url 'customer-table' %}">
 									<i class="fa fa-user"></i>Client
 								</a>
 							</li>
 							<li>
-								<a href="#">
-									<i class="fas fa-map-marker-alt"></i>Place
+								<a href="{% url 'adventure-table' %}">
+									<i class="fa fa-compass"></i>Adventure
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="{% url 'food-table' %}">
+									<i class="fa fa-birthday-cake"></i>Food
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'itinerary-table' %}">
+									<i class="fa fa-map"></i>Itinerary
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'place-table' %}">
+									<i class="fa fa-map-marker-alt"></i>Place
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'package-table' %}">
 									<i class="fa fa-th-large"></i>Package
 								</a>
 							</li>
@@ -159,8 +192,8 @@
 					</a>
 				</li>
 				<li class="nav-item {% if 'charts' in segment %} active {% endif %}">
-					<a href="#">
-						<i class="fa fa-sign-out text-danger"></i>
+					<a href="{% url 'logout' %}">
+						<i class="fa fa-door-open text-danger"></i>
 						<p>Logout</p>
 					</a>
 				</li>
