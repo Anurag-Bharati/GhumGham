@@ -1,0 +1,331 @@
+{% extends "base/admin-base.html" %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %} {% if ap %}
+	<div class="content">
+	<div class="panel-header bg-success-gradient">
+		<div class="page-inner py-5">
+			<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row justify-content-between">
+				<div>
+					<h2 class="text-white pb-2 fw-bold">Dashboard</h2>
+					<h5 class="text-white op-7 mb-2">GhumGham admin control panel</h5>
+				</div>
+				<div class="ml-md-auto py-2 py-md-0">
+					<a href="#" class="btn btn-white btn-border btn-round mr-2">Add Staff</a>
+					<a href="#" class="btn btn-white btn-border btn-round ">Add Package</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-inner mt--5">
+		<section id="zero">
+
+			<div class="row mt--2">
+				<div class="col-md-12">
+					<div class="card full-height">
+						<div class="card-body">
+							<div class="card-title">Core statistics</div>
+							<div class="card-category">Concise view of various perimeters</div>
+							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-1"></div>
+									<h6 class="fw-bold mt-3 mb-0">Users</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-2"></div>
+									<h6 class="fw-bold mt-3 mb-0">Packages</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-3"></div>
+									<h6 class="fw-bold mt-3 mb-0">Admin</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-4"></div>
+									<h6 class="fw-bold mt-3 mb-0">Staff</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-5"></div>
+									<h6 class="fw-bold mt-3 mb-0">Customer</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="one">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="card dashboard-card">
+						<div class="card-header">
+							<div class="card-head-row">
+								<div class="card-title">Packages Status</div>
+								<div class="card-tools">
+									<a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2 my-2">
+										Available
+									</a>
+									<a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2 my-2">
+										Booked
+									</a>
+									<a href="#" class="btn btn-info btn-border btn-round btn-sm my-2">
+										Ongoing
+									</a>
+									<button class="btn btn-info btn-border btn-round btn-sm btn-refresh-card ml-2 my-2">
+										<span class="fa fa-sync-alt"></span></button>
+								</div>
+
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container" style="min-height: 375px">
+								<canvas id="statisticsChart"></canvas>
+							</div>
+							<div id="myChartLegend"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					{% include 'includes/activity_log.html' %}
+				</div>
+			</div>
+		</section>
+		<section id="two">
+			<div class="row justify-content-center">
+				<div class="col-md-4">
+					<div class="card dashboard-card-sm">
+						<div class="card-body">
+							<div class="card-title fw-mediumbold">Admins</div>
+							<div class="card-list">
+								{% for admin in p_admins.object_list %}
+									<div class="item-list">
+										<div class="avatar">
+											<img src="/static/images/user.png" style="height: 40px; width: 40px;
+										object-fit: cover" alt="..." class="avatar-img rounded-circle">
+										</div>
+										<div class="info-user ml-3">
+											<div class="username">{{ admin.username.capitalize }}</div>
+											<div class="status">{{ admin.created_date }}</div>
+										</div>
+										{% if not admin.is_ban %}
+											<form method="POST" action="{% url 'ban-unban-user' admin.id %}"
+												  class="ban-user">
+												{% csrf_token %}
+												<button class="btn btn-icon btn-warning btn-round btn-xs p-0 text-white">
+													<i class="fa fa-gavel"></i>
+												</button>
+											</form>
+										{% elif admin.is_ban %}
+											<form method="POST" action="{% url 'ban-unban-user' admin.id %}"
+												  class="unban-user">
+												{% csrf_token %}
+												<button class="btn btn-icon btn-success btn-round btn-xs p-0 text-white">
+													<i class="fa fa-key"></i>
+												</button>
+											</form>
+										{% endif %}
+									</div>
+								{% empty %}
+									<div style="text-align: center">NO DATA</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="card-footer">
+							{% include 'includes/paginator/admin_paginator.html' %}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					{% include 'includes/ban_unban_user.html' %}
+				</div>
+				<div class="col-md-4">
+					<div class="card dashboard-card-sm">
+						<div class="card-body">
+							<div class="card-title fw-mediumbold">Packages</div>
+							<div class="card-list">
+								{% for package in p_packages.object_list %}
+									<div class="item-list">
+										<div class="avatar">
+											<img src="/static/images/user.png" style="height: 40px; width: 40px;
+										object-fit: cover" alt="..." class="avatar-img rounded-circle">
+										</div>
+										<div class="info-user ml-3">
+											<div class="username">{{ package.name.capitalize }}</div>
+											<div class="status">{{ package.desc }}</div>
+										</div>
+
+										<button class="btn btn-icon btn-secondary btn-round btn-xs p-0 text-white">
+											<i class="fa fa-star"></i>
+										</button>
+										<button class="btn btn-icon btn-warning btn-round btn-xs p-0 text-white"
+												style="margin-left: 10px">
+											<i class="fa fa-pencil"></i>
+										</button>
+									</div>
+								{% empty %}
+									<div style="text-align: center">NO DATA</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="card-footer">
+							{% include 'includes/paginator/package_paginator.html' %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+{% endif %}{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+	<script>
+        Circles.create({
+            id: 'circles-1',
+            radius: 45,
+            value: {{user_count}},
+            maxValue: {{user_count}},
+            width: 10,
+            text: {{user_count}},
+            colors: ['#f1f1f1', '#FF9E27'],
+            duration: 600,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+
+        Circles.create({
+            id: 'circles-2',
+            radius: 45,
+            value: {{package_count}},
+            maxValue: {{package_count_max}},
+            width: 10,
+            text: {{package_count}},
+            colors: ['#f1f1f1', '#2BB930'],
+            duration: 600,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+
+        Circles.create({
+            id: 'circles-3',
+            radius: 45,
+            value: {{admin_count}},
+            maxValue: {{user_count}},
+            width: 10,
+            text: {% if not admin_count %}"0"{% else %}{{ admin_count }}{% endif %},
+            colors: ['#f1f1f1', '#F25961'],
+            duration: 600,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+
+        Circles.create({
+            id: 'circles-4',
+            radius: 45,
+            value: {{staff_count}},
+            maxValue: {{user_count}},
+            width: 10,
+            text: {% if not staff_count %}"0"{% else %}{{ staff_count }}{% endif %},
+            colors: ['#f1f1f1', '#177DFF'],
+            duration: 600,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+
+        Circles.create({
+            id: 'circles-5',
+            radius: 45,
+            value: {{customer_count}},
+            maxValue: {{user_count }},
+            width: 10,
+            text: {{customer_count}},
+            colors: ['#f1f1f1', '#ff9e27'],
+            duration: 600,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+        $('.delete-log > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this log!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    } else {
+                        swal("Cancelled", "The log is safe :)", {
+                            icon: "info",
+                        });
+                    }
+                });
+        });
+
+        $('.unban-user > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Unban this user?",
+                text: "You can ban the user at anytime",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    } else {
+                        swal("Cancelled", "Noting changed :)", {
+                            icon: "info",
+                        });
+                    }
+                });
+        });
+
+        $('.ban-user > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Ban this user?",
+                text: "You can unban the user at anytime",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    } else {
+                        swal("Cancelled", "Noting changed :)", {
+                            icon: "info",
+                        });
+                    }
+                });
+        });
+	</script>
+
+{% endblock javascripts %}
+
+</div>

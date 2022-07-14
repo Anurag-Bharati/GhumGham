@@ -433,3 +433,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python,macos,windows,visualstudiocode,django,linux
+static/assets/images/uploads/*.jpg
+static/assets/images/uploads/*.png
+static/assets/images/uploads/*.jpeg
+static/assets/images/uploads/*.gif
+ghumghamlite

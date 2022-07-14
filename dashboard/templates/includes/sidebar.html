@@ -1,0 +1,172 @@
+<!-- Sidebar -->
+<div class="sidebar sidebar-style-2" style="border-width: 0" data-background-color="dark2">
+	<div class="sidebar-wrapper scrollbar scrollbar-inner">
+		<div class="sidebar-content">
+
+			<div class="user">
+				<div class="avatar-sm float-left mr-2">
+					<img src="/static/images/user.png" alt="..." class="avatar-img rounded-circle">
+				</div>
+				<div class="info">
+					<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+									{{ request.user.username }}
+									<span class="user-level" style="width: 150px !important;">
+										{% if request.user.email %}
+											{{ request.user.email | cut:"@gmail.com" }}
+										{% else %}
+											id: {{ request.user.id }}
+										{% endif %}
+									</span>
+									<span class="caret"></span>
+								</span>
+					</a>
+					<div class="clearfix"></div>
+
+					<div class="collapse in" id="collapseExample">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<span class="link-collapse">My Profile</span>
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'logout' %}">
+									<span class="link-collapse">Logout</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<ul class="nav nav-primary">
+				<li class="nav-item {% if 'index' in segment %} active {% endif %}">
+					<a data-toggle="collapse" href="#" class="collapsed" aria-expanded="false">
+						<i class="fas fa-desktop"></i>
+						<p>Dashboard</p>
+					</a>
+
+				</li>
+				<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+					<h4 class="text-section">Main</h4>
+				</li>
+				<li class="nav-item {% if 'ui-' in segment %} active {% endif %}">
+					<a href="#">
+						<i class="fas fa-layer-group"></i>
+						<p>Packages</p>
+					</a>
+				</li>
+				<li class="nav-item {% if 'maps' in segment %} active {% endif %}">
+					<a data-toggle="collapse" href="#">
+						<i class="fas fa-map-marker-alt"></i>
+						<p>Places</p>
+					</a>
+				</li>
+				<li class="nav-item {% if 'charts' in segment %} active {% endif %}">
+					<a href="#">
+						<i class="far fa-chart-bar"></i>
+						<p>Metrics</p>
+					</a>
+				</li>
+				<li class="nav-item {% if 'widgets' in segment %} active {% endif %}" style="margin-right: 8px">
+					<a href="#">
+						<i class="fa fa-comments"></i>
+						<p>Feedback</p>
+						<span class="badge badge-success feedback-status">4</span>
+					</a>
+				</li>
+				<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+					<h4 class="text-section">Components</h4>
+				</li>
+				<li class="nav-item {% if 'form' in segment %} active {% endif %}">
+					<a data-toggle="collapse" href="#forms">
+						<i class="fas fa-pen-square"></i>
+						<p>Forms</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="forms">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="#">
+									<i class="fa fa-black-tie"></i>Staff
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa fa-user"></i>Client
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fas fa-map-marker-alt"></i>Place
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa fa-th-large"></i>Package
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+					<a data-toggle="collapse" href="#tables">
+						<i class="fas fa-table"></i>
+						<p>Tables</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="tables">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="#">
+									<i class="fa fa-black-tie"></i>Staff
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa fa-user"></i>Client
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fas fa-map-marker-alt"></i>Place
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa fa-th-large"></i>Package
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+					<h4 class="text-section">Shortcuts</h4>
+				</li>
+				<li class="nav-item {% if 'charts' in segment %} active {% endif %}">
+					<a href="#">
+						<i class="fa fa-id-card"></i>
+						<p>Profile</p>
+					</a>
+				</li>
+				<li class="nav-item {% if 'charts' in segment %} active {% endif %}">
+					<a href="#">
+						<i class="fa fa-sign-out text-danger"></i>
+						<p>Logout</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- End Sidebar -->
+        

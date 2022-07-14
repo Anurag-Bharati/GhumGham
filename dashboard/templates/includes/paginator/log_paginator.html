@@ -1,0 +1,20 @@
+<div class="row justify-content-center ">
+	{% if page_obj.has_previous %}
+		<a class="btn btn-outline-secondary btn-sm my-2 mr-2" href="?page_log=1#zero">First</a>
+		<a class="btn btn-outline-secondary btn-sm my-2 mr-2" href="?page_log=
+{{ page_obj.previous_page_number }}#zero">Previous</a>
+	{% endif %}
+	{% for num in page_obj.paginator.page_range %}
+		{% if page_obj.number == num %}
+			<a class="btn btn-success btn-sm my-2 mr-2 disabled" href="?page_log={{ num }}#zero">{{ num }}</a>
+		{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+			<a class="btn btn-outline-secondary btn-sm my-2 mr-2" href="?page_log={{ num }}#zero">{{ num }}</a>
+		{% endif %}
+	{% endfor %}
+	{% if page_obj.has_next %}
+		<a class="btn btn-outline-secondary btn-sm my-2 mr-2"
+		   href="?page_log={{ page_obj.next_page_number }}#zero">Next</a>
+		<a class="btn btn-outline-secondary btn-sm my-2"
+		   href="?page_log={{ page_obj.paginator.num_pages }}#zero">Last</a>
+	{% endif %}
+</div>
