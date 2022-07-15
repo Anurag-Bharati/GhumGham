@@ -698,7 +698,7 @@ def generate(request):
         for x in range(len(places)):
             places[x].append(food_objs[x])
         for p in places:
-            place = Place(name=p[0], coordinate=p[1], date_time=tz)
+            place = Place(name=p[0], coordinate="27.70903097258955,85.32838109540454", date_time=tz)
             place.food = p[4]
             place.save()
             place.adventures.add(p[3])

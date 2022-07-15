@@ -114,7 +114,7 @@ def update_profile(request):
 def myBookings(request):
     order = Order.objects.filter(customer_id=request.user.id)
     count = order.count()
-    return HttpResponse(f'{order}')
+    return HttpResponse(f'{count}')
 
 
 def cancelBooking(request, oid):
