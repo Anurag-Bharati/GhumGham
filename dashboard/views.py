@@ -3,18 +3,15 @@ from datetime import date, datetime
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator
-
+from django.contrib.auth.decorators import login_required
 from GhumGham import settings
-
 from django.shortcuts import redirect, render
 from django.urls import reverse
-
 from GhumGham.settings import GENERATE_DUMMY_DATA
-
 from dashboard.config import At as At
 from dashboard.models import ActivityLog, Food, Adventure, Itinerary, Order
 from django.views.generic import ListView
-
+from users.auth import admin_only
 from users.models import User
 from .forms import CreateUserForm, CreatePlaceForm, CreatePackageForm, CreateAdventureForm, CreateFoodForm, \
     CreateItineraryForm, CreateOrderForm
@@ -22,6 +19,8 @@ from .models import Package, Place
 from django.utils import timezone
 
 
+@login_required(login_url="auth")
+@admin_only
 def delete_log(request, identity):
     log = ActivityLog.objects.get(pk=identity)
     if not log:
@@ -35,6 +34,8 @@ def delete_log(request, identity):
     return redirect('dashboard')
 
 
+@login_required(login_url="auth")
+@admin_only
 def ban_unban_user(request, identity, redirect_to):
     logged_user = request.user
 
@@ -80,6 +81,8 @@ def ban_unban_user(request, identity, redirect_to):
     return redirect('customer-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def toggle_user_status(request, identity, redirect_to):
     logged_user = request.user
     if logged_user.username == "AnonymousUser":
@@ -149,10 +152,11 @@ class Dashboard(ListView):
         context['p_customers'] = self.p_customer.page(c_page)
         context['p_packages'] = self.p_package.page(p_page)
         context['packages'] = Package.objects.filter(status__exact="available")
-
         return context
 
 
+@login_required(login_url="auth")
+@admin_only
 def delete_package(request, identity):
     if request.method == "GET":
         return redirect('package-table')
@@ -167,6 +171,8 @@ def delete_package(request, identity):
     return redirect('package-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def delete_adventure(request, identity):
     if request.method == "GET":
         return redirect('adventure-table')
@@ -181,6 +187,8 @@ def delete_adventure(request, identity):
     return redirect('adventure-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def delete_food(request, identity):
     if request.method == "GET":
         return redirect('food-table')
@@ -195,6 +203,8 @@ def delete_food(request, identity):
     return redirect('adventure-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def delete_itinerary(request, identity):
     if request.method == "GET":
         return redirect('itinerary-table')
@@ -209,6 +219,8 @@ def delete_itinerary(request, identity):
     return redirect('itinerary-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def delete_place(request, identity):
     if request.method == "GET":
         return redirect('place-table')
@@ -223,6 +235,8 @@ def delete_place(request, identity):
     return redirect('place-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def delete_account(request, identity, redirect_to):
     if request.method == "GET":
         if redirect_to == 0:
@@ -241,6 +255,8 @@ def delete_account(request, identity, redirect_to):
     return redirect('customer-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def featured_package(request, identity):
     package = Package.objects.filter(id=identity)[0]
     if package:
@@ -249,6 +265,8 @@ def featured_package(request, identity):
     return redirect('package-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def hide_unhide_package(request, identity):
     package = Package.objects.filter(id=identity)[0]
     if not package:
@@ -261,6 +279,8 @@ def hide_unhide_package(request, identity):
     return redirect('package-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def approve_order(request, identity):
     order = Order.objects.filter(id=identity)[0]
     if not order:
@@ -275,6 +295,8 @@ def approve_order(request, identity):
     return redirect('order-table')
 
 
+@login_required(login_url="auth")
+@admin_only
 def decline_order(request, identity):
     order = Order.objects.filter(id=identity)[0]
     if not order:
@@ -305,6 +327,7 @@ class GetAllPackages(ListView):
     model = Package
     template_name = 'packages.html'
     context_object_name = 'packages'
+    paginate_by = 3
     ordering = '-id'
 
     def get_context_data(self, **kwargs):
@@ -312,7 +335,16 @@ class GetAllPackages(ListView):
         context['segment'] = 'tables'
         context['ap'] = At.at()
         context['active_order'] = Order.objects.filter(status__exact='pending').count()
+        context['search'] = self.request.GET.get('search', None)
         return context
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get('search', None)
+        if filter_val and not filter_val == '#':
+            new_context = Package.objects.filter(name__icontains=filter_val)
+        else:
+            new_context = Package.objects.all().order_by('id')
+        return new_context
 
 
 class GetCustomers(ListView):
@@ -372,6 +404,9 @@ class GetFoods(ListView):
         context['active_order'] = Order.objects.filter(status__exact='pending').count()
         return context
 
+
+@login_required(login_url="auth")
+@admin_only
 def change_pass(request):
     context = {}
     if request.method == 'GET':
@@ -389,6 +424,8 @@ def change_pass(request):
         return redirect('change-pass')
 
 
+@login_required(login_url="auth")
+@admin_only
 def notify_via_email(msg, user):
     mail = EmailMultiAlternatives(
         f"Hey {user.username}",
@@ -415,12 +452,15 @@ class Thread(threading.Thread):
             print("[Exception in thread] " + ex.__str__())
 
 
+@login_required(login_url="auth")
+@admin_only
 def adminProfile(request):
     context = {}
     if request.method == 'GET':
         return render(request, 'profile.html', context)
     if request.method == 'POST':
         redirect('admin-profile')
+
 
 class GetItineraries(ListView):
     model = Itinerary
@@ -464,6 +504,8 @@ class GetOrders(ListView):
         return context
 
 
+@login_required(login_url="auth")
+@admin_only
 def addPackageForm(request):
     context = {'ap': True}
     form = CreatePackageForm(request.POST.copy(), request.FILES)
@@ -479,6 +521,8 @@ def addPackageForm(request):
     return render(request, 'forms/package_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def addAdventureForm(request):
     context = {'ap': True}
     form = CreateAdventureForm(request.POST)
@@ -492,6 +536,8 @@ def addAdventureForm(request):
     return render(request, 'forms/adventure_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def addFoodForm(request):
     context = {'ap': True}
     form = CreateFoodForm(request.POST.copy())
@@ -509,6 +555,8 @@ def addFoodForm(request):
     return render(request, 'forms/food_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def addItineraryForm(request):
     context = {'ap': True}
     form = CreateItineraryForm(request.POST)
@@ -522,6 +570,8 @@ def addItineraryForm(request):
     return render(request, 'forms/itinerary_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def addStaffForm(request):
     context = {'ap': True}
     form = CreateUserForm(request.POST, request.FILES)
@@ -538,6 +588,8 @@ def addStaffForm(request):
     return render(request, 'forms/staff_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def addCustomerForm(request):
     context = {'ap': True}
     form = CreateUserForm(request.POST, request.FILES)
@@ -554,6 +606,8 @@ def addCustomerForm(request):
     return render(request, 'forms/customer_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def addPlaceForm(request):
     context = {'ap': True}
     form = CreatePlaceForm(request.POST, request.FILES)
@@ -569,6 +623,8 @@ def addPlaceForm(request):
     return render(request, 'forms/place_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def updatePackageForm(request, identity):
     package = Package.objects.get(id=identity)
     form = None
@@ -599,10 +655,14 @@ def updatePackageForm(request, identity):
     return render(request, 'forms/package_form.html', context)
 
 
+@login_required(login_url="auth")
+@admin_only
 def updateAdventureForm(request):
     pass
 
 
+@login_required(login_url="auth")
+@admin_only
 def addOrderForm(request, identity):
     context = {'ap': True}
     form = None

@@ -1,11 +1,15 @@
 import folium as f
+from django.contrib import messages
 from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 
+from dashboard.config import At
 from dashboard.forms import CreateOrderForm
 from dashboard.models import Package, Order
 from home.forms import UpdateProfileForm
+from users.auth import has_session
 from users.models import User
 from datetime import date
 
@@ -35,10 +39,36 @@ def homepage(request):
     return render(request, 'home.html', context, status=200)
 
 
-def explore(request):
-    if request.method == 'GET':
-        p = Package.objects.exclude(status__exact="unavailable")
-        return render(request, 'explore.html', {'user': request.user, 'packages': p})
+class Explore(ListView):
+    model = Package
+    template_name = 'explore.html'
+    context_object_name = 'packages'
+    paginate_by = 4
+    ordering = '-id'
+
+    def get_context_data(self, **kwargs):
+        context = super(Explore, self).get_context_data(**kwargs)
+        context['search'] = self.request.GET.get('search', None)
+        return context
+
+    def get_queryset(self):
+        filter_val = self.request.GET.get('search', None)
+
+        if filter_val == 'featured':
+            new_context = Package.objects.filter(is_featured=True)
+        elif filter_val == 'new':
+            new_context = Package.objects.all().order_by('-id')
+        elif filter_val == 'short':
+            new_context = Package.objects.filter(duration__lte=3)
+        elif filter_val == 'long':
+            new_context = Package.objects.filter(duration__gt=3)
+        elif filter_val == 'eco':
+            new_context = Package.objects.filter(price__lte=100)
+        elif filter_val and not filter_val == '#':
+            new_context = Package.objects.filter(name__icontains=filter_val)
+        else:
+            new_context = Package.objects.all().order_by('id')
+        return new_context
 
 
 def packages(request, identity):
@@ -74,6 +104,9 @@ def packages(request, identity):
 
 
 def profile(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view your profile")
+        return redirect("auth")
     user = User.objects.get(id=request.user.id)
     form = UpdateProfileForm(instance=user)
     if request.method == "POST":
@@ -88,6 +121,7 @@ def profile(request):
     account_age = account_age.split(' ')
     context = {'user': request.user, 'form': form, 'order_count': order_count, 'account_age': account_age}
     return render(request, 'profile.html', context)
+
 
 
 def statement(request):

@@ -36,7 +36,7 @@
 					<div class="collection-list row gx-0 gy-3 justify-content-center">
 						<div class="collection-list p-5 row gx-3 gy-3 justify-content-center">
 							{% for package in packages %}
-								<div class="col-md-6 col-lg-4 col-xl-3 card">
+								<div class="col-md-6 col-lg-4 col-xl-3 card" style="min-width: 300px">
 									<div class="collection-img position-relative ">
 										<img src="{% if package.image %}{{ package.image.url }}{% endif %}"
 											 class="w-100 product-img"
@@ -66,6 +66,7 @@
 							{% endfor %}
 						</div>
 					</div>
+					{% include 'base/paginator.html' %}
 				</div>
 			</section>
 		</div>

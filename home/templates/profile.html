@@ -8,13 +8,14 @@
 		{% include 'edit-profile.html' %}
 	</div>
 	<section class="hero d-flex align-items-center" id="hero" data-scroll-index="0" style="z-index: 1">
-
-		<img id="cover-img" src="{{ user.cover_image.url }}" alt="..."/>
+		{% if user.cover_image.url %}
+			<img id="cover-img" src="{{ user.cover_image.url }}" alt="..."/>
+		{% endif %}
 		<div class="container" style="z-index: 1" align="center">
 			<div class="card-lg">
 				<div class="card-body little-profile text-center">
 					<div class="pro-img"><img src="{% if user.image %}{{ user.image.url }}{% else %}
-					{% static 'assets/images/user.png' %}{% endif %}" alt="user" /></div>
+					{% static 'assets/images/user.png' %}{% endif %}" alt="user"/></div>
 					<h3 class="m-b-0">{% if user %}{{ user.username }}{% else %}Dummy User{% endif %}</h3>
 					<p class="mb-4">Hi there, I am {% if user %}{{ user.username }}{% else %}Dummy User{% endif %}</p>
 

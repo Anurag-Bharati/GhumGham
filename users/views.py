@@ -308,6 +308,4 @@ def logout(request):
     storage.used = True
     return redirect('auth')
 
-# TODO ForgetPassword
-# TODO Activation_Success
-# TODO LOGOUT
+

@@ -11,40 +11,54 @@
 		<div class="container">
 			<div class="row d-flex justify-content-center">
 				<div class="col-md-8">
-					<div class="card-search p-4 mt-3">
-						<h3 class=" mt-5 text-center text-white ">Search For Packages</h3>
-						<div class="d-flex justify-content-center">
-							<div class="search">
-								<input type="text" class="search-input" placeholder="Quick Search..."
-									   name="search">
-								<a href="#" class="search-icon"> <i
-										class="fa fa-search"></i> </a></div>
+					<div class="card-search p-3 mt-3">
+						<h3 class=" mt-2 text-center text-white ">Search For Packages</h3>
+						<div class="d-flex justify-content-center m-0">
+							<form class="w-100 m-0 p-0" method="get">
+								<div class="search">
+									<input type="text" class="search-input" name='search' id="search"
+										   placeholder="Quick Search...">
+									<a href="#" type="submit" class="search-icon"> <i class="fa fa-search"></i> </a>
+								</div>
+							</form>
 						</div>
 						<div class="row mt-4 g-1 px-4 mb-5">
 							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="https://i.imgur.com/YLsQrn3.png" width="50">
-									<div class="text-center mg-text"><span class="mg-text">All</span></div>
-								</div>
+								<form action="#stats" href="#" method="get" class="m-2">
+									<input class="hidden" hidden name="search" value="#">
+									<button class="card-inner p-3 d-flex flex-column align-items-center w-100"><img
+											src="https://i.imgur.com/YLsQrn3.png" width="50">
+										<div class="text-center mg-text"><span class="mg-text">All</span></div>
+									</button>
+								</form>
 							</div>
 							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="https://i.imgur.com/Z7BJ8Po.png" width="50">
-									<div class="text-center mg-text"><span class="mg-text">Short</span></div>
-								</div>
+								<form action="#stats" href="#" method="get" class="m-2">
+									<input class="hidden" hidden name="search" value="short">
+									<button class="card-inner p-3 d-flex flex-column align-items-center w-100"><img
+											src="https://i.imgur.com/Z7BJ8Po.png" width="50">
+										<div class="text-center mg-text"><span class="mg-text">Short</span></div>
+									</button>
+								</form>
 							</div>
 							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="{% static 'assets/images/calendar.png' %}" width="50">
-									<div class="text-center mg-text"><span class="mg-text">Long</span></div>
-								</div>
+								<form action="#stats" href="#" method="get" class="m-2">
+									<input class="hidden" hidden name="search" value="long">
+									<button class="card-inner p-3 d-flex flex-column align-items-center w-100"><img
+											src="{% static 'assets/images/calendar.png' %}" width="50">
+										<div class="text-center mg-text"><span class="mg-text">Long</span></div>
+									</button>
+								</form>
 							</div>
 							<div class="col-md-3">
-								<div class="card-inner p-3 d-flex flex-column align-items-center"><img
-										src="https://i.imgur.com/ueLEPGq.png" width="50">
-									<div class="text-center mg-text"><span class="mg-text">Economy</span>
-									</div>
-								</div>
+								<form action="#stats" href="#" method="get" class="m-2">
+									<input class="hidden" hidden name="search" value="eco">
+									<button class="card-inner p-3 d-flex flex-column align-items-center w-100"><img
+											src="https://i.imgur.com/ueLEPGq.png" width="50">
+										<div class="text-center mg-text"><span class="mg-text">Economy</span>
+										</div>
+									</button>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -63,19 +77,19 @@
 		<div class="container ">
 			<div class="justify-content-center">
 				<div class="d-flex flex-wrap justify-content-center mt-5 filter-button-group">
-					<form action="#stats" href="#" method="get" class="m-2">
-						<input class="hidden" hidden name="name_contains" value="all">
+					<form action="#stats" href="?search=all" method="get" class="m-2">
+						<input class="hidden" hidden name="search" value="#">
 						<button type="submit" class="btn btn-hero start-btn m-2 " style="background: #86D458">All
 						</button>
 					</form>
-					<form action="#stats" href="#" method="get" class="m-2">
-						<input class="hidden" hidden name="name_contains" value="featured">
+					<form action="#stats" href="?search=featured" method="get" class="m-2">
+						<input class="hidden" hidden name="search" value="featured">
 						<button type="submit" class="btn btn-hero start-btn m-2 " style="background:
 						#86D458">Featured
 						</button>
 					</form>
 					<form action="#stats" href="#" method="get" class="m-2">
-						<input class="hidden" hidden name="name_contains" value="new">
+						<input class="hidden" hidden name="search" value="new">
 						<button type="submit" class="btn btn-hero start-btn m-2 " style="background: #86D458">New
 							Arrivals
 						</button>
@@ -85,7 +99,7 @@
 				<div class="collection-list row gx-0 gy-3 justify-content-center">
 					<div class="collection-list p-5 row gx-3 gy-3 justify-content-center">
 						{% for package in packages %}
-							<div class="col-md-6 col-lg-4 col-xl-3 card">
+							<div class="col-md-6 col-lg-4 col-xl-3 card" style="min-width: 300px">
 								<div class="collection-img position-relative ">
 									<img src="{% if package.image %}{{ package.image.url }}{% endif %}" class="w-100
 								product-img"
@@ -113,6 +127,7 @@
 						{% endfor %}
 					</div>
 				</div>
+				{% include 'base/paginator.html' %}
 			</div>
 		</div>
 	</section>
