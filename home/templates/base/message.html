@@ -1,0 +1,9 @@
+{% if messages %}
+	{% for message in messages %}
+		<div class="notification">
+			{{ message }}
+		</div>
+	{% endfor %}
+{% endif %}
+
+{# TODO Make it stackable #}

@@ -1,0 +1,20 @@
+<div class="position-absolute w-100 h-100" id="hit-box"></div>
+<div class="card-lg mx-auto">
+	<h3 class="card-header bg-white">Booking Confirmation</h3>
+	<form class="card-body"  method="post" action="{% url 'view-package' 3 %}">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="phone"  class="text-warning ">Phone Number</label>
+			{{ form.customer_phone }}
+		</div>
+		<div class="form-group">
+			<label for="date" class="text-warning ">Date</label>
+			{{ form.date }}
+		</div>
+		<button type="submit" class="btn btn-primary"><i class="fas fa-arrow-right px-3 py-2"></i>
+		</button>
+	</form>
+</div>
+
+
+

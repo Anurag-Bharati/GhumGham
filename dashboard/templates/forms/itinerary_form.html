@@ -1,0 +1,76 @@
+{% extends 'base/admin-base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href='
+	{% static 'assets/css/tooltips.css' %}'/>
+{% endblock stylesheets %}
+{% block content %}
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">Forms</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Forms</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Itinerary</a>
+					</li>
+				</ul>
+			</div>
+			<div class="row">
+				<div class="col-md-12 h-100">
+					<div class="card mb-0">
+						<div class="card-header">
+							<div class="card-title">Add Itinerary</div>
+						</div>
+						<div class="card-body">
+							<form action="{% url 'add-itinerary' %}" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-6 col-md-6">
+											<div class="form-group">
+												<label class="input-group date" for="name">Name</label>
+												{{ form.name }}
+											</div>
+										</div>
+										<div class="col-md-6 col-md-6">
+											<div class="form-group">
+												<label class="form-label" for="adventure">Duration</label>
+												{{ form.duration }}
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="form-label" for="adventure">Select Places</label>
+										{{ form.places }}
+									</div>
+									<div class="d-flex col-md-12 align-items-center justify-content-md-center">
+										<button class="btn btn-success w-100" type="submit">Submit</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!--Preview-->
+				{#TODO#}
+				<!--/Preview-->
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head %}
+	<link href="{% static 'assets/css/view_profile.css' %}" rel="stylesheet"/>
+{% endblock head %}
+{% block content %}
+	<div class="edit-profile-card hide-edit-profile" style="width: 100vw; height: 100vh; z-index: 999;">
+		{% include 'edit-profile.html' %}
+	</div>
+	<section class="hero d-flex align-items-center" id="hero" data-scroll-index="0" style="z-index: 1">
+		{% if user.cover_image.url %}
+			<img id="cover-img" src="{{ user.cover_image.url }}" alt="..."/>
+		{% endif %}
+		<div class="container" style="z-index: 1" align="center">
+			<div class="card-lg">
+				<div class="card-body little-profile text-center">
+					<div class="pro-img"><img src="{% if user.image %}{{ user.image.url }}{% else %}
+					{% static 'assets/images/user.png' %}{% endif %}" alt="user"/></div>
+					<h3 class="m-b-0">{% if user %}{{ user.username }}{% else %}Dummy User{% endif %}</h3>
+					<p class="mb-4">Hi there, I am {% if user %}{{ user.username }}{% else %}Dummy User{% endif %}</p>
+
+					<div class="row text-center m-t-20">
+						<div class="col-lg-4 col-md-4 m-t-20">
+							<h3 class="m-b-0 font-light">{{ order_count }}</h3><small>Bookings</small>
+						</div>
+						<div class="col-lg-4 col-md-4 m-t-20">
+							<h3 class="m-b-0 font-light">5</h3><small>Feedback</small>
+						</div>
+						<div class="col-lg-4 col-md-4 m-t-20">
+							<h3 class="m-b-0 font-light">{{ account_age.0 }}</h3><small>
+							{{ account_age.1.capitalize }} Old</small>
+						</div>
+					</div>
+					<button class="mt-4 btn btn-primary" id="edit-profile">Edit</button>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+{% endblock content %}

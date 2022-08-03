@@ -1,0 +1,237 @@
+{% extends 'base/admin-base.html' %}
+
+{% block content %}
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">GhumGham</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Tables</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Package</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row">
+							<h4 class="card-title col-md-10">Packages</h4>
+							<div class="col-md-2 d-flex justify-content-end">
+								<a href="{% url 'add-package' %}"
+								   class="btn btn-sm btn-outline-primary
+								    btn-round font-weight-bold">Add Package</a></div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="basic-datatables" class="table table-striped table-hover container-fluid
+							dt-bootstrap4">
+								<thead>
+								<tr>
+									<th>Id</th>
+									<th>Name</th>
+									<th>Type</th>
+									<th>Featured</th>
+									<th>Price</th>
+									<th>Created</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for p in packages %}
+									<tr {% if p.is_featured %}class="bg-info-plain"
+										{% elif p.status == "unavailable" %}class="bg-disable-plain"{% endif %}>
+										<td>{{ p.id }}</td>
+										<td>{{ p.name.capitalize }}</td>
+										<td>{{ p.type.capitalize }}</td>
+										<td>{{ p.is_featured }}</td>
+										<td>&dollar;{{ p.price }}</td>
+										<td>{{ p.created_date }}</td>
+										<td>
+											{% if p.status in "available" %}
+												<span class="text-success font-weight-bold">{{ p.status.capitalize }}</span>
+											{% elif p.status in "booked" %}
+												<span class="text-warning font-weight-bold">{{ p.status.capitalize }}</span>
+											{% elif p.status in "ongoing" %}
+												<span class="text-danger font-weight-bold">{{ p.status.capitalize }}</span>
+											{% else %}
+												<span class="text-secondary font-weight-bold">{{ p.status.capitalize }}</span>
+											{% endif %}
+										</td>
+										<td>
+											<div class="row align-items-center">
+												{% if not p.is_featured %}
+													<form method="POST" action="{% url 'featured-package' p.id %}"
+														  class="feature-pkg">
+														{% csrf_token %}
+														<button class="btn  btn-sm btn-secondary text-white m-1">
+															<i class="fa fa-star"></i>
+														</button>
+													</form>
+												{% elif p.is_featured %}
+													<form method="POST" action="{% url 'featured-package' p.id %} "
+														  class="unfeature-pkg">
+														{% csrf_token %}
+														<button class="btn btn-sm btn-success text-white m-1">
+															<i class="fa fa-star"></i>
+														</button>
+													</form>
+												{% endif %}
+
+												<a href="{% url 'update-package' p.id %}"
+												   class="btn btn-sm btn-warning m-1">
+													<i class="fa fa-pen"></i>
+												</a>
+
+												<form method="POST" action="{% url 'del-package' p.id %}"
+													  class="del-pkg">
+													{% csrf_token %}
+													<button
+															class="btn btn-sm btn-danger m-1">
+														<i class="fa fa-trash"></i>
+													</button>
+												</form>
+
+												{% if not p.status == 'unavailable' %}
+													<form method="POST"
+														  action="{% url 'toggle-package-visibility' p.id %}"
+														  class="hide-pkg">
+														{% csrf_token %}
+														<button class="btn  btn-sm bg-info text-white m-1">
+															<i class="fa fa-eye-slash"></i>
+														</button>
+													</form>
+												{% elif p.status == 'unavailable' %}
+													<form method="POST"
+														  action="{% url 'toggle-package-visibility' p.id %} "
+														  class="show-pkg">
+														{% csrf_token %}
+														<button class="btn btn-sm btn-success text-white m-1">
+															<i class="fa fa-eye"></i>
+														</button>
+													</form>
+												{% endif %}
+
+											</div>
+										</td>
+									</tr>
+								{% empty %}
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+{% block javascripts %}
+	<script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({});
+        });
+
+        $('.del-pkg > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this package!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.feature-pkg > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Feature Package",
+                text: "Once featured, it will appear in home screen!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.unfeature-pkg > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Understate  Package?",
+                text: "Once unfeatured, it will not appear in home screen!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.hide-pkg > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Hide Package?",
+                text: "Once hidden, it will not visible to public!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+        $('.show-pkg > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Publish Package?",
+                text: "Once shown, it will be visible to public!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+	</script>
+
+{% endblock javascripts %}

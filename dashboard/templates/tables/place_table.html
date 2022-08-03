@@ -1,0 +1,121 @@
+{% extends 'base/admin-base.html' %}
+
+{% block content %}
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">GhumGham</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Tables</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Place</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row">
+							<h4 class="card-title col-md-10">Place</h4>
+							<div class="col-md-2 d-flex justify-content-end">
+								<a href="{% url 'add-place' %}"
+								   class="btn btn-sm btn-outline-primary
+								    btn-round font-weight-bold">Add Place</a></div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="basic-datatables" class="table table-striped table-hover container-fluid
+							dt-bootstrap4">
+								<thead>
+								<tr>
+									<th>Id</th>
+									<th>Name</th>
+									<th>Coordinate</th>
+									<th>Adventures</th>
+									<th>Food Stop</th>
+									<th>DateTime</th>
+									<th>Actions</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for p in places %}
+									<tr>
+										<td>{{ p.id }}</td>
+										<td>{{ p.name }}</td>
+										<td>{{ p.coordinate }}</td>
+
+										<td>
+											{% for adventure in p.adventures.all %}
+												{{ adventure }},
+											{% endfor %}
+										</td>
+										<td>{{ p.food }}</td>
+										<td>{{ p.date_time }}</td>
+										<td>
+											<div class="row align-items-center">
+												<a href="#"
+												   class="btn btn-sm btn-warning m-1">
+													<i class="fa fa-pen"></i>
+												</a>
+												<form method="POST" action="{% url 'del-place' p.id %}"
+													  class="del-place">
+													{% csrf_token %}
+													<button class="btn btn-sm btn-danger m-1">
+														<i class="fa fa-trash"></i>
+													</button>
+												</form>
+											</div>
+										</td>
+									</tr>
+								{% empty %}
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+{% block javascripts %}
+	<script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({});
+        });
+
+        $('.del-place > button').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).parents('form');
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this place!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+
+	</script>
+
+{% endblock javascripts %}

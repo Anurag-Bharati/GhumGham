@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% block title %}
+		<title>Base</title>
+	{% endblock %}
+
+	<!-- Icon -->
+	<link href="{% static '/assets/images/ghumgham-ico.png' %}" rel="icon">
+	<link href="{% static '/assets/images/ghumgham-ico.png' %}" rel="apple-touch-icon">
+
+
+	<!-- font awesome -->
+	<script src="/static/assets/js/plugin/webfont/webfont.min.js"></script>
+	<script>
+        WebFont.load({
+            google: {"families": ["Poppins:300,400,700,900"]},
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+                urls: ['/static/assets/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+	</script>
+	<link rel="stylesheet" href="/static/assets/css/bootstrap/bootstrap.min.css">
+
+	<!-- main css -->
+	<link rel="stylesheet" href="{% static '/assets/css/main.css' %}">
+	<link rel="stylesheet" href="{% static '/assets/css/card.css' %}">
+	<link rel="stylesheet" href="{% static '/assets/css/footer1.css' %}">
+
+	{% block head %}
+	{% endblock head %}
+</head>
+<body>
+
+<!-- Preloader Start -->
+
+<div class="preloader">
+	<h5 class="text-white" style="bottom: 20px; right:20px">loading...</h5>
+	<div>
+		<img src="{% static '/assets/images/earth_only.png' %}" height="175" width="204px">
+		<img src="{% static '/assets/images/moon_only.png' %}" height="175" width="204px">
+		<img src="{% static '/assets/images/sun_only.png' %}" height="175" width="204px">
+	</div>
+	{#	<span></span>#}
+</div>
+<!-- Preloader End -->
+{% include 'base/message.html' %}
+<!-- Navbar Start -->
+{% include 'base/navbar.html' %}
+<!-- Navbar End -->
+{% block content %}
+{% endblock content %}
+<!-- Footer section Begin -->
+
+{% include 'base/footer.html' %}
+
+<!-- jquery js -->
+<script src="{% static '/assets/js/core/jquery.3.2.1.min.js' %}"></script>
+<script src="{% static '/assets/js/core/popper.min.js' %}"></script>
+<!-- owl carousel js -->
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>#}
+<!-- bootstrap bundle with popper -->
+<script src="{% static '/assets/js/core/bootstrap.min.js' %}"></script>
+<!-- ScrollIt js -->
+<script src="{% static '/assets/js/plugin/scrollit/scrollit.min.js' %}"></script>
+
+<!-- main js -->
+<script src="{% static '/assets/js/home.js' %}"></script>
+<script src="{% static '/assets/js/dark_mode.js' %}"></script>
+<script src="{% static '/assets/js/pre_loader.js' %}"></script>
+
+</body>
+</html>
+

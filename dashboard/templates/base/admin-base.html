@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>{% if ap %}
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
+	<link rel="stylesheet preload" as="style" href="/static/assets/css/preloader.css">
+	<link rel="stylesheet" href="{% static 'assets/css/tooltips.css' %}"/>
+
+
+	<title>
+		GhumGham - Admin | {% block title %}{% endblock %}
+	</title>
+
+	<!-- Icon -->
+	<link href="{% static 'assets/images/ghumgham-ico.png' %}" rel="icon">
+	<link href="{% static 'assets/images/ghumgham-ico.png' %}" rel="apple-touch-icon">
+
+	<script src="/static/assets/js/plugin/webfont/webfont.min.js"></script>
+	<script>
+        WebFont.load({
+            google: {"families": ["Poppins:300,400,700,900"]},
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+                urls: ['/static/assets/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+	</script>
+
+	<link rel="stylesheet" href="/static/assets/css/bootstrap/bootstrap.min.css">
+
+	<link rel="stylesheet" href="/static/assets/css/admin.css">
+
+	<!-- Specific Page CSS goes HERE  -->
+	{% block stylesheets %}{% endblock stylesheets %}{% endif %}
+
+</head>
+<body data-background-color="bg1">
+<div rel="prefetch" class="preloader">
+	<div align="center" style="transform: translate(24%,100%); opacity: 80%;">
+		<img rel="preload" src="/static/assets/images/GHUMGHAM.png" alt="...">
+	</div>
+	<div style="height: 60px; width: 60px">
+		<div id="spinner1"></div>
+	</div>
+</div>
+
+<div class="wrapper">
+	{% if ap %}
+		{% include 'includes/navigation.html' %}
+		{% include 'includes/sidebar.html' %}
+	{% endif %}
+
+	<div class="main-panel">
+
+		{% block content %}{% endblock content %}
+
+		{% include 'base/admin-footer.html' %}
+
+	</div>
+</div>
+{% if ap %}
+	{% include 'includes/scripts.html' %}
+{% endif %}
+<script>
+    $(window).on("load",async function  () {
+        /*----- Preloader -----*/
+		await new Promise(r => setTimeout(r, 100));
+        $(".preloader").fadeOut("fast");
+    });
+
+    const audio = new Audio("{% static 'assets/party.mp3' %}");
+
+
+</script>
+<!--Preloader2-->
+<div class="nomad position-absolute">
+	<p>
+	</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script src="{% static 'assets/js/confetti.js' %}"></script>
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
+</body>
+</html>
+

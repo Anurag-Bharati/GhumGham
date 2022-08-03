@@ -1,0 +1,355 @@
+.active-class {
+    /*background-color: #fff;*/
+    color: #fff;
+    border-bottom: 1px solid white;
+    /*border-radius: 10px;*/
+}
+
+
+#navbar-brand {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: black;
+}
+.navbar {
+    top: 0;
+    width: 100%;
+    backdrop-filter: blur(5rem);
+    background-color: white;
+    color:black;
+}
+.navbar-nav li {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: blue;
+}
+
+.navbar-nav li:hover {
+    border-bottom: 1px solid white;
+    /* border-radius: 10px; */
+    /* background-color: green; */
+    /* color: #ffec61; */
+    transition: .3s ease;
+}
+
+.header {
+    height: 100vh;
+    background-color: cornsilk;
+}
+
+#header-first {
+    background-image: linear-gradient(40deg, rgb(5 5 5 /45%) 21%, transparent), url(../images/head1.jpg);
+    background-size: cover;
+    height: 95vh;
+}
+
+#houseimg {
+    width: 30%;
+    margin-top: 9em;
+}
+
+.srch-input {
+    border-radius: 8px 0px;
+}
+
+#srch-btn {
+    border: 25px;
+}
+
+.des-text {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.bd-r {
+    border-radius: 8px;
+}
+
+.c-f-c {
+    flex-wrap: wrap;
+}
+
+
+
+#featured-box {
+    background: #FBFAFB;
+}
+
+.country-card {
+    max-width: 400px;
+    background-color: #FFF;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+    background-position: center;
+    overflow: hidden;
+    position: relative;
+    margin: 10px auto;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.country-card img {
+    transition: all linear 0.25s;
+}
+
+.country-card .country-name {
+    position: absolute;
+    left: 30px;
+    bottom: 70px;
+    font-size: 30px;
+    color: #FFF;
+    text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    transition: all linear 0.25s;
+}
+
+.country-card .profile-icons {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    color: #FFF;
+    transition: all linear 0.25s;
+}
+
+.country-card .desc {
+    position: absolute;
+    bottom: 50px;
+    left: 30px;
+    color: #FFF;
+    font-size: 13px;
+    transition: all linear 0.25s;
+}
+
+.country-card .profile-icons .fa {
+    margin: 5px;
+}
+
+.country-card:hover img {
+    filter: grayscale(100%);
+}
+
+.country-card:hover .country-name {
+    bottom: 80px;
+    ;
+}
+
+.country-card:hover .desc {
+    bottom: 60px;
+}
+
+.country-card:hover .profile-icons {
+    right: 40px;
+}
+
+
+/*Slider before footer Image*/
+
+.carousel {
+    margin-bottom: 4rem;
+}
+
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+.carousel-item {
+    height: 32rem;
+}
+
+.carousel-item>img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 32rem;
+}
+
+.marketing .col-lg-4 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.marketing h2 {
+    font-weight: 400;
+}
+
+.marketing .col-lg-4 p {
+    margin-right: .75rem;
+    margin-left: .75rem;
+}
+
+.featurette-divider {
+    margin: 5rem 0;
+}
+
+.featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.05rem;
+}
+
+
+/* Pricing Section */
+
+.price-bg {
+    background-image: url("../images/pricing.jpg");
+    background-size: cover;
+    padding-top: 110px;
+    padding-bottom: 70px;
+}
+
+.card-color {
+    background-color: #373b3b;
+    box-shadow: #373b3b;
+}
+
+section {
+    padding: 40px;
+}
+
+#card {
+    position: relative;
+    /* max-width: 400px; */
+    height: auto;
+    border-radius: 15px;
+    padding: 40px 20px;
+    transition: .5s;
+}
+
+#card:hover {
+    transform: scale(1.1);
+}
+
+#card,
+#card .title .fa {
+    background: linear-gradient(-45deg, #f403d1, #64b5f6);
+}
+
+.col-sm-4:nth-child(2) #card,
+.col-sm-4:nth-child(2) .card .title .fa {
+    background: linear-gradient(-45deg, #ffec61, #f321d7);
+}
+
+.col-sm-4:nth-child(3) #card,
+.col-sm-4:nth-child(3) #card .title .fa {
+    background: linear-gradient(-45deg, #24ff72, #9a4eff);
+}
+
+.title .fa {
+    color: #fff;
+    font-size: 60px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 100px;
+    -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, .1);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, .1);
+}
+
+.title h2 {
+    position: relative;
+    margin: 20px 0 0;
+    padding: 0;
+    color: #fff;
+    font-size: 28px;
+    z-index: 2;
+}
+
+.price,
+.option {
+    position: relative;
+    z-index: 2;
+}
+
+.price h4 {
+    margin: 0;
+    padding: 20px 0;
+    color: #fff;
+    font-size: 60px;
+}
+
+.option ul {
+    margin: 0;
+    padding: 0;
+}
+
+.option ul li {
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+#card a {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    color: black;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 40px;
+    display: block;
+    text-align: center;
+    margin: 20px auto 0;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+}
+
+#card a:hover {
+    text-decoration: none;
+}
+
+.errorlist {
+    color: red;
+}
+
+#profile-s {
+    width: 70%;
+    margin-top: 6%;
+}
+
+#card-bdy {
+    border-radius: 10px;
+}
+#place-margin{
+    margin-top: 50px;
+}
+
+#areyousure{
+    background-image: url(../images/areyousure.jpg);
+    background-size: cover;
+    height: 98vh;
+    display: grid;
+    place-items: center;
+}
+
+.h1text {
+    background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#h1text {
+    background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#changepp ul{
+   display: none;
+}
+
+#changepp .form-group .control-label{
+    padding-top: 10px;
+}
+
+#myform .form-group label{
+    padding-top: 10px;
+    padding-bottom: 5px;
+}

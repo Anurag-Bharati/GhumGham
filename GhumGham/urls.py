@@ -18,14 +18,15 @@ Including another URLconf
 # from django.conf import settings
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
+from django.contrib import admin as a
 from django.urls import path, include
 
-import users
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('users.urls')),
+    path('admin/', a.site.urls),
+    path('accounts/', include('allauth.urls')),
+    path('', include('home.urls')),
+    path('auth/', include('users.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

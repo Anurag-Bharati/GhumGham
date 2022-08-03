@@ -1,0 +1,228 @@
+{% extends 'base/admin-base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href='
+	{% static 'assets/css/tooltips.css' %}'/>
+{% endblock stylesheets %}
+{% block content %}
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">Forms</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Forms</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Package</a>
+					</li>
+				</ul>
+			</div>
+			<div class="row">
+				<div class="col-md-12 h-100">
+					<div class="row">
+						<!--Form-->
+						<div class="col-md-8 col-md-4 ">
+
+							<div class="card mb-0">
+								<div class="card-header">
+									<div class="card-title">Add Package</div>
+								</div>
+								<div class="card-body">
+									<form action="{% url 'add-package' %}" method="post" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="row">
+											<div class="col-md-6 col-md-4">
+
+												<div class="form-group">
+													<label for="Name">Name</label>
+													{{ form.name }}
+												</div>
+											</div>
+											<div class="col-md-6 col-md-4">
+												<div class="form-group">
+													<label for="Type">Type</label>
+													{{ form.type }}
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="desc">Description</label>
+											{{ form.desc }}
+										</div>
+										<div class="row">
+											<div class="col-md-4 col-md-4">
+												<div class="form-group">
+													<label for="exampleFormControlSelect1">Itinerary</label>
+													{{ form.itinerary }}
+												</div>
+											</div>
+											<div class="col-md-4 col-md-4">
+												<div class="form-group">
+													<label for="Price">Price</label>
+													<div class="input-group mb-3">
+														{{ form.price }}
+														<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa fa-dollar-sign"></i>
+														</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 col-md-4">
+												<div class="form-group">
+													<label for="Duration">Duration</label>
+													<div class="input-group mb-3">
+														{{ form.duration }}
+														<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="fa fa-clock"></i>
+														</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="row">
+												<div class="col-md-6 col-md-6">
+													<div class="form-group">
+														<label class="form-label" for="customFile">Image</label>
+														{{ form.image }}
+													</div>
+												</div>
+												<div class="col-md-6 col-md-6">
+													<div class="form-group">
+														<label class="form-label" for="customFile">Cover Image</label>
+														{{ form.cover_image }}
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-8 col-md-4">
+												<div class="form-group">
+													<label class="form-label d-block">Status</label>
+													<div class="selectgroup w-100">
+														<label class="selectgroup-item" tooltip="available">
+															<input type="radio" name="status" value="0"
+																   class="selectgroup-input" checked="">
+															<span class="selectgroup-button"><i
+																	class="fa fa-eye"></i></span>
+														</label>
+														<label class="selectgroup-item" tooltip="unavailable">
+															<input type="radio" name="status" value="1"
+																   class="selectgroup-input ">
+															<span class="selectgroup-button"><i
+																	class="fa fa-eye-slash"></i></span>
+														</label>
+														<label class="selectgroup-item" tooltip="booked">
+															<input type="radio" name="status" value="2"
+																   class="selectgroup-input ">
+															<span class="selectgroup-button"><i
+																	class="fa fa-handshake"></i></span>
+														</label>
+														<label class="selectgroup-item" tooltip="ongoing">
+															<input type="radio" name="status" value="3"
+																   class="selectgroup-input ">
+															<span class="selectgroup-button"><i
+																	class="fa fa-clock"></i></span>
+														</label>
+													</div>
+
+												</div>
+											</div>
+											<div class="col-md-4 col-md-4">
+												<div class="form-group">
+													<label class="form-label d-block">Is Featured</label>
+													<div class="selectgroup w-100" id="feature">
+														<label class="selectgroup-item" tooltip="yes">
+															<input type="radio" name="featured" value="1"
+																   class="selectgroup-input">
+															<span class="selectgroup-button selectgroup-button-icon"><i
+																	class="fa fa-check"></i></span>
+														</label>
+														<label class="selectgroup-item" tooltip="no">
+															<input type="radio" name="featured" value=""
+																   class="selectgroup-input" checked="">
+															<span class="selectgroup-button selectgroup-button-icon"><i
+																	class="fa fa-times"></i></span>
+														</label>
+													</div>
+												</div>
+
+											</div>
+											<div class="d-flex col-md-12 align-items-center justify-content-md-center">
+												<button class="btn btn-success w-100" type="submit">Submit</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!--Preview-->
+						<div class=" col-md-4 col-md-4 align-items-center ">
+							<div class="header p-3 card align-items-center ">
+								<div class="card-title">Card Preview</div>
+							</div>
+							<div class="card package-card">
+								<div class="position-relative m-3">
+									<img src="{% static '/assets/images/default_package.png' %}"
+										 class="w-100 border-0 "
+										 alt="product" id="p-image">
+								</div>
+
+								<div class="card-body">
+									<div class="text-center">
+										<h2 class="text-capitalize mb-1" id="p-name">Name</h2>
+										<h4 class="fw-bold d-block" id="p-price">$ 0.00</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/Preview-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+{% block javascripts %}
+	<script>
+        $('#name').on('change', function () {
+            let name = this.value
+            $('#p-name').text(name)
+        });
+        $('#price').on('change', function () {
+            let name = this.value
+            $('#p-price').text('$' + name + ".00")
+        });
+        $('#image').on('change', function (e) {
+            $("#p-image").fadeIn("fast").attr('src', URL.createObjectURL(e.target.files[0]));
+        });
+        $('#feature>label>input').on('click', function () {
+            if (this.getAttribute('value') === '1') {
+                $('.package-card').addClass("bg-featured")
+            } else {
+                $('.package-card').removeClass("bg-featured")
+            }
+
+        })
+	</script>
+{% endblock javascripts %}
