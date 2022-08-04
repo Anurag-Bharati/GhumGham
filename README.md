@@ -23,7 +23,9 @@
   <a href="https://github.com/Anurag-Bharati/GhumGham">
     <img src="https://github.com/Anurag-Bharati/GhumGham/blob/main/static/assets/images/282106164_574463527339254_5132268817001296671_n.png" alt="Logo" width="100" height="100">
   </a>
-  <h3 align="center">Ghum Gham</h3>
+  <div align="center">
+  <img src="https://github.com/Anurag-Bharati/GhumGham/blob/main/static/assets/images/GHUMGHAM.png" alt="Logo" width="150" height="50">
+  </div>
   <p align="center"> </p>
 
   <p align="center">
@@ -71,7 +73,7 @@
  ![Product Name Screen Shot](https://github.com/Anurag-Bharati/GhumGham/blob/main/static/assets/images/dummy/client.png)
  ![Product Name Screen Shot](https://github.com/Anurag-Bharati/GhumGham/blob/main/static/assets/images/dummy/admin.png)
 
-GhumGham is free to use and open source. So, You can also contribute to this project. 
+GhumGham is free for **<ins>personal</ins>** and **<ins>non-profit</ins>** use.
 
 ### Built With
 
@@ -142,14 +144,16 @@ Step-4 Django stuff
 <!-- CONTACT -->
 ## TEAM INFO
 
-TEAM NAME : Group 7
+Name - Group 7
 
-MEMBERS :
-- Anurag Bharati 
-- Mahesh Maharjan
-- Nilesh Kandel (SM)
-- Prasesh Dangol
-- Rochak Tamang
+Team members :
+```yml
+- Anurag Bharati      # Fullstack + QA
+- Mahesh Maharjan     # Frontend
+- Nilesh Kandel       # Scrum Master + Tester
+- Prasesh Dangol      # Backend
+- Rochak Tamang       # Frontend
+```
   
 [contributors-shield]:https://img.shields.io/github/contributors-anon/Anurag-Bharati/GhumGham?style=for-the-badge
 [size-shield]:https://img.shields.io/github/repo-size/Anurag-Bharati/GhumGham?style=for-the-badge
