@@ -45,7 +45,7 @@ Year 2 Sem 2 Group Project Work
   <p align="center"> </p>
 
   <p align="center">
-    Get Near by Parking or Lavatory Services 
+   Book tour packages at ease
     <br />
     <a href="https://github.com/Anurag-Bharati/GhumGham"><strong>Explore the docs »</strong></a>
     <br />
