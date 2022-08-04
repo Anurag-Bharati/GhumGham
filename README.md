@@ -5,43 +5,25 @@
 
 
 <!-- PROJECT SHIELDS -->
-<div align="start">
 
-  
-[![GhumGham TDD:CI @Main][gh-build-shield]][gh-build-link]
-[![Code Coverage @Main][codecov-shield]][codecov-link]
+<!-- [![GhumGham TDD:CI @Main][gh-build-shield]][gh-build-link] -->
+<!-- [![Code Coverage @Main][codecov-shield]][codecov-link] -->
 
-<!-- Only works for public repos -->
-<!-- [![Build][build-shield]][build-url] -->
-<!-- [![Coverage][covergae-shield]][coverage-url] -->
-<!-- [![License][license-shield]][license-url] -->
-<!-- [![Forks][forks-shield]][forks-url] -->
-<!-- [![LastCommit][lastCommit-shield]][size-url] -->
-</div>
-
-# GhumGham
-Year 2 Sem 2 Group Project Work
-
-<div align="center">
-  
+[![Build][build-shield]][build-url] 
+[![Coverage][covergae-shield]][coverage-url] 
+[![License][license-shield]][license-url] 
+[![Forks][forks-shield]][forks-url] 
+[![LastCommit][lastCommit-shield]][size-url] 
 [![Contributors][contributors-shield]][contrib-url]
-[![size][size-shield]][size-url]
-[![LastCommit][lastCommit-shield]][size-url]
 ![SearchHit][hits-shield]
-![ReleaseDownloads][downloads-shield]
-![License][license-shield]
-
-</div>
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/Anurag-Bharati/GhumGham">
-    <img src="https://github.com/Anurag-Bharati/GhumGham/blob/main/profile_parknpee.png" alt="Logo" width="180" height="180">
+    <img src="https://github.com/Anurag-Bharati/GhumGham/blob/main/static/assets/images/282106164_574463527339254_5132268817001296671_n.png" alt="Logo" width="100" height="100">
   </a>
-
   <h3 align="center">Ghum Gham</h3>
- 
   <p align="center"> </p>
 
   <p align="center">
@@ -77,7 +59,7 @@ Year 2 Sem 2 Group Project Work
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#team-info">Team Info</a></li>
   </ol>
 </details>
 
@@ -86,8 +68,8 @@ Year 2 Sem 2 Group Project Work
 ## About The Project
 
 
-
-  ![Product Name Screen Shot](https://github.com/Anurag-Bharati/GhumGham/blob/main/cover_parknpee.png)
+ ![Product Name Screen Shot](https://github.com/Anurag-Bharati/GhumGham/blob/main/static/assets/images/dummy/client.png)
+ ![Product Name Screen Shot](https://github.com/Anurag-Bharati/GhumGham/blob/main/static/assets/images/dummy/admin.png)
 
 GhumGham is free to use and open source. So, You can also contribute to this project. 
 
@@ -102,17 +84,57 @@ Learn more about GhumGham
 
 ### Prerequisites
 
+```bash
+1. Python 3.0 or later
+2. Django 4.0 or later
+3. Mysql or Sqlite drivers
+4. An IDE or code editor
+5. Patience
+```
+
 ### Installation
+
+Step-1 Clone the repo:
+```bash
+> git clone https://github.com/Anurag-Bharati/GhumGham.git
+```
+Step-2 Install the requirements:
+```py
+> cd ./GhumGham
+> pip install -r requirements.txt
+```
+Step-3 Configure .env
+
+```ps
+1 DATABASE_NAME
+2 DATABASE_USER
+3 DATABASE_PASS
+4 DATABASE_HOST
+5 DATABASE_PORT
+6 EMAIL_PROTOCOL
+...
+```
+
+Step-4 Django stuff
+
+```python
+> py manage.py makemigrations
+> py manage.py migrate
+> py manage.py createsuperuser
+> py manage.py runserver
+```
+
+>Note: Please make sure the prerequisites are fulfilled
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-### As a Admin:
+#### As an Admin:
 1. First Register yourself as a superuser
 2. Log in with the correct credentails.
 3. Use, Add, do CRUDS and Many more :)
 
-### As a user
+#### As a User:
 1. First Register yourself
 2. Log in with the correct credentails.
 3. Browse and Book Packages  
@@ -123,11 +145,11 @@ Learn more about GhumGham
 TEAM NAME : Group 7
 
 MEMBERS :
-Anurag Bharati 
-Mahesh Maharjan
-Nilesh Kandel (SM)
-Prasesh Dangol
-Rochak Tamang
+- Anurag Bharati 
+- Mahesh Maharjan
+- Nilesh Kandel (SM)
+- Prasesh Dangol
+- Rochak Tamang
   
 [contributors-shield]:https://img.shields.io/github/contributors-anon/Anurag-Bharati/GhumGham?style=for-the-badge
 [size-shield]:https://img.shields.io/github/repo-size/Anurag-Bharati/GhumGham?style=for-the-badge
